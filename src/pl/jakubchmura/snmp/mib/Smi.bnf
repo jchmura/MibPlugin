@@ -1,0 +1,337 @@
+{
+    parserClass="pl.jakubchmura.snmp.mib.parser.SmiParser"
+
+    extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+    psiClassPrefix="Smi"
+    psiImplClassSuffix="Impl"
+    psiPackage="pl.jakubchmura.snmp.mib.psi"
+    psiImplPackage="pl.jakubchmura.snmp.mib.psi.impl"
+
+    elementTypeHolderClass="pl.jakubchmura.snmp.mib.psi.SmiTypes"
+    elementTypeClass="pl.jakubchmura.snmp.mib.psi.SmiElementType"
+    tokenTypeClass="pl.jakubchmura.snmp.mib.psi.SmiTokenType"
+
+    psiImplUtilClass="pl.jakubchmura.snmp.mib.psi.impl.SmiPsiImplUtil"
+
+
+    tokens=[
+        DOT="."
+        DOUBLE_DOT=".."
+        TRIPLE_DOT="..."
+        COMMA=","
+        SEMI_COLON=";"
+        LEFT_PAREN="("
+        RIGHT_PAREN=")"
+        LEFT_BRACE="{"
+        RIGHT_BRACE="}"
+        LEFT_BRACKET="["
+        RIGHT_BRACKET="]"
+        MINUS="-"
+        LESS_THAN="<"
+        VERTICAL_BAR="|"
+        DEFINITION="::="
+
+        PRIVATE="PRIVATE"
+
+        OBJECT_IDENTIFIER="OBJECT IDENTIFIER"
+        OCTET_STRING="OCTET STRING"
+        BIT_STRING="BIT STRING"
+
+        PLUS_INFINITY="PLUS-INFINITY"
+        MINUS_INFINITY="MINUS-INFINITY"
+        MODULE_IDENTITY="MODULE-IDENTITY"
+        OBJECT_IDENTITY="OBJECT-IDENTITY"
+        OBJECT_TYPE="OBJECT-TYPE"
+        NOTIFICATION_TYPE="NOTIFICATION-TYPE"
+        TRAP_TYPE="TRAP-TYPE"
+        TEXTUAL_CONVENTION="TEXTUAL-CONVENTION"
+        OBJECT_GROUP="OBJECT-GROUP"
+        NOTIFICATION_GROUP="NOTIFICATION-GROUP"
+        MODULE_COMPLIANCE="MODULE-COMPLIANCE"
+        AGENT_CAPABILITIES="AGENT-CAPABILITIES"
+        LAST_UPDATED="LAST-UPDATED"
+        CONTACT_INFO="CONTACT-INFO"
+        MAX_ACCESS="MAX-ACCESS"
+        MIN_ACCESS="MIN-ACCESS"
+        DISPLAY_HINT="DISPLAY-HINT"
+        MANDATORY_GROUPS="MANDATORY-GROUPS"
+        WRITE_SYNTAX="WRITE-SYNTAX"
+        PRODUCT_RELEASE="PRODUCT-RELEASE"
+        CREATION_REQUIRES="CREATION-REQUIRES"
+
+        BINARY_LITERAL='regexp:[0-1]*(B|b)'
+        HEXADECIMAL_LITERAL='regexp:[0-9A-Fa-f]*(H|h)'
+        STRING_LITERAL='regexp:"([^"]|"")*"'
+        IDENTIFIER_STRING='regexp:[a-zA-Z][a-zA-Z0-9_-]*'
+        NUMBER_LITERAL='regexp:[0-9]+'
+
+        space='regexp:\s+'
+        comment='regexp:--.*'
+    ]
+}
+
+// Module def/import/export
+
+mibFile ::= moduleDefinition+
+
+moduleDefinition ::= moduleIdentifierDefinition DEFINITIONS tagDefault? DEFINITION BEGIN moduleBody? END {
+    pin=5
+    recoverWhile=end_rule_recover
+}
+
+private end_rule_recover ::= !END
+
+moduleIdentifierDefinition ::= IDENTIFIER_STRING objectIdentifierValue? {
+    implements="pl.jakubchmura.snmp.mib.psi.SmiReferenceableElement"
+    methods=[getName setName]
+}
+
+moduleIdentifier ::= IDENTIFIER_STRING objectIdentifierValue? {
+    implements="pl.jakubchmura.snmp.mib.psi.SmiIdentifiableElement"
+    methods=[getName setName getReference]
+}
+
+private moduleReference ::= IDENTIFIER_STRING DOT
+
+tagDefault ::= (EXPLICIT|IMPLICIT) TAGS
+
+moduleBody ::= exportList? importList? assignmentList
+
+exportList ::= EXPORTS symbolList? SEMI_COLON
+importList ::= IMPORTS symbolsFromModule* SEMI_COLON
+symbolsFromModule ::= symbolList FROM moduleIdentifier
+
+private meta comma_separated_list ::= <<param>> ( COMMA <<param>> )*
+private meta bar_separated_list ::= <<param>> ( VERTICAL_BAR <<param>> )*
+
+private symbolList ::= <<comma_separated_list symbol>>
+symbol ::= symbolName | definedMacroName
+symbolName ::= IDENTIFIER_STRING {
+  implements="pl.jakubchmura.snmp.mib.psi.SmiIdentifiableElement"
+  methods=[getName setName getReference]
+}
+
+private assignmentList ::= assignment+
+assignment ::= (macroDefinition|typeAssignment|valueAssignment) SEMI_COLON?
+
+macroDefinition ::= macroReference MACRO DEFINITION macroBody
+macroReference ::= IDENTIFIER_STRING | definedMacroName
+macroBody ::= (BEGIN macroBodyElement* END) | (moduleReference macroReference)
+macroBodyElement ::= (LEFT_PAREN|RIGHT_PAREN|VERTICAL_BAR|DEFINITION|INTEGER|REAL|BOOLEAN|NULL|BIT|OCTET|STRING|OBJECT|IDENTIFIER|IDENTIFIER_STRING|STRING_LITERAL|OBJECT_IDENTIFIER)
+
+
+// Type notation
+
+typeAssignment ::= typeName DEFINITION type
+typeName ::= IDENTIFIER_STRING {
+  implements="pl.jakubchmura.snmp.mib.psi.SmiReferenceableElement"
+  methods=[getName setName]
+}
+type ::= builtinType | definedType | definedMacroType | macroDefinition
+
+definedTypeName ::= IDENTIFIER_STRING {
+    implements="pl.jakubchmura.snmp.mib.psi.SmiIdentifiableElement"
+    methods=[getName setName getReference]
+}
+
+definedType ::= moduleReference? definedTypeName valueOrConstraintList? {extends=type}
+builtinType ::= nullType | booleanType | realType | integerType | objectIdentifierType | stringType | bitStringType |
+                bitsType | sequenceType | sequenceOfType | setType | setOfType | choiceType | enumeratedType |
+                selectionType | taggedType | anyType {extends=type}
+
+nullType ::= NULL {extends=builtinType}
+booleanType ::= BOOLEAN {extends=builtinType}
+realType ::= REAL {extends=builtinType}
+integerType ::= INTEGER valueOrConstraintList? {extends=builtinType}
+objectIdentifierType ::= OBJECT_IDENTIFIER {extends=builtinType}
+stringType ::= OCTET_STRING constraintList? {extends=builtinType}
+bitStringType ::= BIT_STRING valueOrConstraintList? {extends=builtinType}
+bitsType ::= BITS valueOrConstraintList? {extends=builtinType}
+sequenceType ::= SEQUENCE LEFT_BRACE elementTypeList? RIGHT_BRACE {extends=builtinType}
+sequenceOfType ::= SEQUENCE constraintList? OF type {extends=builtinType}
+setType ::= SET LEFT_BRACE elementTypeList? RIGHT_BRACE {extends=builtinType}
+setOfType ::= SET sizeConstraint? OF type {extends=builtinType}
+choiceType ::= CHOICE LEFT_BRACE elementTypeList RIGHT_BRACE {extends=builtinType}
+enumeratedType ::= ENUMERATED namedNumberList {extends=builtinType}
+selectionType ::= IDENTIFIER_STRING LESS_THAN type {extends=builtinType}
+taggedType ::= tag explicitOrImplicitTag? type {extends=builtinType}
+anyType ::= ANY | (ANY DEFINED BY IDENTIFIER_STRING) {extends=builtinType}
+
+tag ::= LEFT_BRACKET classType? NUMBER_LITERAL RIGHT_BRACKET
+classType ::= UNIVERSAL | APPLICATION | "PRIVATE"
+explicitOrImplicitTag ::= EXPLICIT | IMPLICIT
+
+private elementTypeList ::= <<comma_separated_list elementTyp>>
+elementTyp ::= (elementTypeName? type optionalOrDefaultElement?) | (elementTypeName? COMPONENTS OF type)
+elementTypeName ::= IDENTIFIER_STRING {
+  implements="pl.jakubchmura.snmp.mib.psi.SmiReferenceResolver"
+  methods=[getName setName getReference shouldHaveReference]
+}
+optionalOrDefaultElement ::= OPTIONAL | (DEFAULT IDENTIFIER_STRING? value)
+
+valueOrConstraintList ::= namedNumberList | constraintList
+private namedNumberList ::= LEFT_BRACE <<comma_separated_list namedNumber>> RIGHT_BRACE
+namedNumber ::= IDENTIFIER_STRING LEFT_PAREN number RIGHT_PAREN
+number ::= numberValue | binaryValue | hexadecimalValue | definedValue
+
+private constraintList ::= LEFT_PAREN <<bar_separated_list constraint>> RIGHT_PAREN
+constraint ::= valueConstraint | sizeConstraint | alphabetConstraint | containedTypeConstraint | innerTypeConstraint
+
+private valueConstraintList ::= LEFT_PAREN <<bar_separated_list valueConstraint>> RIGHT_PAREN
+valueConstraint ::= lowerEndPoint valueRange?
+valueRange ::= LESS_THAN? DOUBLE_DOT LESS_THAN? upperEndPoint
+lowerEndPoint ::= value | MIN
+upperEndPoint ::= value | MAX
+
+sizeConstraint ::= SIZE valueConstraintList
+alphabetConstraint ::= FROM valueConstraintList
+containedTypeConstraint ::= INCLUDES type
+innerTypeConstraint ::= (WITH COMPONENTS valueOrConstraintList) | (WITH COMPONENTS componentsList)
+componentsList ::= (LEFT_BRACE componentConstraint componentsListTail* RIGHT_BRACE) | (LEFT_BRACE TRIPLE_DOT componentsListTail+ RIGHT_BRACE)
+componentsListTail ::= COMMA componentConstraint?
+componentConstraint ::= (IDENTIFIER_STRING componentValuePresence?) componentValuePresence
+componentValuePresence ::= (valueOrConstraintList componentPresence?) | componentPresence
+componentPresence ::= PRESENT | ABSENT | OPTIONAL
+
+
+// Value notation
+
+mibNode ::= IDENTIFIER_STRING {
+  implements="pl.jakubchmura.snmp.mib.psi.SmiReferenceableElement"
+  methods=[getName setName]
+}
+
+valueAssignment ::= mibNode type DEFINITION value
+value ::= builtinValue | definedValue
+
+definedValue ::= moduleReference? definedValueName {
+    extends=value
+}
+definedValueName ::= IDENTIFIER_STRING {
+    extends=value
+    implements="pl.jakubchmura.snmp.mib.psi.SmiIdentifiableElement"
+    methods=[getName setName getReference]
+}
+builtinValue ::= nullValue | booleanValue | specialRealValue | numberValue | binaryValue | hexadecimalValue |
+                 stringValue | bitOrObjectIdentifierValue {extends=value}
+
+nullValue ::= NULL {extends=builtinValue}
+booleanValue ::= TRUE | FALSE {extends=builtinValue}
+specialRealValue ::= PLUS_INFINITY | MINUS_INFINITY {extends=builtinValue}
+numberValue ::= "-"? NUMBER_LITERAL {extends=builtinValue}
+binaryValue ::= BINARY_LITERAL {extends=builtinValue}
+hexadecimalValue ::= HEXADECIMAL_LITERAL {extends=builtinValue}
+stringValue ::= STRING_LITERAL {extends=builtinValue}
+bitOrObjectIdentifierValue ::= nameValueList {extends=builtinValue}
+objectIdentifierValue ::= nameValueList
+private nameValueList ::= LEFT_BRACE nameValueComponent* RIGHT_BRACE
+private nameValueComponent ::= COMMA? nameOrNumber
+private nameOrNumber ::= NUMBER_LITERAL | nameValueString | nameAndNumber
+nameValueString ::= IDENTIFIER_STRING {
+    implements="pl.jakubchmura.snmp.mib.psi.SmiIdentifiableElement"
+    methods=[getName setName getReference]
+}
+private nameAndNumber ::= (IDENTIFIER_STRING LEFT_PAREN NUMBER_LITERAL RIGHT_PAREN) | (IDENTIFIER_STRING LEFT_PAREN definedValue RIGHT_PAREN)
+
+
+// Macro syntax
+
+definedMacroType ::= snmpModuleIdentityMacroType | snmpObjectIdentityMacroType | snmpObjectTypeMacroType |
+                     snmpNotificationTypeMacroType | snmpTrapTypeMacroType | snmpTextualConventionMacroType |
+                     snmpObjectGroupMacroType | snmpNotificationGroupMacroType | snmpModuleComplianceMacroType |
+                     snmpAgentCapabilitiesMacroType {extends=type}
+definedMacroName ::= MODULE_IDENTITY | OBJECT_IDENTITY | OBJECT_TYPE | NOTIFICATION_TYPE | TRAP_TYPE | TEXTUAL_CONVENTION | OBJECT_GROUP | NOTIFICATION_GROUP | MODULE_COMPLIANCE | AGENT_CAPABILITIES
+
+snmpModuleIdentityMacroType ::= MODULE_IDENTITY
+                                snmpUpdatePart
+                                snmpOrganizationPart
+                                snmpContactPart
+                                snmpDescrPart
+                                snmpRevisionPart* {extends=definedMacroType}
+snmpObjectIdentityMacroType ::= OBJECT_IDENTITY
+                                snmpStatusPart
+                                snmpDescrPart
+                                snmpReferPart? {extends=definedMacroType}
+snmpObjectTypeMacroType ::= OBJECT_TYPE
+                            snmpSyntaxPart
+                            snmpUnitsPart?
+                            snmpAccessPart
+                            snmpStatusPart
+                            snmpDescrPart?
+                            snmpReferPart?
+                            snmpIndexPart?
+                            snmpDefValPart? {extends=definedMacroType}
+snmpNotificationTypeMacroType ::= NOTIFICATION_TYPE
+                                  snmpObjectsPart?
+                                  snmpStatusPart
+                                  snmpDescrPart
+                                  snmpReferPart? {extends=definedMacroType}
+snmpTrapTypeMacroType ::= TRAP_TYPE
+                          snmpEnterprisePart
+                          snmpVarPart?
+                          snmpDescrPart?
+                          snmpReferPart? {extends=definedMacroType}
+snmpTextualConventionMacroType ::= TEXTUAL_CONVENTION
+                                   snmpDisplayPart?
+                                   snmpStatusPart
+                                   snmpDescrPart
+                                   snmpReferPart?
+                                   snmpSyntaxPart {extends=definedMacroType}
+snmpObjectGroupMacroType ::= OBJECT_GROUP
+                             snmpObjectsPart
+                             snmpStatusPart
+                             snmpDescrPart
+                             snmpReferPart? {extends=definedMacroType}
+snmpNotificationGroupMacroType ::= NOTIFICATION_GROUP
+                                   snmpNotificationsPart
+                                   snmpStatusPart
+                                   snmpDescrPart
+                                   snmpReferPart? {extends=definedMacroType}
+snmpModuleComplianceMacroType ::= MODULE_COMPLIANCE
+                                  snmpStatusPart
+                                  snmpDescrPart
+                                  snmpReferPart?
+                                  snmpModulePart+ {extends=definedMacroType}
+snmpAgentCapabilitiesMacroType ::= AGENT_CAPABILITIES
+                                   snmpProductReleasePart
+                                   snmpStatusPart
+                                   snmpDescrPart
+                                   snmpReferPart?
+                                   snmpModuleSupportPart* {extends=definedMacroType}
+
+snmpUpdatePart ::= LAST_UPDATED STRING_LITERAL
+snmpOrganizationPart ::= ORGANIZATION STRING_LITERAL
+snmpContactPart ::= CONTACT_INFO STRING_LITERAL
+snmpDescrPart ::= DESCRIPTION STRING_LITERAL
+snmpRevisionPart ::= REVISION value DESCRIPTION STRING_LITERAL
+snmpStatusPart ::= STATUS IDENTIFIER_STRING
+snmpReferPart ::= REFERENCE STRING_LITERAL
+snmpSyntaxPart ::= SYNTAX type
+snmpUnitsPart ::= UNITS STRING_LITERAL
+snmpAccessPart ::= (ACCESS IDENTIFIER_STRING) | (MAX_ACCESS IDENTIFIER_STRING) | (MIN_ACCESS IDENTIFIER_STRING)
+snmpIndexPart ::= (INDEX LEFT_BRACE indexValueList RIGHT_BRACE) | (AUGMENTS LEFT_BRACE value RIGHT_BRACE)
+
+private indexValueList ::= <<comma_separated_list indexValue>>
+indexValue ::= value | (IMPLIED value) | indexType
+indexType ::= integerType | stringType | objectIdentifierType
+
+snmpDefValPart ::= DEFVAL LEFT_BRACE value RIGHT_BRACE
+snmpObjectsPart ::= OBJECTS LEFT_BRACE valueList RIGHT_BRACE
+private valueList ::= <<comma_separated_list value>>
+
+snmpEnterprisePart ::= ENTERPRISE value
+snmpVarPart ::= VARIABLES LEFT_BRACE valueList RIGHT_BRACE
+snmpDisplayPart ::= DISPLAY_HINT STRING_LITERAL
+snmpNotificationsPart ::= NOTIFICATIONS LEFT_BRACE valueList RIGHT_BRACE
+snmpModulePart ::= MODULE snmpModuleImport? snmpMandatoryPart? snmpCompliancePart*
+snmpModuleImport ::= moduleIdentifier
+snmpMandatoryPart ::= MANDATORY_GROUPS LEFT_BRACE valueList RIGHT_BRACE
+snmpCompliancePart ::= complianceGroup | complianceObject
+complianceGroup ::= GROUP value snmpDescrPart
+complianceObject ::= OBJECT value snmpSyntaxPart? snmpWriteSyntaxPart? snmpAccessPart? snmpDescrPart
+snmpWriteSyntaxPart ::= WRITE_SYNTAX type
+snmpProductReleasePart ::= PRODUCT_RELEASE STRING_LITERAL
+snmpModuleSupportPart ::= SUPPORTS snmpModuleImport INCLUDES LEFT_BRACE valueList RIGHT_BRACE snmpVariationPart*
+snmpVariationPart ::= VARIATION value snmpSyntaxPart? snmpWriteSyntaxPart? snmpAccessPart? snmpCreationPart? snmpDefValPart? snmpDescrPart
+snmpCreationPart ::= CREATION_REQUIRES LEFT_BRACE valueList RIGHT_BRACE

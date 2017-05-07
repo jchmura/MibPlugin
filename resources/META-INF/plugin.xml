@@ -1,0 +1,44 @@
+<idea-plugin>
+  <id>pl.jakubchmura.snmp.mib</id>
+  <name>MIB file support</name>
+  <version>1.0</version>
+  <vendor email="chmura.jakub@gmail.com">Jakub Chmura</vendor>
+
+  <description><![CDATA[
+      Enter short description for your plugin here.<br>
+      <em>most HTML tags may be used</em>
+    ]]></description>
+
+  <change-notes><![CDATA[
+      Add change notes here.<br>
+      <em>most HTML tags may be used</em>
+    ]]>
+  </change-notes>
+
+  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+  <idea-version since-build="145.0"/>
+
+  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+       on how to target different products -->
+  <!-- uncomment to enable plugin in all products
+  <depends>com.intellij.modules.lang</depends>
+  -->
+
+  <extensions defaultExtensionNs="com.intellij">
+    <fileTypeFactory implementation="pl.jakubchmura.snmp.mib.MibFileTypeFactory"/>
+
+    <lang.parserDefinition language="SMI" implementationClass="pl.jakubchmura.snmp.mib.SmiParserDefinition"/>
+    <lang.syntaxHighlighterFactory language="SMI" implementationClass="pl.jakubchmura.snmp.mib.highlight.SmiSyntaxHighlighterFactory"/>
+    <lang.elementManipulator forClass="pl.jakubchmura.snmp.mib.psi.SmiIdentifiableElement" implementationClass="pl.jakubchmura.snmp.mib.reference.manipulator.SmiIdentifiableElementManipulator"/>
+    <lang.findUsagesProvider language="SMI" implementationClass="pl.jakubchmura.snmp.mib.reference.usages.SmiFindUsagesProvider"/>
+    <lang.namesValidator language="SMI" implementationClass="pl.jakubchmura.snmp.mib.SmiNamesValidator"/>
+
+    <annotator language="SMI" implementationClass="pl.jakubchmura.snmp.mib.annotator.SmiColorAnnotator"/>
+    <annotator language="SMI" implementationClass="pl.jakubchmura.snmp.mib.annotator.SmiUnresolvedReferenceAnnotator"/>
+  </extensions>
+
+  <actions>
+    <!-- Add your actions here -->
+  </actions>
+
+</idea-plugin>
