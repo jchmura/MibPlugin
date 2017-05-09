@@ -85,7 +85,7 @@ public class ReferenceableElementReference<T extends SmiReferenceableElement> ex
                 elements = getDeclaredElementsFromFile(psiFile);
             }
         } else {
-            elements = SmiFindUtil.findElements(getModuleScope(myElement), identifiableElementClass, myElement.getName());
+            elements = SmiFindUtil.findElements(myElement.getProject(), getModuleScope(myElement), identifiableElementClass, myElement.getName());
         }
         return elements;
     }

@@ -11,6 +11,7 @@ import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.psi.util.PsiTreeUtil;
 import org.jetbrains.annotations.NotNull;
 import pl.jakubchmura.snmp.mib.MibFileType;
+import pl.jakubchmura.snmp.mib.StandardSnmpv2Mibs;
 import pl.jakubchmura.snmp.mib.psi.SmiReferenceableElement;
 import pl.jakubchmura.snmp.mib.psi.SmiSymbol;
 import pl.jakubchmura.snmp.mib.psi.SmiSymbolName;
@@ -21,8 +22,8 @@ import java.util.stream.Collectors;
 
 public class SmiFindUtil {
 
-    public static <T extends SmiReferenceableElement> List<T> findElements(GlobalSearchScope scope, Class<T> elementClass, String name) {
-        List<T> identifiableElements = findElements(scope, elementClass);
+    public static <T extends SmiReferenceableElement> List<T> findElements(Project project, GlobalSearchScope scope, Class<T> elementClass, String name) {
+        List<T> identifiableElements = findElements(project, scope, elementClass);
         return filterMyName(identifiableElements, name);
     }
 
@@ -31,11 +32,16 @@ public class SmiFindUtil {
         return filterMyName(identifiableElements, name);
     }
 
-    public static <T extends SmiReferenceableElement> List<T> findElements(GlobalSearchScope scope, Class<T> elementClass) {
+    public static <T extends SmiReferenceableElement> List<T> findElements(Project project, GlobalSearchScope scope, Class<T> elementClass) {
         List<T> result = new ArrayList<>();
-        Collection<VirtualFile> files = FileTypeIndex.getFiles(MibFileType.INSTANCE, scope);
-        for (VirtualFile file : files) {
-            result.addAll(findElements(scope.getProject(), file, elementClass));
+        if (scope != null) {
+            Collection<VirtualFile> files = FileTypeIndex.getFiles(MibFileType.INSTANCE, scope);
+            for (VirtualFile file : files) {
+                result.addAll(findElements(project, file, elementClass));
+            }
+        }
+        for (VirtualFile mibFile : StandardSnmpv2Mibs.getMibs()) {
+            result.addAll(findElements(project, mibFile, elementClass));
         }
         return result;
     }
