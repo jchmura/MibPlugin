@@ -14,7 +14,7 @@ import static pl.jakubchmura.snmp.mib.psi.impl.IsoMibNode.ISO;
 public class MibNodeReference extends ReferenceableElementReference<SmiMibNode> {
 
     public MibNodeReference(@NotNull SmiIdentifiableElement element) {
-        super(element, SmiMibNode.class);
+        super(element, SmiMibNode.class, element.getContainingFile());
     }
 
     @NotNull

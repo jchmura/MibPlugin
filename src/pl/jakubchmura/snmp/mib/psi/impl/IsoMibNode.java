@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class IsoMibNode extends SmiMibNodeImpl {
 
-    public static final String ISO = "ISO";
+    public static final String ISO = "iso";
 
     public IsoMibNode(ASTNode node) {
         super(node);

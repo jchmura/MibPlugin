@@ -20,6 +20,6 @@ public class MibFileTypeFactory extends FileTypeFactory {
     }
 
     private Stream<FileNameMatcher> wildcardMatchers() {
-        return Stream.of("*-MIB", "*-TC", "*-SMI").map(WildcardFileNameMatcher::new);
+        return Stream.of("*-MIB", "*-TC", "*-SMI", "*-CONF").map(WildcardFileNameMatcher::new);
     }
 }

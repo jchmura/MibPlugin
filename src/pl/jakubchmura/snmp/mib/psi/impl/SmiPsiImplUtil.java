@@ -8,7 +8,6 @@ import com.intellij.psi.util.PsiTreeUtil;
 import pl.jakubchmura.snmp.mib.psi.*;
 import pl.jakubchmura.snmp.mib.reference.MibNodeReference;
 import pl.jakubchmura.snmp.mib.reference.ReferenceableElementReference;
-import pl.jakubchmura.snmp.mib.reference.TypeNameReference;
 
 public class SmiPsiImplUtil {
 
@@ -44,7 +43,7 @@ public class SmiPsiImplUtil {
     }
 
     public static PsiReference getReference(SmiDefinedTypeName definedTypeName) {
-        return new TypeNameReference(definedTypeName);
+        return new ReferenceableElementReference<>(definedTypeName, SmiTypeName.class, definedTypeName.getContainingFile());
     }
 
     public static PsiReference getReference(SmiSymbolName symbolName) {
@@ -56,7 +55,7 @@ public class SmiPsiImplUtil {
                 if (resolved instanceof SmiModuleIdentifierDefinition) {
                     SmiModuleIdentifierDefinition moduleIdentifierDefinition = (SmiModuleIdentifierDefinition) resolved;
                     PsiFile containingFile = moduleIdentifierDefinition.getContainingFile();
-                    return new ReferenceableElementReference<>(symbolName, SmiReferenceableElement.class, containingFile);
+                    return new ReferenceableElementReference<>(symbolName, SmiReferenceableElement.class, containingFile, false);
                 }
             }
         }
