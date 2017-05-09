@@ -4,7 +4,7 @@ package pl.jakubchmura.snmp.mib.psi;
 import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiReference;
+import pl.jakubchmura.snmp.mib.reference.ReferenceableElementReference;
 
 public interface SmiSymbolName extends SmiIdentifiableElement {
 
@@ -15,6 +15,8 @@ public interface SmiSymbolName extends SmiIdentifiableElement {
 
   PsiElement setName(String name);
 
-  PsiReference getReference();
+  ReferenceableElementReference<SmiReferenceableElement> getReference();
+
+  ReferenceableElementReference[] getReferences();
 
 }

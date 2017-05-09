@@ -109,7 +109,7 @@ private symbolList ::= <<comma_separated_list symbol>>
 symbol ::= symbolName | definedMacroName
 symbolName ::= IDENTIFIER_STRING {
   implements="pl.jakubchmura.snmp.mib.psi.SmiIdentifiableElement"
-  methods=[getName setName getReference]
+  methods=[getName setName getReference getReferences]
 }
 
 private assignmentList ::= assignment+

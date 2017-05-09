@@ -4,10 +4,13 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiReference;
+import com.intellij.psi.ResolveResult;
 import com.intellij.psi.util.PsiTreeUtil;
 import pl.jakubchmura.snmp.mib.psi.*;
 import pl.jakubchmura.snmp.mib.reference.MibNodeReference;
 import pl.jakubchmura.snmp.mib.reference.ReferenceableElementReference;
+
+import java.util.stream.Stream;
 
 public class SmiPsiImplUtil {
 
@@ -27,26 +30,26 @@ public class SmiPsiImplUtil {
         return element;
     }
 
-    public static PsiReference getReference(SmiNameValueString nameValueString) {
+    public static MibNodeReference getReference(SmiNameValueString nameValueString) {
         return new MibNodeReference(nameValueString);
     }
 
-    public static PsiReference getReference(SmiDefinedValueName definedValueName) {
+    public static MibNodeReference getReference(SmiDefinedValueName definedValueName) {
         return new MibNodeReference(definedValueName);
     }
 
-    public static PsiReference getReference(SmiElementTypeName elementTypeName) {
+    public static MibNodeReference getReference(SmiElementTypeName elementTypeName) {
         if (elementTypeName.shouldHaveReference()) {
             return new MibNodeReference(elementTypeName);
         }
         return null;
     }
 
-    public static PsiReference getReference(SmiDefinedTypeName definedTypeName) {
+    public static ReferenceableElementReference<SmiTypeName> getReference(SmiDefinedTypeName definedTypeName) {
         return new ReferenceableElementReference<>(definedTypeName, SmiTypeName.class, definedTypeName.getContainingFile());
     }
 
-    public static PsiReference getReference(SmiSymbolName symbolName) {
+    public static ReferenceableElementReference<SmiReferenceableElement> getReference(SmiSymbolName symbolName) {
         SmiSymbolsFromModule symbolsFromModule = (SmiSymbolsFromModule) PsiTreeUtil.findFirstParent(symbolName, element -> element instanceof SmiSymbolsFromModule);
         if (symbolsFromModule != null) {
             PsiReference reference = symbolsFromModule.getModuleIdentifier().getReference();
@@ -62,7 +65,26 @@ public class SmiPsiImplUtil {
         return null;
     }
 
-    public static PsiReference getReference(SmiModuleIdentifier moduleIdentifier) {
+    public static ReferenceableElementReference[] getReferences(SmiSymbolName symbolName) {
+        SmiSymbolsFromModule symbolsFromModule = (SmiSymbolsFromModule) PsiTreeUtil.findFirstParent(symbolName, element -> element instanceof SmiSymbolsFromModule);
+        if (symbolsFromModule != null) {
+            ReferenceableElementReference<SmiModuleIdentifierDefinition> reference = symbolsFromModule.getModuleIdentifier().getReference();
+            if (reference != null) {
+                ResolveResult[] resolveResults = reference.multiResolve(false);
+                return Stream.of(resolveResults)
+                        .filter(ResolveResult::isValidResult)
+                        .map(ResolveResult::getElement)
+                        .filter(e -> e instanceof SmiModuleIdentifierDefinition)
+                        .map(e -> {
+                            PsiFile containingFile = e.getContainingFile();
+                            return new ReferenceableElementReference<>(symbolName, SmiReferenceableElement.class, containingFile, false);
+                        }).toArray(ReferenceableElementReference[]::new);
+            }
+        }
+        return new ReferenceableElementReference[0];
+    }
+
+    public static ReferenceableElementReference<SmiModuleIdentifierDefinition> getReference(SmiModuleIdentifier moduleIdentifier) {
         return new ReferenceableElementReference<>(moduleIdentifier, SmiModuleIdentifierDefinition.class);
     }
 

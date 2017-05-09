@@ -5,7 +5,7 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
-import com.intellij.psi.PsiReference;
+import com.intellij.psi.ResolveResult;
 import com.intellij.psi.search.FileTypeIndex;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.psi.util.PsiTreeUtil;
@@ -19,6 +19,7 @@ import pl.jakubchmura.snmp.mib.psi.SmiSymbolsFromModule;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class SmiFindUtil {
 
@@ -65,9 +66,12 @@ public class SmiFindUtil {
                 .flatMap(e -> e.getSymbolList().stream())
                 .map(SmiSymbol::getSymbolName)
                 .filter(Objects::nonNull)
-                .map(SmiSymbolName::getReference)
+                .map(SmiSymbolName::getReferences)
+                .flatMap(Stream::of)
+                .map(r -> r.multiResolve(false))
+                .flatMap(Stream::of)
+                .map(ResolveResult::getElement)
                 .filter(Objects::nonNull)
-                .map(PsiReference::resolve)
                 .filter(e -> identifiableElementClass.isAssignableFrom(e.getClass()))
                 .map(identifiableElementClass::cast)
                 .collect(Collectors.toList());

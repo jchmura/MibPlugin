@@ -10,7 +10,7 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static pl.jakubchmura.snmp.mib.psi.SmiTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import pl.jakubchmura.snmp.mib.psi.*;
-import com.intellij.psi.PsiReference;
+import pl.jakubchmura.snmp.mib.reference.ReferenceableElementReference;
 
 public class SmiDefinedTypeNameImpl extends ASTWrapperPsiElement implements SmiDefinedTypeName {
 
@@ -41,7 +41,7 @@ public class SmiDefinedTypeNameImpl extends ASTWrapperPsiElement implements SmiD
     return SmiPsiImplUtil.setName(this, name);
   }
 
-  public PsiReference getReference() {
+  public ReferenceableElementReference<SmiTypeName> getReference() {
     return SmiPsiImplUtil.getReference(this);
   }
 

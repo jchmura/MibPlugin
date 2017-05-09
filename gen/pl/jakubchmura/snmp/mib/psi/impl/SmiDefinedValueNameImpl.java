@@ -9,7 +9,7 @@ import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static pl.jakubchmura.snmp.mib.psi.SmiTypes.*;
 import pl.jakubchmura.snmp.mib.psi.*;
-import com.intellij.psi.PsiReference;
+import pl.jakubchmura.snmp.mib.reference.MibNodeReference;
 
 public class SmiDefinedValueNameImpl extends SmiValueImpl implements SmiDefinedValueName {
 
@@ -40,7 +40,7 @@ public class SmiDefinedValueNameImpl extends SmiValueImpl implements SmiDefinedV
     return SmiPsiImplUtil.setName(this, name);
   }
 
-  public PsiReference getReference() {
+  public MibNodeReference getReference() {
     return SmiPsiImplUtil.getReference(this);
   }
 
