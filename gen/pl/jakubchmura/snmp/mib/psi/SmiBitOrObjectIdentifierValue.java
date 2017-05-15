@@ -8,9 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface SmiBitOrObjectIdentifierValue extends SmiBuiltinValue {
 
   @NotNull
-  List<SmiNameValueString> getNameValueStringList();
+  List<SmiNameAndNumber> getNameAndNumberList();
 
   @NotNull
-  List<SmiValue> getValueList();
+  List<SmiNameValueString> getNameValueStringList();
 
 }

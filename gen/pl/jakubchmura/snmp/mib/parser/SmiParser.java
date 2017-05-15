@@ -170,6 +170,9 @@ public class SmiParser implements PsiParser, LightPsiParser {
     else if (t == MODULE_IDENTIFIER_DEFINITION) {
       r = moduleIdentifierDefinition(b, 0);
     }
+    else if (t == NAME_AND_NUMBER) {
+      r = nameAndNumber(b, 0);
+    }
     else if (t == NAME_VALUE_STRING) {
       r = nameValueString(b, 0);
     }
@@ -1613,14 +1616,14 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // (IDENTIFIER_STRING LEFT_PAREN NUMBER_LITERAL RIGHT_PAREN) | (IDENTIFIER_STRING LEFT_PAREN definedValue RIGHT_PAREN)
-  static boolean nameAndNumber(PsiBuilder b, int l) {
+  public static boolean nameAndNumber(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "nameAndNumber")) return false;
     if (!nextTokenIs(b, IDENTIFIER_STRING)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = nameAndNumber_0(b, l + 1);
     if (!r) r = nameAndNumber_1(b, l + 1);
-    exit_section_(b, m, null, r);
+    exit_section_(b, m, NAME_AND_NUMBER, r);
     return r;
   }
 
@@ -1647,15 +1650,15 @@ public class SmiParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // NUMBER_LITERAL | nameValueString | nameAndNumber
+  // NUMBER_LITERAL | nameAndNumber | nameValueString
   static boolean nameOrNumber(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "nameOrNumber")) return false;
     if (!nextTokenIs(b, "", IDENTIFIER_STRING, NUMBER_LITERAL)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, NUMBER_LITERAL);
-    if (!r) r = nameValueString(b, l + 1);
     if (!r) r = nameAndNumber(b, l + 1);
+    if (!r) r = nameValueString(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }

@@ -204,6 +204,10 @@ public class SmiVisitor extends PsiElementVisitor {
     visitReferenceableElement(o);
   }
 
+  public void visitNameAndNumber(@NotNull SmiNameAndNumber o) {
+    visitPsiElement(o);
+  }
+
   public void visitNameValueString(@NotNull SmiNameValueString o) {
     visitIdentifiableElement(o);
   }

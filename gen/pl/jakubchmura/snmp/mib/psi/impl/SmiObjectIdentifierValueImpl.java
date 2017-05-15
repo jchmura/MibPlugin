@@ -28,14 +28,14 @@ public class SmiObjectIdentifierValueImpl extends ASTWrapperPsiElement implement
 
   @Override
   @NotNull
-  public List<SmiNameValueString> getNameValueStringList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SmiNameValueString.class);
+  public List<SmiNameAndNumber> getNameAndNumberList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SmiNameAndNumber.class);
   }
 
   @Override
   @NotNull
-  public List<SmiValue> getValueList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SmiValue.class);
+  public List<SmiNameValueString> getNameValueStringList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SmiNameValueString.class);
   }
 
 }

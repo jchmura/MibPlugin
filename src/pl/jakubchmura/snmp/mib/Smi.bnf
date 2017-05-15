@@ -227,12 +227,12 @@ bitOrObjectIdentifierValue ::= nameValueList {extends=builtinValue}
 objectIdentifierValue ::= nameValueList
 private nameValueList ::= LEFT_BRACE nameValueComponent* RIGHT_BRACE
 private nameValueComponent ::= COMMA? nameOrNumber
-private nameOrNumber ::= NUMBER_LITERAL | nameValueString | nameAndNumber
+private nameOrNumber ::= NUMBER_LITERAL | nameAndNumber | nameValueString
 nameValueString ::= IDENTIFIER_STRING {
     implements="pl.jakubchmura.snmp.mib.psi.SmiIdentifiableElement"
     methods=[getName setName getReference]
 }
-private nameAndNumber ::= (IDENTIFIER_STRING LEFT_PAREN NUMBER_LITERAL RIGHT_PAREN) | (IDENTIFIER_STRING LEFT_PAREN definedValue RIGHT_PAREN)
+nameAndNumber ::= (IDENTIFIER_STRING LEFT_PAREN NUMBER_LITERAL RIGHT_PAREN) | (IDENTIFIER_STRING LEFT_PAREN definedValue RIGHT_PAREN)
 
 
 // Macro syntax
