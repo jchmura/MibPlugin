@@ -67,21 +67,33 @@ public class SmiPsiImplUtil {
 
     public static ReferenceableElementReference[] getReferences(SmiSymbolName symbolName) {
         SmiSymbolsFromModule symbolsFromModule = (SmiSymbolsFromModule) PsiTreeUtil.findFirstParent(symbolName, element -> element instanceof SmiSymbolsFromModule);
+        SmiExportList exportList = (SmiExportList) PsiTreeUtil.findFirstParent(symbolName, element -> element instanceof SmiExportList);
         if (symbolsFromModule != null) {
-            ReferenceableElementReference<SmiModuleIdentifierDefinition> reference = symbolsFromModule.getModuleIdentifier().getReference();
-            if (reference != null) {
-                ResolveResult[] resolveResults = reference.multiResolve(false);
-                return Stream.of(resolveResults)
-                        .filter(ResolveResult::isValidResult)
-                        .map(ResolveResult::getElement)
-                        .filter(e -> e instanceof SmiModuleIdentifierDefinition)
-                        .map(e -> {
-                            PsiFile containingFile = e.getContainingFile();
-                            return new ReferenceableElementReference<>(symbolName, SmiReferenceableElement.class, containingFile, false);
-                        }).toArray(ReferenceableElementReference[]::new);
-            }
+            return getImportedReferences(symbolName, symbolsFromModule);
+        } else if (exportList != null) {
+            return getExportedReferences(symbolName);
         }
         return new ReferenceableElementReference[0];
+    }
+
+    private static ReferenceableElementReference[] getImportedReferences(SmiSymbolName symbolName, SmiSymbolsFromModule symbolsFromModule) {
+        ReferenceableElementReference<SmiModuleIdentifierDefinition> reference = symbolsFromModule.getModuleIdentifier().getReference();
+        if (reference != null) {
+            ResolveResult[] resolveResults = reference.multiResolve(false);
+            return Stream.of(resolveResults)
+                    .filter(ResolveResult::isValidResult)
+                    .map(ResolveResult::getElement)
+                    .filter(e -> e instanceof SmiModuleIdentifierDefinition)
+                    .map(e -> {
+                        PsiFile containingFile = e.getContainingFile();
+                        return new ReferenceableElementReference<>(symbolName, SmiReferenceableElement.class, containingFile, false);
+                    }).toArray(ReferenceableElementReference[]::new);
+        }
+        return new ReferenceableElementReference[0];
+    }
+
+    private static ReferenceableElementReference[] getExportedReferences(SmiSymbolName symbolName) {
+        return new ReferenceableElementReference[] {new ReferenceableElementReference<>(symbolName, SmiReferenceableElement.class, symbolName.getContainingFile(), false)};
     }
 
     public static ReferenceableElementReference<SmiModuleIdentifierDefinition> getReference(SmiModuleIdentifier moduleIdentifier) {
