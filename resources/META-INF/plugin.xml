@@ -33,6 +33,9 @@
     <lang.findUsagesProvider language="SMI" implementationClass="pl.jakubchmura.snmp.mib.reference.usages.SmiFindUsagesProvider"/>
     <lang.namesValidator language="SMI" implementationClass="pl.jakubchmura.snmp.mib.SmiNamesValidator"/>
 
+    <gotoSymbolContributor implementation="pl.jakubchmura.snmp.mib.reference.symbol.MibNodeChooseByNameContributor"/>
+    <gotoSymbolContributor implementation="pl.jakubchmura.snmp.mib.reference.symbol.TypeNameChooseByNameContributor"/>
+
     <annotator language="SMI" implementationClass="pl.jakubchmura.snmp.mib.annotator.SmiColorAnnotator"/>
     <annotator language="SMI" implementationClass="pl.jakubchmura.snmp.mib.annotator.SmiUnresolvedReferenceAnnotator"/>
   </extensions>

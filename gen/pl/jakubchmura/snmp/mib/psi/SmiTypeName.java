@@ -4,6 +4,7 @@ package pl.jakubchmura.snmp.mib.psi;
 import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
+import com.intellij.navigation.ItemPresentation;
 
 public interface SmiTypeName extends SmiReferenceableElement {
 
@@ -13,5 +14,7 @@ public interface SmiTypeName extends SmiReferenceableElement {
   String getName();
 
   PsiElement setName(String name);
+
+  ItemPresentation getPresentation();
 
 }

@@ -10,16 +10,15 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static pl.jakubchmura.snmp.mib.psi.SmiTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import pl.jakubchmura.snmp.mib.psi.*;
-import com.intellij.navigation.ItemPresentation;
 
-public class SmiMibNodeImpl extends ASTWrapperPsiElement implements SmiMibNode {
+public class SmiNameAndNumberImpl extends ASTWrapperPsiElement implements SmiNameAndNumber {
 
-  public SmiMibNodeImpl(ASTNode node) {
+  public SmiNameAndNumberImpl(ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull SmiVisitor visitor) {
-    visitor.visitMibNode(this);
+    visitor.visitNameAndNumber(this);
   }
 
   public void accept(@NotNull PsiElementVisitor visitor) {
@@ -28,21 +27,21 @@ public class SmiMibNodeImpl extends ASTWrapperPsiElement implements SmiMibNode {
   }
 
   @Override
+  @Nullable
+  public SmiValue getValue() {
+    return findChildByClass(SmiValue.class);
+  }
+
+  @Override
   @NotNull
   public PsiElement getIdentifierString() {
     return findNotNullChildByType(IDENTIFIER_STRING);
   }
 
-  public String getName() {
-    return SmiPsiImplUtil.getName(this);
-  }
-
-  public PsiElement setName(String name) {
-    return SmiPsiImplUtil.setName(this, name);
-  }
-
-  public ItemPresentation getPresentation() {
-    return SmiPsiImplUtil.getPresentation(this);
+  @Override
+  @Nullable
+  public PsiElement getNumberLiteral() {
+    return findChildByType(NUMBER_LITERAL);
   }
 
 }

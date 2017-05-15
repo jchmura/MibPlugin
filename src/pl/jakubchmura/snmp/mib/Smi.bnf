@@ -126,7 +126,7 @@ macroBodyElement ::= (LEFT_PAREN|RIGHT_PAREN|VERTICAL_BAR|DEFINITION|INTEGER|REA
 typeAssignment ::= typeName DEFINITION type
 typeName ::= IDENTIFIER_STRING {
   implements="pl.jakubchmura.snmp.mib.psi.SmiReferenceableElement"
-  methods=[getName setName]
+  methods=[getName setName getPresentation]
 }
 type ::= builtinType | definedType | definedMacroType | macroDefinition
 
@@ -199,7 +199,7 @@ componentPresence ::= PRESENT | ABSENT | OPTIONAL
 
 mibNode ::= IDENTIFIER_STRING {
   implements="pl.jakubchmura.snmp.mib.psi.SmiReferenceableElement"
-  methods=[getName setName]
+  methods=[getName setName getPresentation]
 }
 
 valueAssignment ::= mibNode type DEFINITION value

@@ -10,6 +10,7 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static pl.jakubchmura.snmp.mib.psi.SmiTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import pl.jakubchmura.snmp.mib.psi.*;
+import com.intellij.navigation.ItemPresentation;
 
 public class SmiTypeNameImpl extends ASTWrapperPsiElement implements SmiTypeName {
 
@@ -38,6 +39,10 @@ public class SmiTypeNameImpl extends ASTWrapperPsiElement implements SmiTypeName
 
   public PsiElement setName(String name) {
     return SmiPsiImplUtil.setName(this, name);
+  }
+
+  public ItemPresentation getPresentation() {
+    return SmiPsiImplUtil.getPresentation(this);
   }
 
 }
