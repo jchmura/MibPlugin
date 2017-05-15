@@ -4,12 +4,12 @@ import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.AbstractElementManipulator;
 import com.intellij.util.IncorrectOperationException;
 import org.jetbrains.annotations.NotNull;
-import pl.jakubchmura.snmp.mib.psi.SmiMibNode;
+import pl.jakubchmura.snmp.mib.psi.impl.SmiMibNodeMixin;
 
-public class MibNodeManipulator extends AbstractElementManipulator<SmiMibNode> {
+public class MibNodeManipulator extends AbstractElementManipulator<SmiMibNodeMixin> {
 
     @Override
-    public SmiMibNode handleContentChange(@NotNull SmiMibNode element, @NotNull TextRange range, String newContent) throws IncorrectOperationException {
+    public SmiMibNodeMixin handleContentChange(@NotNull SmiMibNodeMixin element, @NotNull TextRange range, String newContent) throws IncorrectOperationException {
         element.setName(newContent);
         return element;
     }

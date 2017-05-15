@@ -185,7 +185,7 @@ public class SmiVisitor extends PsiElementVisitor {
   }
 
   public void visitMibNode(@NotNull SmiMibNode o) {
-    visitReferenceableElement(o);
+    visitPsiElement(o);
   }
 
   public void visitModuleBody(@NotNull SmiModuleBody o) {
@@ -205,6 +205,10 @@ public class SmiVisitor extends PsiElementVisitor {
   }
 
   public void visitNameAndNumber(@NotNull SmiNameAndNumber o) {
+    visitPsiElement(o);
+  }
+
+  public void visitNameValueIndex(@NotNull SmiNameValueIndex o) {
     visitPsiElement(o);
   }
 

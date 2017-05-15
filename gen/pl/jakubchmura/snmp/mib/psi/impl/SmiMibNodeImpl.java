@@ -8,11 +8,9 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static pl.jakubchmura.snmp.mib.psi.SmiTypes.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import pl.jakubchmura.snmp.mib.psi.*;
-import com.intellij.navigation.ItemPresentation;
 
-public class SmiMibNodeImpl extends ASTWrapperPsiElement implements SmiMibNode {
+public class SmiMibNodeImpl extends SmiMibNodeMixin implements SmiMibNode {
 
   public SmiMibNodeImpl(ASTNode node) {
     super(node);
@@ -31,18 +29,6 @@ public class SmiMibNodeImpl extends ASTWrapperPsiElement implements SmiMibNode {
   @NotNull
   public PsiElement getIdentifierString() {
     return findNotNullChildByType(IDENTIFIER_STRING);
-  }
-
-  public String getName() {
-    return SmiPsiImplUtil.getName(this);
-  }
-
-  public PsiElement setName(String name) {
-    return SmiPsiImplUtil.setName(this, name);
-  }
-
-  public ItemPresentation getPresentation() {
-    return SmiPsiImplUtil.getPresentation(this);
   }
 
 }

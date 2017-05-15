@@ -198,8 +198,9 @@ componentPresence ::= PRESENT | ABSENT | OPTIONAL
 // Value notation
 
 mibNode ::= IDENTIFIER_STRING {
-  implements="pl.jakubchmura.snmp.mib.psi.SmiReferenceableElement"
-  methods=[getName setName getPresentation]
+//  implements="pl.jakubchmura.snmp.mib.psi.SmiReferenceableElement"
+  mixin="pl.jakubchmura.snmp.mib.psi.impl.SmiMibNodeMixin"
+//  methods=[getName setName isLeaf getPresentation getParentMibNode getIndex getOid toString]
 }
 
 valueAssignment ::= mibNode type DEFINITION value
@@ -227,11 +228,12 @@ bitOrObjectIdentifierValue ::= nameValueList {extends=builtinValue}
 objectIdentifierValue ::= nameValueList
 private nameValueList ::= LEFT_BRACE nameValueComponent* RIGHT_BRACE
 private nameValueComponent ::= COMMA? nameOrNumber
-private nameOrNumber ::= NUMBER_LITERAL | nameAndNumber | nameValueString
+private nameOrNumber ::= nameValueIndex | nameAndNumber | nameValueString
 nameValueString ::= IDENTIFIER_STRING {
     implements="pl.jakubchmura.snmp.mib.psi.SmiIdentifiableElement"
     methods=[getName setName getReference]
 }
+nameValueIndex ::= NUMBER_LITERAL
 nameAndNumber ::= (IDENTIFIER_STRING LEFT_PAREN NUMBER_LITERAL RIGHT_PAREN) | (IDENTIFIER_STRING LEFT_PAREN definedValue RIGHT_PAREN)
 
 

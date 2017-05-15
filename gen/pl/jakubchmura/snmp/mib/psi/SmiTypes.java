@@ -59,6 +59,7 @@ public interface SmiTypes {
   IElementType MODULE_IDENTIFIER_DEFINITION = new SmiElementType("MODULE_IDENTIFIER_DEFINITION");
   IElementType NAMED_NUMBER = new SmiElementType("NAMED_NUMBER");
   IElementType NAME_AND_NUMBER = new SmiElementType("NAME_AND_NUMBER");
+  IElementType NAME_VALUE_INDEX = new SmiElementType("NAME_VALUE_INDEX");
   IElementType NAME_VALUE_STRING = new SmiElementType("NAME_VALUE_STRING");
   IElementType NULL_TYPE = new SmiElementType("NULL_TYPE");
   IElementType NULL_VALUE = new SmiElementType("NULL_VALUE");
@@ -384,6 +385,9 @@ public interface SmiTypes {
       }
       else if (type == NAME_AND_NUMBER) {
         return new SmiNameAndNumberImpl(node);
+      }
+      else if (type == NAME_VALUE_INDEX) {
+        return new SmiNameValueIndexImpl(node);
       }
       else if (type == NAME_VALUE_STRING) {
         return new SmiNameValueStringImpl(node);

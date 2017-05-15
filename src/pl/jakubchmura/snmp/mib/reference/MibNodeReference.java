@@ -6,15 +6,15 @@ import com.intellij.psi.ResolveResult;
 import org.jetbrains.annotations.NotNull;
 import pl.jakubchmura.snmp.mib.psi.SmiElementFactory;
 import pl.jakubchmura.snmp.mib.psi.SmiIdentifiableElement;
-import pl.jakubchmura.snmp.mib.psi.SmiMibNode;
 import pl.jakubchmura.snmp.mib.psi.impl.IsoMibNode;
+import pl.jakubchmura.snmp.mib.psi.impl.SmiMibNodeMixin;
 
 import static pl.jakubchmura.snmp.mib.psi.impl.IsoMibNode.ISO;
 
-public class MibNodeReference extends ReferenceableElementReference<SmiMibNode> {
+public class MibNodeReference extends ReferenceableElementReference<SmiMibNodeMixin> {
 
     public MibNodeReference(@NotNull SmiIdentifiableElement element) {
-        super(element, SmiMibNode.class, element.getContainingFile());
+        super(element, SmiMibNodeMixin.class, element.getContainingFile());
     }
 
     @NotNull

@@ -7,7 +7,6 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiReference;
 import com.intellij.psi.ResolveResult;
 import com.intellij.psi.util.PsiTreeUtil;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import pl.jakubchmura.snmp.mib.MibIcons;
 import pl.jakubchmura.snmp.mib.psi.*;
@@ -110,38 +109,6 @@ public class SmiPsiImplUtil {
         return firstParent == null;
     }
 
-    public static ItemPresentation getPresentation(SmiMibNode mibNode) {
-        return new ItemPresentation() {
-            @Nullable
-            @Override
-            public String getPresentableText() {
-                return mibNode.getName();
-            }
-
-            @NotNull
-            @Override
-            public String getLocationString() {
-                return mibNode.getContainingFile().getName();
-            }
-
-            @Nullable
-            @Override
-            public Icon getIcon(boolean unused) {
-                SmiValueAssignment valueAssignment = (SmiValueAssignment) PsiTreeUtil.findFirstParent(mibNode, psiElement -> psiElement instanceof SmiValueAssignment);
-                if (valueAssignment == null) {
-                    return null;
-                }
-
-                SmiType type = valueAssignment.getType();
-                if (type instanceof SmiSnmpObjectTypeMacroType) {
-                    return MibIcons.LEAF;
-                } else {
-                    return MibIcons.FOLDER;
-                }
-            }
-        };
-    }
-
     public static ItemPresentation getPresentation(SmiTypeName typeName) {
         return new ItemPresentation() {
             @Nullable
@@ -150,10 +117,10 @@ public class SmiPsiImplUtil {
                 return typeName.getName();
             }
 
-            @NotNull
+            @Nullable
             @Override
             public String getLocationString() {
-                return typeName.getContainingFile().getName();
+                return null;
             }
 
             @Nullable

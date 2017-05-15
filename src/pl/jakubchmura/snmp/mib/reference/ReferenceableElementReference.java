@@ -56,7 +56,7 @@ public class ReferenceableElementReference<T extends SmiReferenceableElement> ex
     @Override
     public PsiElement resolve() {
         ResolveResult[] resolveResults = multiResolve(false);
-        return resolveResults.length == 1 ? resolveResults[0].getElement() : null;
+        return resolveResults.length > 0 ? resolveResults[0].getElement() : null;
     }
 
     @NotNull

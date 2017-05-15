@@ -11,6 +11,7 @@ import pl.jakubchmura.snmp.mib.psi.SmiMibNode;
 import pl.jakubchmura.snmp.mib.psi.SmiModuleIdentifier;
 import pl.jakubchmura.snmp.mib.psi.SmiModuleIdentifierDefinition;
 import pl.jakubchmura.snmp.mib.psi.SmiTypeName;
+import pl.jakubchmura.snmp.mib.psi.impl.SmiMibNodeMixin;
 import pl.jakubchmura.snmp.mib.util.PsiSmiUtil;
 
 public class SmiColorAnnotator implements Annotator {
@@ -21,7 +22,7 @@ public class SmiColorAnnotator implements Annotator {
             annotateWithColor(element, holder, SmiHighlightingColors.MIB_NODE);
         } else if (element instanceof SmiTypeName) {
             annotateWithColor(element, holder, SmiHighlightingColors.DEFINED_TYPE);
-        } else if (PsiSmiUtil.hasReferenceToReferenceableElement(element, SmiMibNode.class)) {
+        } else if (PsiSmiUtil.hasReferenceToReferenceableElement(element, SmiMibNodeMixin.class)) {
             annotateWithColor(element, holder, SmiHighlightingColors.MIB_NODE);
         } else if (PsiSmiUtil.hasReferenceToReferenceableElement(element, SmiTypeName.class)) {
             annotateWithColor(element, holder, SmiHighlightingColors.DEFINED_TYPE);

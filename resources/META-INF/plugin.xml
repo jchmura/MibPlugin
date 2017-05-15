@@ -32,6 +32,7 @@
     <lang.elementManipulator forClass="pl.jakubchmura.snmp.mib.psi.SmiIdentifiableElement" implementationClass="pl.jakubchmura.snmp.mib.reference.manipulator.SmiIdentifiableElementManipulator"/>
     <lang.findUsagesProvider language="SMI" implementationClass="pl.jakubchmura.snmp.mib.reference.usages.SmiFindUsagesProvider"/>
     <lang.namesValidator language="SMI" implementationClass="pl.jakubchmura.snmp.mib.SmiNamesValidator"/>
+    <lang.psiStructureViewFactory language="SMI" implementationClass="pl.jakubchmura.snmp.mib.reference.structure.MibStructureViewFactory"/>
 
     <gotoSymbolContributor implementation="pl.jakubchmura.snmp.mib.reference.symbol.MibNodeChooseByNameContributor"/>
     <gotoSymbolContributor implementation="pl.jakubchmura.snmp.mib.reference.symbol.TypeNameChooseByNameContributor"/>

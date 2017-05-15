@@ -11,6 +11,9 @@ public interface SmiObjectIdentifierValue extends PsiElement {
   List<SmiNameAndNumber> getNameAndNumberList();
 
   @NotNull
+  List<SmiNameValueIndex> getNameValueIndexList();
+
+  @NotNull
   List<SmiNameValueString> getNameValueStringList();
 
 }
