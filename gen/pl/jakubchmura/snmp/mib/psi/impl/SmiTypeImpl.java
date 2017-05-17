@@ -28,8 +28,14 @@ public class SmiTypeImpl extends ASTWrapperPsiElement implements SmiType {
 
   @Override
   @Nullable
-  public SmiMacroDefinition getMacroDefinition() {
-    return findChildByClass(SmiMacroDefinition.class);
+  public SmiBuiltinType getBuiltinType() {
+    return findChildByClass(SmiBuiltinType.class);
+  }
+
+  @Override
+  @Nullable
+  public SmiDefinedType getDefinedType() {
+    return findChildByClass(SmiDefinedType.class);
   }
 
 }

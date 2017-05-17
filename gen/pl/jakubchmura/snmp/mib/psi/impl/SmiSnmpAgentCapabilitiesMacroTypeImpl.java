@@ -27,32 +27,20 @@ public class SmiSnmpAgentCapabilitiesMacroTypeImpl extends SmiDefinedMacroTypeIm
 
   @Override
   @NotNull
-  public SmiSnmpDescrPart getSnmpDescrPart() {
-    return findNotNullChildByClass(SmiSnmpDescrPart.class);
+  public List<SmiModuleIdentifier> getModuleIdentifierList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SmiModuleIdentifier.class);
   }
 
   @Override
   @NotNull
-  public List<SmiSnmpModuleSupportPart> getSnmpModuleSupportPartList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SmiSnmpModuleSupportPart.class);
+  public List<SmiType> getTypeList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SmiType.class);
   }
 
   @Override
   @NotNull
-  public SmiSnmpProductReleasePart getSnmpProductReleasePart() {
-    return findNotNullChildByClass(SmiSnmpProductReleasePart.class);
-  }
-
-  @Override
-  @Nullable
-  public SmiSnmpReferPart getSnmpReferPart() {
-    return findChildByClass(SmiSnmpReferPart.class);
-  }
-
-  @Override
-  @NotNull
-  public SmiSnmpStatusPart getSnmpStatusPart() {
-    return findNotNullChildByClass(SmiSnmpStatusPart.class);
+  public List<SmiValue> getValueList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SmiValue.class);
   }
 
 }

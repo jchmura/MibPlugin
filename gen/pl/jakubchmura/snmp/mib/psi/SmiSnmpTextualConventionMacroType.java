@@ -8,18 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface SmiSnmpTextualConventionMacroType extends SmiDefinedMacroType {
 
   @NotNull
-  SmiSnmpDescrPart getSnmpDescrPart();
-
-  @Nullable
-  SmiSnmpDisplayPart getSnmpDisplayPart();
-
-  @Nullable
-  SmiSnmpReferPart getSnmpReferPart();
+  SmiType getType();
 
   @NotNull
-  SmiSnmpStatusPart getSnmpStatusPart();
-
-  @NotNull
-  SmiSnmpSyntaxPart getSnmpSyntaxPart();
+  PsiElement getIdentifierString();
 
 }

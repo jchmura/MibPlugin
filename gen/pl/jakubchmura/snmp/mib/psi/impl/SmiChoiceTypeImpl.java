@@ -10,7 +10,7 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static pl.jakubchmura.snmp.mib.psi.SmiTypes.*;
 import pl.jakubchmura.snmp.mib.psi.*;
 
-public class SmiChoiceTypeImpl extends SmiBuiltinTypeImpl implements SmiChoiceType {
+public class SmiChoiceTypeImpl extends SmiTypeImpl implements SmiChoiceType {
 
   public SmiChoiceTypeImpl(ASTNode node) {
     super(node);

@@ -27,32 +27,8 @@ public class SmiSnmpModuleIdentityMacroTypeImpl extends SmiDefinedMacroTypeImpl 
 
   @Override
   @NotNull
-  public SmiSnmpContactPart getSnmpContactPart() {
-    return findNotNullChildByClass(SmiSnmpContactPart.class);
-  }
-
-  @Override
-  @NotNull
-  public SmiSnmpDescrPart getSnmpDescrPart() {
-    return findNotNullChildByClass(SmiSnmpDescrPart.class);
-  }
-
-  @Override
-  @NotNull
-  public SmiSnmpOrganizationPart getSnmpOrganizationPart() {
-    return findNotNullChildByClass(SmiSnmpOrganizationPart.class);
-  }
-
-  @Override
-  @NotNull
-  public List<SmiSnmpRevisionPart> getSnmpRevisionPartList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SmiSnmpRevisionPart.class);
-  }
-
-  @Override
-  @NotNull
-  public SmiSnmpUpdatePart getSnmpUpdatePart() {
-    return findNotNullChildByClass(SmiSnmpUpdatePart.class);
+  public List<SmiValue> getValueList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SmiValue.class);
   }
 
 }

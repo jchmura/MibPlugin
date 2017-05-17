@@ -7,4 +7,10 @@ import com.intellij.psi.PsiElement;
 
 public interface SmiValue extends PsiElement {
 
+  @Nullable
+  SmiValue getValue();
+
+  @Nullable
+  PsiElement getIdentifierString();
+
 }

@@ -8,6 +8,12 @@ import com.intellij.psi.PsiElement;
 public interface SmiIndexType extends PsiElement {
 
   @NotNull
-  SmiBuiltinType getBuiltinType();
+  List<SmiNamedNumber> getNamedNumberList();
+
+  @NotNull
+  List<SmiType> getTypeList();
+
+  @NotNull
+  List<SmiValue> getValueList();
 
 }

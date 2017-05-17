@@ -7,10 +7,7 @@ import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.psi.PsiElement;
 import org.jetbrains.annotations.NotNull;
 import pl.jakubchmura.snmp.mib.highlight.SmiHighlightingColors;
-import pl.jakubchmura.snmp.mib.psi.SmiMibNode;
-import pl.jakubchmura.snmp.mib.psi.SmiModuleIdentifier;
-import pl.jakubchmura.snmp.mib.psi.SmiModuleIdentifierDefinition;
-import pl.jakubchmura.snmp.mib.psi.SmiTypeName;
+import pl.jakubchmura.snmp.mib.psi.*;
 import pl.jakubchmura.snmp.mib.psi.impl.SmiMibNodeMixin;
 import pl.jakubchmura.snmp.mib.util.PsiSmiUtil;
 
@@ -22,16 +19,26 @@ public class SmiColorAnnotator implements Annotator {
             annotateWithColor(element, holder, SmiHighlightingColors.MIB_NODE);
         } else if (element instanceof SmiTypeName) {
             annotateWithColor(element, holder, SmiHighlightingColors.DEFINED_TYPE);
-        } else if (PsiSmiUtil.hasReferenceToReferenceableElement(element, SmiMibNodeMixin.class)) {
-            annotateWithColor(element, holder, SmiHighlightingColors.MIB_NODE);
-        } else if (PsiSmiUtil.hasReferenceToReferenceableElement(element, SmiTypeName.class)) {
+        } else if (element instanceof SmiDefinedTypeName) {
             annotateWithColor(element, holder, SmiHighlightingColors.DEFINED_TYPE);
+        } else if (element instanceof SmiElementTypeName) {
+            annotateWithColor(element, holder, SmiHighlightingColors.MIB_NODE);
+        } else if (element instanceof SmiNameValueString) {
+            annotateWithColor(element, holder, SmiHighlightingColors.MIB_NODE);
+        } else if (element instanceof SmiDefinedValueName) {
+            annotateWithColor(element, holder, SmiHighlightingColors.MIB_NODE);
+        } else if (element instanceof SmiSymbolName) {
+            if (PsiSmiUtil.hasReferenceToReferenceableElement(element, SmiMibNodeMixin.class)) {
+                annotateWithColor(element, holder, SmiHighlightingColors.MIB_NODE);
+            } else if (PsiSmiUtil.hasReferenceToReferenceableElement(element, SmiTypeName.class)) {
+                annotateWithColor(element, holder, SmiHighlightingColors.DEFINED_TYPE);
+            }
         } else if (element instanceof SmiModuleIdentifier || element instanceof SmiModuleIdentifierDefinition) {
             annotateWithColor(element, holder, SmiHighlightingColors.MODULE_IDENTIFIER);
         }
     }
 
-    public static void annotateWithColor(@NotNull PsiElement element, @NotNull AnnotationHolder holder, TextAttributesKey textAttributesKey) {
+    private static void annotateWithColor(@NotNull PsiElement element, @NotNull AnnotationHolder holder, TextAttributesKey textAttributesKey) {
         Annotation annotation = holder.createInfoAnnotation(element.getTextRange(), null);
         annotation.setTextAttributes(textAttributesKey);
     }

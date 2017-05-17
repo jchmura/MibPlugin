@@ -10,10 +10,13 @@ public interface SmiElementTyp extends PsiElement {
   @Nullable
   SmiElementTypeName getElementTypeName();
 
-  @Nullable
-  SmiOptionalOrDefaultElement getOptionalOrDefaultElement();
-
   @NotNull
   SmiType getType();
+
+  @Nullable
+  SmiValue getValue();
+
+  @Nullable
+  PsiElement getIdentifierString();
 
 }

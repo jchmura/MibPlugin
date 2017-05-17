@@ -28,8 +28,20 @@ public class SmiIndexTypeImpl extends ASTWrapperPsiElement implements SmiIndexTy
 
   @Override
   @NotNull
-  public SmiBuiltinType getBuiltinType() {
-    return findNotNullChildByClass(SmiBuiltinType.class);
+  public List<SmiNamedNumber> getNamedNumberList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SmiNamedNumber.class);
+  }
+
+  @Override
+  @NotNull
+  public List<SmiType> getTypeList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SmiType.class);
+  }
+
+  @Override
+  @NotNull
+  public List<SmiValue> getValueList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SmiValue.class);
   }
 
 }

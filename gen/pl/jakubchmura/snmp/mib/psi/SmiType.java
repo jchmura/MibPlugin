@@ -8,6 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface SmiType extends PsiElement {
 
   @Nullable
-  SmiMacroDefinition getMacroDefinition();
+  SmiBuiltinType getBuiltinType();
+
+  @Nullable
+  SmiDefinedType getDefinedType();
 
 }

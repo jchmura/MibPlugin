@@ -8,8 +8,14 @@ import pl.jakubchmura.snmp.mib.reference.ReferenceableElementReference;
 
 public interface SmiModuleIdentifier extends SmiIdentifiableElement {
 
-  @Nullable
-  SmiObjectIdentifierValue getObjectIdentifierValue();
+  @NotNull
+  List<SmiNameAndNumber> getNameAndNumberList();
+
+  @NotNull
+  List<SmiNameValueIndex> getNameValueIndexList();
+
+  @NotNull
+  List<SmiNameValueString> getNameValueStringList();
 
   @NotNull
   PsiElement getIdentifierString();

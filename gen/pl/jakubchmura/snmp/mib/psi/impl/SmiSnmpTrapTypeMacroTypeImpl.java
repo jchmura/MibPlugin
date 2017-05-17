@@ -26,27 +26,9 @@ public class SmiSnmpTrapTypeMacroTypeImpl extends SmiDefinedMacroTypeImpl implem
   }
 
   @Override
-  @Nullable
-  public SmiSnmpDescrPart getSnmpDescrPart() {
-    return findChildByClass(SmiSnmpDescrPart.class);
-  }
-
-  @Override
   @NotNull
-  public SmiSnmpEnterprisePart getSnmpEnterprisePart() {
-    return findNotNullChildByClass(SmiSnmpEnterprisePart.class);
-  }
-
-  @Override
-  @Nullable
-  public SmiSnmpReferPart getSnmpReferPart() {
-    return findChildByClass(SmiSnmpReferPart.class);
-  }
-
-  @Override
-  @Nullable
-  public SmiSnmpVarPart getSnmpVarPart() {
-    return findChildByClass(SmiSnmpVarPart.class);
+  public List<SmiValue> getValueList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SmiValue.class);
   }
 
 }

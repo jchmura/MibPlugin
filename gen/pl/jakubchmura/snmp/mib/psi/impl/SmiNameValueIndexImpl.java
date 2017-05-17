@@ -8,16 +8,17 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static pl.jakubchmura.snmp.mib.psi.SmiTypes.*;
+import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import pl.jakubchmura.snmp.mib.psi.*;
 
-public class SmiSelectionTypeImpl extends SmiBuiltinTypeImpl implements SmiSelectionType {
+public class SmiNameValueIndexImpl extends ASTWrapperPsiElement implements SmiNameValueIndex {
 
-  public SmiSelectionTypeImpl(ASTNode node) {
+  public SmiNameValueIndexImpl(ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull SmiVisitor visitor) {
-    visitor.visitSelectionType(this);
+    visitor.visitNameValueIndex(this);
   }
 
   public void accept(@NotNull PsiElementVisitor visitor) {
@@ -27,14 +28,8 @@ public class SmiSelectionTypeImpl extends SmiBuiltinTypeImpl implements SmiSelec
 
   @Override
   @NotNull
-  public SmiType getType() {
-    return findNotNullChildByClass(SmiType.class);
-  }
-
-  @Override
-  @NotNull
-  public PsiElement getIdentifierString() {
-    return findNotNullChildByType(IDENTIFIER_STRING);
+  public PsiElement getNumberLiteral() {
+    return findNotNullChildByType(NUMBER_LITERAL);
   }
 
 }

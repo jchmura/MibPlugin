@@ -7,8 +7,14 @@ import com.intellij.psi.PsiElement;
 
 public interface SmiModuleIdentifierDefinition extends SmiReferenceableElement {
 
-  @Nullable
-  SmiObjectIdentifierValue getObjectIdentifierValue();
+  @NotNull
+  List<SmiNameAndNumber> getNameAndNumberList();
+
+  @NotNull
+  List<SmiNameValueIndex> getNameValueIndexList();
+
+  @NotNull
+  List<SmiNameValueString> getNameValueStringList();
 
   @NotNull
   PsiElement getIdentifierString();

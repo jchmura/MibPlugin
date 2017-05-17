@@ -27,32 +27,14 @@ public class SmiSnmpTextualConventionMacroTypeImpl extends SmiDefinedMacroTypeIm
 
   @Override
   @NotNull
-  public SmiSnmpDescrPart getSnmpDescrPart() {
-    return findNotNullChildByClass(SmiSnmpDescrPart.class);
-  }
-
-  @Override
-  @Nullable
-  public SmiSnmpDisplayPart getSnmpDisplayPart() {
-    return findChildByClass(SmiSnmpDisplayPart.class);
-  }
-
-  @Override
-  @Nullable
-  public SmiSnmpReferPart getSnmpReferPart() {
-    return findChildByClass(SmiSnmpReferPart.class);
+  public SmiType getType() {
+    return findNotNullChildByClass(SmiType.class);
   }
 
   @Override
   @NotNull
-  public SmiSnmpStatusPart getSnmpStatusPart() {
-    return findNotNullChildByClass(SmiSnmpStatusPart.class);
-  }
-
-  @Override
-  @NotNull
-  public SmiSnmpSyntaxPart getSnmpSyntaxPart() {
-    return findNotNullChildByClass(SmiSnmpSyntaxPart.class);
+  public PsiElement getIdentifierString() {
+    return findNotNullChildByType(IDENTIFIER_STRING);
   }
 
 }

@@ -5,6 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface SmiBooleanValue extends SmiBuiltinValue {
+public interface SmiNameValueIndex extends PsiElement {
+
+  @NotNull
+  PsiElement getNumberLiteral();
 
 }

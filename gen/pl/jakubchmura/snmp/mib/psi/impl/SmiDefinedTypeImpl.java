@@ -8,9 +8,10 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static pl.jakubchmura.snmp.mib.psi.SmiTypes.*;
+import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import pl.jakubchmura.snmp.mib.psi.*;
 
-public class SmiDefinedTypeImpl extends SmiTypeImpl implements SmiDefinedType {
+public class SmiDefinedTypeImpl extends ASTWrapperPsiElement implements SmiDefinedType {
 
   public SmiDefinedTypeImpl(ASTNode node) {
     super(node);
@@ -32,15 +33,21 @@ public class SmiDefinedTypeImpl extends SmiTypeImpl implements SmiDefinedType {
   }
 
   @Override
-  @Nullable
-  public SmiValueOrConstraintList getValueOrConstraintList() {
-    return findChildByClass(SmiValueOrConstraintList.class);
+  @NotNull
+  public List<SmiNamedNumber> getNamedNumberList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SmiNamedNumber.class);
   }
 
   @Override
-  @Nullable
-  public PsiElement getIdentifierString() {
-    return findChildByType(IDENTIFIER_STRING);
+  @NotNull
+  public List<SmiType> getTypeList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SmiType.class);
+  }
+
+  @Override
+  @NotNull
+  public List<SmiValue> getValueList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SmiValue.class);
   }
 
 }

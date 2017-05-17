@@ -11,7 +11,7 @@ import static pl.jakubchmura.snmp.mib.psi.SmiTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import pl.jakubchmura.snmp.mib.psi.*;
 
-public abstract class SmiValueImpl extends ASTWrapperPsiElement implements SmiValue {
+public class SmiValueImpl extends ASTWrapperPsiElement implements SmiValue {
 
   public SmiValueImpl(ASTNode node) {
     super(node);
@@ -24,6 +24,18 @@ public abstract class SmiValueImpl extends ASTWrapperPsiElement implements SmiVa
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof SmiVisitor) accept((SmiVisitor)visitor);
     else super.accept(visitor);
+  }
+
+  @Override
+  @Nullable
+  public SmiValue getValue() {
+    return findChildByClass(SmiValue.class);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getIdentifierString() {
+    return findChildByType(IDENTIFIER_STRING);
   }
 
 }

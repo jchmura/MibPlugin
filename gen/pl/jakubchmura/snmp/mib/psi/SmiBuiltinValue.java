@@ -7,4 +7,16 @@ import com.intellij.psi.PsiElement;
 
 public interface SmiBuiltinValue extends SmiValue {
 
+  @Nullable
+  PsiElement getBinaryLiteral();
+
+  @Nullable
+  PsiElement getHexadecimalLiteral();
+
+  @Nullable
+  PsiElement getNumberLiteral();
+
+  @Nullable
+  PsiElement getStringLiteral();
+
 }

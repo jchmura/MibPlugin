@@ -28,9 +28,21 @@ public class SmiModuleIdentifierImpl extends ASTWrapperPsiElement implements Smi
   }
 
   @Override
-  @Nullable
-  public SmiObjectIdentifierValue getObjectIdentifierValue() {
-    return findChildByClass(SmiObjectIdentifierValue.class);
+  @NotNull
+  public List<SmiNameAndNumber> getNameAndNumberList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SmiNameAndNumber.class);
+  }
+
+  @Override
+  @NotNull
+  public List<SmiNameValueIndex> getNameValueIndexList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SmiNameValueIndex.class);
+  }
+
+  @Override
+  @NotNull
+  public List<SmiNameValueString> getNameValueStringList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SmiNameValueString.class);
   }
 
   @Override

@@ -8,10 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface SmiNameAndNumber extends PsiElement {
 
   @Nullable
-  SmiValue getValue();
-
-  @NotNull
-  PsiElement getIdentifierString();
+  SmiDefinedValueName getDefinedValueName();
 
   @Nullable
   PsiElement getNumberLiteral();

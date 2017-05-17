@@ -8,15 +8,12 @@ import com.intellij.psi.PsiElement;
 public interface SmiSnmpModuleComplianceMacroType extends SmiDefinedMacroType {
 
   @NotNull
-  SmiSnmpDescrPart getSnmpDescrPart();
+  List<SmiModuleIdentifier> getModuleIdentifierList();
 
   @NotNull
-  List<SmiSnmpModulePart> getSnmpModulePartList();
-
-  @Nullable
-  SmiSnmpReferPart getSnmpReferPart();
+  List<SmiType> getTypeList();
 
   @NotNull
-  SmiSnmpStatusPart getSnmpStatusPart();
+  List<SmiValue> getValueList();
 
 }

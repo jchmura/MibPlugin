@@ -27,50 +27,20 @@ public class SmiSnmpObjectTypeMacroTypeImpl extends SmiDefinedMacroTypeImpl impl
 
   @Override
   @NotNull
-  public SmiSnmpAccessPart getSnmpAccessPart() {
-    return findNotNullChildByClass(SmiSnmpAccessPart.class);
-  }
-
-  @Override
-  @Nullable
-  public SmiSnmpDefValPart getSnmpDefValPart() {
-    return findChildByClass(SmiSnmpDefValPart.class);
-  }
-
-  @Override
-  @Nullable
-  public SmiSnmpDescrPart getSnmpDescrPart() {
-    return findChildByClass(SmiSnmpDescrPart.class);
-  }
-
-  @Override
-  @Nullable
-  public SmiSnmpIndexPart getSnmpIndexPart() {
-    return findChildByClass(SmiSnmpIndexPart.class);
-  }
-
-  @Override
-  @Nullable
-  public SmiSnmpReferPart getSnmpReferPart() {
-    return findChildByClass(SmiSnmpReferPart.class);
+  public List<SmiIndexValue> getIndexValueList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SmiIndexValue.class);
   }
 
   @Override
   @NotNull
-  public SmiSnmpStatusPart getSnmpStatusPart() {
-    return findNotNullChildByClass(SmiSnmpStatusPart.class);
+  public SmiType getType() {
+    return findNotNullChildByClass(SmiType.class);
   }
 
   @Override
   @NotNull
-  public SmiSnmpSyntaxPart getSnmpSyntaxPart() {
-    return findNotNullChildByClass(SmiSnmpSyntaxPart.class);
-  }
-
-  @Override
-  @Nullable
-  public SmiSnmpUnitsPart getSnmpUnitsPart() {
-    return findChildByClass(SmiSnmpUnitsPart.class);
+  public List<SmiValue> getValueList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SmiValue.class);
   }
 
 }

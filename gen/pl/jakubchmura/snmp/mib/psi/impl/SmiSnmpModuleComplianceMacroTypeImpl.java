@@ -27,26 +27,20 @@ public class SmiSnmpModuleComplianceMacroTypeImpl extends SmiDefinedMacroTypeImp
 
   @Override
   @NotNull
-  public SmiSnmpDescrPart getSnmpDescrPart() {
-    return findNotNullChildByClass(SmiSnmpDescrPart.class);
+  public List<SmiModuleIdentifier> getModuleIdentifierList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SmiModuleIdentifier.class);
   }
 
   @Override
   @NotNull
-  public List<SmiSnmpModulePart> getSnmpModulePartList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SmiSnmpModulePart.class);
-  }
-
-  @Override
-  @Nullable
-  public SmiSnmpReferPart getSnmpReferPart() {
-    return findChildByClass(SmiSnmpReferPart.class);
+  public List<SmiType> getTypeList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SmiType.class);
   }
 
   @Override
   @NotNull
-  public SmiSnmpStatusPart getSnmpStatusPart() {
-    return findNotNullChildByClass(SmiSnmpStatusPart.class);
+  public List<SmiValue> getValueList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SmiValue.class);
   }
 
 }

@@ -28,14 +28,8 @@ public class SmiNameAndNumberImpl extends ASTWrapperPsiElement implements SmiNam
 
   @Override
   @Nullable
-  public SmiValue getValue() {
-    return findChildByClass(SmiValue.class);
-  }
-
-  @Override
-  @NotNull
-  public PsiElement getIdentifierString() {
-    return findNotNullChildByType(IDENTIFIER_STRING);
+  public SmiDefinedValueName getDefinedValueName() {
+    return findChildByClass(SmiDefinedValueName.class);
   }
 
   @Override

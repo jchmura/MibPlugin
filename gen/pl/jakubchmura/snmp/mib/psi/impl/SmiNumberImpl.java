@@ -27,9 +27,33 @@ public class SmiNumberImpl extends ASTWrapperPsiElement implements SmiNumber {
   }
 
   @Override
-  @NotNull
-  public SmiValue getValue() {
-    return findNotNullChildByClass(SmiValue.class);
+  @Nullable
+  public SmiDefinedValueName getDefinedValueName() {
+    return findChildByClass(SmiDefinedValueName.class);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getBinaryLiteral() {
+    return findChildByType(BINARY_LITERAL);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getHexadecimalLiteral() {
+    return findChildByType(HEXADECIMAL_LITERAL);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getIdentifierString() {
+    return findChildByType(IDENTIFIER_STRING);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getNumberLiteral() {
+    return findChildByType(NUMBER_LITERAL);
   }
 
 }

@@ -28,12 +28,6 @@ public class SmiSymbolImpl extends ASTWrapperPsiElement implements SmiSymbol {
 
   @Override
   @Nullable
-  public SmiDefinedMacroName getDefinedMacroName() {
-    return findChildByClass(SmiDefinedMacroName.class);
-  }
-
-  @Override
-  @Nullable
   public SmiSymbolName getSymbolName() {
     return findChildByClass(SmiSymbolName.class);
   }

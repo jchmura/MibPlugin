@@ -10,7 +10,7 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static pl.jakubchmura.snmp.mib.psi.SmiTypes.*;
 import pl.jakubchmura.snmp.mib.psi.*;
 
-public abstract class SmiBuiltinValueImpl extends SmiValueImpl implements SmiBuiltinValue {
+public class SmiBuiltinValueImpl extends SmiValueImpl implements SmiBuiltinValue {
 
   public SmiBuiltinValueImpl(ASTNode node) {
     super(node);
@@ -23,6 +23,30 @@ public abstract class SmiBuiltinValueImpl extends SmiValueImpl implements SmiBui
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof SmiVisitor) accept((SmiVisitor)visitor);
     else super.accept(visitor);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getBinaryLiteral() {
+    return findChildByType(BINARY_LITERAL);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getHexadecimalLiteral() {
+    return findChildByType(HEXADECIMAL_LITERAL);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getNumberLiteral() {
+    return findChildByType(NUMBER_LITERAL);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getStringLiteral() {
+    return findChildByType(STRING_LITERAL);
   }
 
 }

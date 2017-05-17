@@ -23,32 +23,11 @@ public class SmiParser implements PsiParser, LightPsiParser {
     boolean r;
     b = adapt_builder_(t, b, this, EXTENDS_SETS_);
     Marker m = enter_section_(b, 0, _COLLAPSE_, null);
-    if (t == ALPHABET_CONSTRAINT) {
-      r = alphabetConstraint(b, 0);
-    }
-    else if (t == ANY_TYPE) {
-      r = anyType(b, 0);
-    }
-    else if (t == ASSIGNMENT) {
+    if (t == ASSIGNMENT) {
       r = assignment(b, 0);
-    }
-    else if (t == BINARY_VALUE) {
-      r = binaryValue(b, 0);
     }
     else if (t == BIT_OR_OBJECT_IDENTIFIER_VALUE) {
       r = bitOrObjectIdentifierValue(b, 0);
-    }
-    else if (t == BIT_STRING_TYPE) {
-      r = bitStringType(b, 0);
-    }
-    else if (t == BITS_TYPE) {
-      r = bitsType(b, 0);
-    }
-    else if (t == BOOLEAN_TYPE) {
-      r = booleanType(b, 0);
-    }
-    else if (t == BOOLEAN_VALUE) {
-      r = booleanValue(b, 0);
     }
     else if (t == BUILTIN_TYPE) {
       r = builtinType(b, 0);
@@ -59,39 +38,6 @@ public class SmiParser implements PsiParser, LightPsiParser {
     else if (t == CHOICE_TYPE) {
       r = choiceType(b, 0);
     }
-    else if (t == CLASS_TYPE) {
-      r = classType(b, 0);
-    }
-    else if (t == COMPLIANCE_GROUP) {
-      r = complianceGroup(b, 0);
-    }
-    else if (t == COMPLIANCE_OBJECT) {
-      r = complianceObject(b, 0);
-    }
-    else if (t == COMPONENT_CONSTRAINT) {
-      r = componentConstraint(b, 0);
-    }
-    else if (t == COMPONENT_PRESENCE) {
-      r = componentPresence(b, 0);
-    }
-    else if (t == COMPONENT_VALUE_PRESENCE) {
-      r = componentValuePresence(b, 0);
-    }
-    else if (t == COMPONENTS_LIST) {
-      r = componentsList(b, 0);
-    }
-    else if (t == COMPONENTS_LIST_TAIL) {
-      r = componentsListTail(b, 0);
-    }
-    else if (t == CONSTRAINT) {
-      r = constraint(b, 0);
-    }
-    else if (t == CONTAINED_TYPE_CONSTRAINT) {
-      r = containedTypeConstraint(b, 0);
-    }
-    else if (t == DEFINED_MACRO_NAME) {
-      r = definedMacroName(b, 0);
-    }
     else if (t == DEFINED_MACRO_TYPE) {
       r = definedMacroType(b, 0);
     }
@@ -100,9 +46,6 @@ public class SmiParser implements PsiParser, LightPsiParser {
     }
     else if (t == DEFINED_TYPE_NAME) {
       r = definedTypeName(b, 0);
-    }
-    else if (t == DEFINED_VALUE) {
-      r = definedValue(b, 0);
     }
     else if (t == DEFINED_VALUE_NAME) {
       r = definedValueName(b, 0);
@@ -113,17 +56,8 @@ public class SmiParser implements PsiParser, LightPsiParser {
     else if (t == ELEMENT_TYPE_NAME) {
       r = elementTypeName(b, 0);
     }
-    else if (t == ENUMERATED_TYPE) {
-      r = enumeratedType(b, 0);
-    }
-    else if (t == EXPLICIT_OR_IMPLICIT_TAG) {
-      r = explicitOrImplicitTag(b, 0);
-    }
     else if (t == EXPORT_LIST) {
       r = exportList(b, 0);
-    }
-    else if (t == HEXADECIMAL_VALUE) {
-      r = hexadecimalValue(b, 0);
     }
     else if (t == IMPORT_LIST) {
       r = importList(b, 0);
@@ -134,32 +68,8 @@ public class SmiParser implements PsiParser, LightPsiParser {
     else if (t == INDEX_VALUE) {
       r = indexValue(b, 0);
     }
-    else if (t == INNER_TYPE_CONSTRAINT) {
-      r = innerTypeConstraint(b, 0);
-    }
-    else if (t == INTEGER_TYPE) {
-      r = integerType(b, 0);
-    }
-    else if (t == LOWER_END_POINT) {
-      r = lowerEndPoint(b, 0);
-    }
-    else if (t == MACRO_BODY) {
-      r = macroBody(b, 0);
-    }
-    else if (t == MACRO_BODY_ELEMENT) {
-      r = macroBodyElement(b, 0);
-    }
-    else if (t == MACRO_DEFINITION) {
-      r = macroDefinition(b, 0);
-    }
-    else if (t == MACRO_REFERENCE) {
-      r = macroReference(b, 0);
-    }
     else if (t == MIB_NODE) {
       r = mibNode(b, 0);
-    }
-    else if (t == MODULE_BODY) {
-      r = moduleBody(b, 0);
     }
     else if (t == MODULE_DEFINITION) {
       r = moduleDefinition(b, 0);
@@ -182,80 +92,11 @@ public class SmiParser implements PsiParser, LightPsiParser {
     else if (t == NAMED_NUMBER) {
       r = namedNumber(b, 0);
     }
-    else if (t == NULL_TYPE) {
-      r = nullType(b, 0);
-    }
-    else if (t == NULL_VALUE) {
-      r = nullValue(b, 0);
-    }
     else if (t == NUMBER) {
       r = number(b, 0);
     }
-    else if (t == NUMBER_VALUE) {
-      r = numberValue(b, 0);
-    }
-    else if (t == OBJECT_IDENTIFIER_TYPE) {
-      r = objectIdentifierType(b, 0);
-    }
-    else if (t == OBJECT_IDENTIFIER_VALUE) {
-      r = objectIdentifierValue(b, 0);
-    }
-    else if (t == OPTIONAL_OR_DEFAULT_ELEMENT) {
-      r = optionalOrDefaultElement(b, 0);
-    }
-    else if (t == REAL_TYPE) {
-      r = realType(b, 0);
-    }
-    else if (t == SELECTION_TYPE) {
-      r = selectionType(b, 0);
-    }
-    else if (t == SEQUENCE_OF_TYPE) {
-      r = sequenceOfType(b, 0);
-    }
-    else if (t == SEQUENCE_TYPE) {
-      r = sequenceType(b, 0);
-    }
-    else if (t == SET_OF_TYPE) {
-      r = setOfType(b, 0);
-    }
-    else if (t == SET_TYPE) {
-      r = setType(b, 0);
-    }
-    else if (t == SIZE_CONSTRAINT) {
-      r = sizeConstraint(b, 0);
-    }
-    else if (t == SNMP_ACCESS_PART) {
-      r = snmpAccessPart(b, 0);
-    }
     else if (t == SNMP_AGENT_CAPABILITIES_MACRO_TYPE) {
       r = snmpAgentCapabilitiesMacroType(b, 0);
-    }
-    else if (t == SNMP_COMPLIANCE_PART) {
-      r = snmpCompliancePart(b, 0);
-    }
-    else if (t == SNMP_CONTACT_PART) {
-      r = snmpContactPart(b, 0);
-    }
-    else if (t == SNMP_CREATION_PART) {
-      r = snmpCreationPart(b, 0);
-    }
-    else if (t == SNMP_DEF_VAL_PART) {
-      r = snmpDefValPart(b, 0);
-    }
-    else if (t == SNMP_DESCR_PART) {
-      r = snmpDescrPart(b, 0);
-    }
-    else if (t == SNMP_DISPLAY_PART) {
-      r = snmpDisplayPart(b, 0);
-    }
-    else if (t == SNMP_ENTERPRISE_PART) {
-      r = snmpEnterprisePart(b, 0);
-    }
-    else if (t == SNMP_INDEX_PART) {
-      r = snmpIndexPart(b, 0);
-    }
-    else if (t == SNMP_MANDATORY_PART) {
-      r = snmpMandatoryPart(b, 0);
     }
     else if (t == SNMP_MODULE_COMPLIANCE_MACRO_TYPE) {
       r = snmpModuleComplianceMacroType(b, 0);
@@ -263,23 +104,11 @@ public class SmiParser implements PsiParser, LightPsiParser {
     else if (t == SNMP_MODULE_IDENTITY_MACRO_TYPE) {
       r = snmpModuleIdentityMacroType(b, 0);
     }
-    else if (t == SNMP_MODULE_IMPORT) {
-      r = snmpModuleImport(b, 0);
-    }
-    else if (t == SNMP_MODULE_PART) {
-      r = snmpModulePart(b, 0);
-    }
-    else if (t == SNMP_MODULE_SUPPORT_PART) {
-      r = snmpModuleSupportPart(b, 0);
-    }
     else if (t == SNMP_NOTIFICATION_GROUP_MACRO_TYPE) {
       r = snmpNotificationGroupMacroType(b, 0);
     }
     else if (t == SNMP_NOTIFICATION_TYPE_MACRO_TYPE) {
       r = snmpNotificationTypeMacroType(b, 0);
-    }
-    else if (t == SNMP_NOTIFICATIONS_PART) {
-      r = snmpNotificationsPart(b, 0);
     }
     else if (t == SNMP_OBJECT_GROUP_MACRO_TYPE) {
       r = snmpObjectGroupMacroType(b, 0);
@@ -290,56 +119,11 @@ public class SmiParser implements PsiParser, LightPsiParser {
     else if (t == SNMP_OBJECT_TYPE_MACRO_TYPE) {
       r = snmpObjectTypeMacroType(b, 0);
     }
-    else if (t == SNMP_OBJECTS_PART) {
-      r = snmpObjectsPart(b, 0);
-    }
-    else if (t == SNMP_ORGANIZATION_PART) {
-      r = snmpOrganizationPart(b, 0);
-    }
-    else if (t == SNMP_PRODUCT_RELEASE_PART) {
-      r = snmpProductReleasePart(b, 0);
-    }
-    else if (t == SNMP_REFER_PART) {
-      r = snmpReferPart(b, 0);
-    }
-    else if (t == SNMP_REVISION_PART) {
-      r = snmpRevisionPart(b, 0);
-    }
-    else if (t == SNMP_STATUS_PART) {
-      r = snmpStatusPart(b, 0);
-    }
-    else if (t == SNMP_SYNTAX_PART) {
-      r = snmpSyntaxPart(b, 0);
-    }
     else if (t == SNMP_TEXTUAL_CONVENTION_MACRO_TYPE) {
       r = snmpTextualConventionMacroType(b, 0);
     }
     else if (t == SNMP_TRAP_TYPE_MACRO_TYPE) {
       r = snmpTrapTypeMacroType(b, 0);
-    }
-    else if (t == SNMP_UNITS_PART) {
-      r = snmpUnitsPart(b, 0);
-    }
-    else if (t == SNMP_UPDATE_PART) {
-      r = snmpUpdatePart(b, 0);
-    }
-    else if (t == SNMP_VAR_PART) {
-      r = snmpVarPart(b, 0);
-    }
-    else if (t == SNMP_VARIATION_PART) {
-      r = snmpVariationPart(b, 0);
-    }
-    else if (t == SNMP_WRITE_SYNTAX_PART) {
-      r = snmpWriteSyntaxPart(b, 0);
-    }
-    else if (t == SPECIAL_REAL_VALUE) {
-      r = specialRealValue(b, 0);
-    }
-    else if (t == STRING_TYPE) {
-      r = stringType(b, 0);
-    }
-    else if (t == STRING_VALUE) {
-      r = stringValue(b, 0);
     }
     else if (t == SYMBOL) {
       r = symbol(b, 0);
@@ -350,15 +134,6 @@ public class SmiParser implements PsiParser, LightPsiParser {
     else if (t == SYMBOLS_FROM_MODULE) {
       r = symbolsFromModule(b, 0);
     }
-    else if (t == TAG) {
-      r = tag(b, 0);
-    }
-    else if (t == TAG_DEFAULT) {
-      r = tagDefault(b, 0);
-    }
-    else if (t == TAGGED_TYPE) {
-      r = taggedType(b, 0);
-    }
     else if (t == TYPE) {
       r = type(b, 0);
     }
@@ -368,23 +143,11 @@ public class SmiParser implements PsiParser, LightPsiParser {
     else if (t == TYPE_NAME) {
       r = typeName(b, 0);
     }
-    else if (t == UPPER_END_POINT) {
-      r = upperEndPoint(b, 0);
-    }
     else if (t == VALUE) {
       r = value(b, 0);
     }
     else if (t == VALUE_ASSIGNMENT) {
       r = valueAssignment(b, 0);
-    }
-    else if (t == VALUE_CONSTRAINT) {
-      r = valueConstraint(b, 0);
-    }
-    else if (t == VALUE_OR_CONSTRAINT_LIST) {
-      r = valueOrConstraintList(b, 0);
-    }
-    else if (t == VALUE_RANGE) {
-      r = valueRange(b, 0);
     }
     else {
       r = parse_root_(t, b, 0);
@@ -397,42 +160,36 @@ public class SmiParser implements PsiParser, LightPsiParser {
   }
 
   public static final TokenSet[] EXTENDS_SETS_ = new TokenSet[] {
-    create_token_set_(BINARY_VALUE, BIT_OR_OBJECT_IDENTIFIER_VALUE, BOOLEAN_VALUE, BUILTIN_VALUE,
-      DEFINED_VALUE, DEFINED_VALUE_NAME, HEXADECIMAL_VALUE, NULL_VALUE,
-      NUMBER_VALUE, SPECIAL_REAL_VALUE, STRING_VALUE, VALUE),
-    create_token_set_(ANY_TYPE, BITS_TYPE, BIT_STRING_TYPE, BOOLEAN_TYPE,
-      BUILTIN_TYPE, CHOICE_TYPE, DEFINED_MACRO_TYPE, DEFINED_TYPE,
-      ENUMERATED_TYPE, INTEGER_TYPE, NULL_TYPE, OBJECT_IDENTIFIER_TYPE,
-      REAL_TYPE, SELECTION_TYPE, SEQUENCE_OF_TYPE, SEQUENCE_TYPE,
-      SET_OF_TYPE, SET_TYPE, SNMP_AGENT_CAPABILITIES_MACRO_TYPE, SNMP_MODULE_COMPLIANCE_MACRO_TYPE,
+    create_token_set_(BIT_OR_OBJECT_IDENTIFIER_VALUE, BUILTIN_VALUE, DEFINED_VALUE_NAME, VALUE),
+    create_token_set_(CHOICE_TYPE, DEFINED_MACRO_TYPE, SNMP_AGENT_CAPABILITIES_MACRO_TYPE, SNMP_MODULE_COMPLIANCE_MACRO_TYPE,
       SNMP_MODULE_IDENTITY_MACRO_TYPE, SNMP_NOTIFICATION_GROUP_MACRO_TYPE, SNMP_NOTIFICATION_TYPE_MACRO_TYPE, SNMP_OBJECT_GROUP_MACRO_TYPE,
       SNMP_OBJECT_IDENTITY_MACRO_TYPE, SNMP_OBJECT_TYPE_MACRO_TYPE, SNMP_TEXTUAL_CONVENTION_MACRO_TYPE, SNMP_TRAP_TYPE_MACRO_TYPE,
-      STRING_TYPE, TAGGED_TYPE, TYPE),
+      TYPE),
   };
 
   /* ********************************************************** */
   // FROM valueConstraintList
-  public static boolean alphabetConstraint(PsiBuilder b, int l) {
+  static boolean alphabetConstraint(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "alphabetConstraint")) return false;
     if (!nextTokenIs(b, FROM)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, FROM);
     r = r && valueConstraintList(b, l + 1);
-    exit_section_(b, m, ALPHABET_CONSTRAINT, r);
+    exit_section_(b, m, null, r);
     return r;
   }
 
   /* ********************************************************** */
   // ANY | (ANY DEFINED BY IDENTIFIER_STRING)
-  public static boolean anyType(PsiBuilder b, int l) {
+  static boolean anyType(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "anyType")) return false;
     if (!nextTokenIs(b, ANY)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, ANY);
     if (!r) r = anyType_1(b, l + 1);
-    exit_section_(b, m, ANY_TYPE, r);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -531,14 +288,8 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // BINARY_LITERAL
-  public static boolean binaryValue(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "binaryValue")) return false;
-    if (!nextTokenIs(b, BINARY_LITERAL)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, BINARY_LITERAL);
-    exit_section_(b, m, BINARY_VALUE, r);
-    return r;
+  static boolean binaryValue(PsiBuilder b, int l) {
+    return consumeToken(b, BINARY_LITERAL);
   }
 
   /* ********************************************************** */
@@ -555,14 +306,14 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // BIT_STRING valueOrConstraintList?
-  public static boolean bitStringType(PsiBuilder b, int l) {
+  static boolean bitStringType(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "bitStringType")) return false;
     if (!nextTokenIs(b, BIT_STRING)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, BIT_STRING);
     r = r && bitStringType_1(b, l + 1);
-    exit_section_(b, m, BIT_STRING_TYPE, r);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -575,14 +326,14 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // BITS valueOrConstraintList?
-  public static boolean bitsType(PsiBuilder b, int l) {
+  static boolean bitsType(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "bitsType")) return false;
     if (!nextTokenIs(b, BITS)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, BITS);
     r = r && bitsType_1(b, l + 1);
-    exit_section_(b, m, BITS_TYPE, r);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -595,26 +346,20 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // BOOLEAN
-  public static boolean booleanType(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "booleanType")) return false;
-    if (!nextTokenIs(b, BOOLEAN)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, BOOLEAN);
-    exit_section_(b, m, BOOLEAN_TYPE, r);
-    return r;
+  static boolean booleanType(PsiBuilder b, int l) {
+    return consumeToken(b, BOOLEAN);
   }
 
   /* ********************************************************** */
   // TRUE | FALSE
-  public static boolean booleanValue(PsiBuilder b, int l) {
+  static boolean booleanValue(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "booleanValue")) return false;
-    if (!nextTokenIs(b, "<boolean value>", FALSE, TRUE)) return false;
+    if (!nextTokenIs(b, "", FALSE, TRUE)) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, BOOLEAN_VALUE, "<boolean value>");
+    Marker m = enter_section_(b);
     r = consumeToken(b, TRUE);
     if (!r) r = consumeToken(b, FALSE);
-    exit_section_(b, l, m, r, false, null);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -625,7 +370,7 @@ public class SmiParser implements PsiParser, LightPsiParser {
   public static boolean builtinType(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "builtinType")) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _COLLAPSE_, BUILTIN_TYPE, "<builtin type>");
+    Marker m = enter_section_(b, l, _NONE_, BUILTIN_TYPE, "<builtin type>");
     r = nullType(b, l + 1);
     if (!r) r = booleanType(b, l + 1);
     if (!r) r = realType(b, l + 1);
@@ -682,14 +427,14 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // UNIVERSAL | APPLICATION | "PRIVATE"
-  public static boolean classType(PsiBuilder b, int l) {
+  static boolean classType(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "classType")) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, CLASS_TYPE, "<class type>");
+    Marker m = enter_section_(b);
     r = consumeToken(b, UNIVERSAL);
     if (!r) r = consumeToken(b, APPLICATION);
     if (!r) r = consumeToken(b, PRIVATE);
-    exit_section_(b, l, m, r, false, null);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -730,7 +475,7 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // GROUP value snmpDescrPart
-  public static boolean complianceGroup(PsiBuilder b, int l) {
+  static boolean complianceGroup(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "complianceGroup")) return false;
     if (!nextTokenIs(b, GROUP)) return false;
     boolean r;
@@ -738,13 +483,13 @@ public class SmiParser implements PsiParser, LightPsiParser {
     r = consumeToken(b, GROUP);
     r = r && value(b, l + 1);
     r = r && snmpDescrPart(b, l + 1);
-    exit_section_(b, m, COMPLIANCE_GROUP, r);
+    exit_section_(b, m, null, r);
     return r;
   }
 
   /* ********************************************************** */
   // OBJECT value snmpSyntaxPart? snmpWriteSyntaxPart? snmpAccessPart? snmpDescrPart
-  public static boolean complianceObject(PsiBuilder b, int l) {
+  static boolean complianceObject(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "complianceObject")) return false;
     if (!nextTokenIs(b, OBJECT)) return false;
     boolean r;
@@ -755,7 +500,7 @@ public class SmiParser implements PsiParser, LightPsiParser {
     r = r && complianceObject_3(b, l + 1);
     r = r && complianceObject_4(b, l + 1);
     r = r && snmpDescrPart(b, l + 1);
-    exit_section_(b, m, COMPLIANCE_OBJECT, r);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -782,14 +527,14 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // (IDENTIFIER_STRING componentValuePresence?) componentValuePresence
-  public static boolean componentConstraint(PsiBuilder b, int l) {
+  static boolean componentConstraint(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "componentConstraint")) return false;
     if (!nextTokenIs(b, IDENTIFIER_STRING)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = componentConstraint_0(b, l + 1);
     r = r && componentValuePresence(b, l + 1);
-    exit_section_(b, m, COMPONENT_CONSTRAINT, r);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -813,26 +558,26 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // PRESENT | ABSENT | OPTIONAL
-  public static boolean componentPresence(PsiBuilder b, int l) {
+  static boolean componentPresence(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "componentPresence")) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, COMPONENT_PRESENCE, "<component presence>");
+    Marker m = enter_section_(b);
     r = consumeToken(b, PRESENT);
     if (!r) r = consumeToken(b, ABSENT);
     if (!r) r = consumeToken(b, OPTIONAL);
-    exit_section_(b, l, m, r, false, null);
+    exit_section_(b, m, null, r);
     return r;
   }
 
   /* ********************************************************** */
   // (valueOrConstraintList componentPresence?) | componentPresence
-  public static boolean componentValuePresence(PsiBuilder b, int l) {
+  static boolean componentValuePresence(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "componentValuePresence")) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, COMPONENT_VALUE_PRESENCE, "<component value presence>");
+    Marker m = enter_section_(b);
     r = componentValuePresence_0(b, l + 1);
     if (!r) r = componentPresence(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -856,14 +601,14 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // (LEFT_BRACE componentConstraint componentsListTail* RIGHT_BRACE) | (LEFT_BRACE TRIPLE_DOT componentsListTail+ RIGHT_BRACE)
-  public static boolean componentsList(PsiBuilder b, int l) {
+  static boolean componentsList(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "componentsList")) return false;
     if (!nextTokenIs(b, LEFT_BRACE)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = componentsList_0(b, l + 1);
     if (!r) r = componentsList_1(b, l + 1);
-    exit_section_(b, m, COMPONENTS_LIST, r);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -922,14 +667,14 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // COMMA componentConstraint?
-  public static boolean componentsListTail(PsiBuilder b, int l) {
+  static boolean componentsListTail(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "componentsListTail")) return false;
     if (!nextTokenIs(b, COMMA)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, COMMA);
     r = r && componentsListTail_1(b, l + 1);
-    exit_section_(b, m, COMPONENTS_LIST_TAIL, r);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -942,16 +687,16 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // valueConstraint | sizeConstraint | alphabetConstraint | containedTypeConstraint | innerTypeConstraint
-  public static boolean constraint(PsiBuilder b, int l) {
+  static boolean constraint(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "constraint")) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, CONSTRAINT, "<constraint>");
+    Marker m = enter_section_(b);
     r = valueConstraint(b, l + 1);
     if (!r) r = sizeConstraint(b, l + 1);
     if (!r) r = alphabetConstraint(b, l + 1);
     if (!r) r = containedTypeConstraint(b, l + 1);
     if (!r) r = innerTypeConstraint(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -971,23 +716,23 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // INCLUDES type
-  public static boolean containedTypeConstraint(PsiBuilder b, int l) {
+  static boolean containedTypeConstraint(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "containedTypeConstraint")) return false;
     if (!nextTokenIs(b, INCLUDES)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, INCLUDES);
     r = r && type(b, l + 1);
-    exit_section_(b, m, CONTAINED_TYPE_CONSTRAINT, r);
+    exit_section_(b, m, null, r);
     return r;
   }
 
   /* ********************************************************** */
   // MODULE_IDENTITY | OBJECT_IDENTITY | OBJECT_TYPE | NOTIFICATION_TYPE | TRAP_TYPE | TEXTUAL_CONVENTION | OBJECT_GROUP | NOTIFICATION_GROUP | MODULE_COMPLIANCE | AGENT_CAPABILITIES
-  public static boolean definedMacroName(PsiBuilder b, int l) {
+  static boolean definedMacroName(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "definedMacroName")) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, DEFINED_MACRO_NAME, "<defined macro name>");
+    Marker m = enter_section_(b);
     r = consumeToken(b, MODULE_IDENTITY);
     if (!r) r = consumeToken(b, OBJECT_IDENTITY);
     if (!r) r = consumeToken(b, OBJECT_TYPE);
@@ -998,7 +743,7 @@ public class SmiParser implements PsiParser, LightPsiParser {
     if (!r) r = consumeToken(b, NOTIFICATION_GROUP);
     if (!r) r = consumeToken(b, MODULE_COMPLIANCE);
     if (!r) r = consumeToken(b, AGENT_CAPABILITIES);
-    exit_section_(b, l, m, r, false, null);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -1067,14 +812,14 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // moduleReference? definedValueName
-  public static boolean definedValue(PsiBuilder b, int l) {
+  static boolean definedValue(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "definedValue")) return false;
     if (!nextTokenIs(b, IDENTIFIER_STRING)) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _COLLAPSE_, DEFINED_VALUE, null);
+    Marker m = enter_section_(b);
     r = definedValue_0(b, l + 1);
     r = r && definedValueName(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -1185,27 +930,27 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // ENUMERATED namedNumberList
-  public static boolean enumeratedType(PsiBuilder b, int l) {
+  static boolean enumeratedType(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "enumeratedType")) return false;
     if (!nextTokenIs(b, ENUMERATED)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, ENUMERATED);
     r = r && namedNumberList(b, l + 1);
-    exit_section_(b, m, ENUMERATED_TYPE, r);
+    exit_section_(b, m, null, r);
     return r;
   }
 
   /* ********************************************************** */
   // EXPLICIT | IMPLICIT
-  public static boolean explicitOrImplicitTag(PsiBuilder b, int l) {
+  static boolean explicitOrImplicitTag(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "explicitOrImplicitTag")) return false;
-    if (!nextTokenIs(b, "<explicit or implicit tag>", EXPLICIT, IMPLICIT)) return false;
+    if (!nextTokenIs(b, "", EXPLICIT, IMPLICIT)) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, EXPLICIT_OR_IMPLICIT_TAG, "<explicit or implicit tag>");
+    Marker m = enter_section_(b);
     r = consumeToken(b, EXPLICIT);
     if (!r) r = consumeToken(b, IMPLICIT);
-    exit_section_(b, l, m, r, false, null);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -1232,14 +977,8 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // HEXADECIMAL_LITERAL
-  public static boolean hexadecimalValue(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "hexadecimalValue")) return false;
-    if (!nextTokenIs(b, HEXADECIMAL_LITERAL)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, HEXADECIMAL_LITERAL);
-    exit_section_(b, m, HEXADECIMAL_VALUE, r);
-    return r;
+  static boolean hexadecimalValue(PsiBuilder b, int l) {
+    return consumeToken(b, HEXADECIMAL_LITERAL);
   }
 
   /* ********************************************************** */
@@ -1313,14 +1052,14 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // (WITH COMPONENTS valueOrConstraintList) | (WITH COMPONENTS componentsList)
-  public static boolean innerTypeConstraint(PsiBuilder b, int l) {
+  static boolean innerTypeConstraint(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "innerTypeConstraint")) return false;
     if (!nextTokenIs(b, WITH)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = innerTypeConstraint_0(b, l + 1);
     if (!r) r = innerTypeConstraint_1(b, l + 1);
-    exit_section_(b, m, INNER_TYPE_CONSTRAINT, r);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -1348,14 +1087,14 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // INTEGER valueOrConstraintList?
-  public static boolean integerType(PsiBuilder b, int l) {
+  static boolean integerType(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "integerType")) return false;
     if (!nextTokenIs(b, INTEGER)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, INTEGER);
     r = r && integerType_1(b, l + 1);
-    exit_section_(b, m, INTEGER_TYPE, r);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -1368,26 +1107,26 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // value | MIN
-  public static boolean lowerEndPoint(PsiBuilder b, int l) {
+  static boolean lowerEndPoint(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "lowerEndPoint")) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, LOWER_END_POINT, "<lower end point>");
+    Marker m = enter_section_(b);
     r = value(b, l + 1);
     if (!r) r = consumeToken(b, MIN);
-    exit_section_(b, l, m, r, false, null);
+    exit_section_(b, m, null, r);
     return r;
   }
 
   /* ********************************************************** */
   // (BEGIN macroBodyElement* END) | (moduleReference macroReference)
-  public static boolean macroBody(PsiBuilder b, int l) {
+  static boolean macroBody(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "macroBody")) return false;
-    if (!nextTokenIs(b, "<macro body>", BEGIN, IDENTIFIER_STRING)) return false;
+    if (!nextTokenIs(b, "", BEGIN, IDENTIFIER_STRING)) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, MACRO_BODY, "<macro body>");
+    Marker m = enter_section_(b);
     r = macroBody_0(b, l + 1);
     if (!r) r = macroBody_1(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -1428,10 +1167,10 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // LEFT_PAREN|RIGHT_PAREN|VERTICAL_BAR|DEFINITION|INTEGER|REAL|BOOLEAN|NULL|BIT|OCTET|STRING|OBJECT|IDENTIFIER|IDENTIFIER_STRING|STRING_LITERAL|OBJECT_IDENTIFIER
-  public static boolean macroBodyElement(PsiBuilder b, int l) {
+  static boolean macroBodyElement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "macroBodyElement")) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, MACRO_BODY_ELEMENT, "<macro body element>");
+    Marker m = enter_section_(b);
     r = consumeToken(b, LEFT_PAREN);
     if (!r) r = consumeToken(b, RIGHT_PAREN);
     if (!r) r = consumeToken(b, VERTICAL_BAR);
@@ -1448,32 +1187,32 @@ public class SmiParser implements PsiParser, LightPsiParser {
     if (!r) r = consumeToken(b, IDENTIFIER_STRING);
     if (!r) r = consumeToken(b, STRING_LITERAL);
     if (!r) r = consumeToken(b, OBJECT_IDENTIFIER);
-    exit_section_(b, l, m, r, false, null);
+    exit_section_(b, m, null, r);
     return r;
   }
 
   /* ********************************************************** */
   // macroReference MACRO DEFINITION macroBody
-  public static boolean macroDefinition(PsiBuilder b, int l) {
+  static boolean macroDefinition(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "macroDefinition")) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, MACRO_DEFINITION, "<macro definition>");
+    Marker m = enter_section_(b);
     r = macroReference(b, l + 1);
     r = r && consumeTokens(b, 0, MACRO, DEFINITION);
     r = r && macroBody(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
+    exit_section_(b, m, null, r);
     return r;
   }
 
   /* ********************************************************** */
   // IDENTIFIER_STRING | definedMacroName
-  public static boolean macroReference(PsiBuilder b, int l) {
+  static boolean macroReference(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "macroReference")) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, MACRO_REFERENCE, "<macro reference>");
+    Marker m = enter_section_(b);
     r = consumeToken(b, IDENTIFIER_STRING);
     if (!r) r = definedMacroName(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -1509,14 +1248,14 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // exportList? importList? assignmentList
-  public static boolean moduleBody(PsiBuilder b, int l) {
+  static boolean moduleBody(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "moduleBody")) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, MODULE_BODY, "<module body>");
+    Marker m = enter_section_(b);
     r = moduleBody_0(b, l + 1);
     r = r && moduleBody_1(b, l + 1);
     r = r && assignmentList(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -1765,26 +1504,14 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // NULL
-  public static boolean nullType(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "nullType")) return false;
-    if (!nextTokenIs(b, NULL)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, NULL);
-    exit_section_(b, m, NULL_TYPE, r);
-    return r;
+  static boolean nullType(PsiBuilder b, int l) {
+    return consumeToken(b, NULL);
   }
 
   /* ********************************************************** */
   // NULL
-  public static boolean nullValue(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "nullValue")) return false;
-    if (!nextTokenIs(b, NULL)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, NULL);
-    exit_section_(b, m, NULL_VALUE, r);
-    return r;
+  static boolean nullValue(PsiBuilder b, int l) {
+    return consumeToken(b, NULL);
   }
 
   /* ********************************************************** */
@@ -1803,14 +1530,14 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // "-"? NUMBER_LITERAL
-  public static boolean numberValue(PsiBuilder b, int l) {
+  static boolean numberValue(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "numberValue")) return false;
-    if (!nextTokenIs(b, "<number value>", MINUS, NUMBER_LITERAL)) return false;
+    if (!nextTokenIs(b, "", MINUS, NUMBER_LITERAL)) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, NUMBER_VALUE, "<number value>");
+    Marker m = enter_section_(b);
     r = numberValue_0(b, l + 1);
     r = r && consumeToken(b, NUMBER_LITERAL);
-    exit_section_(b, l, m, r, false, null);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -1823,38 +1550,26 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // OBJECT_IDENTIFIER
-  public static boolean objectIdentifierType(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "objectIdentifierType")) return false;
-    if (!nextTokenIs(b, OBJECT_IDENTIFIER)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, OBJECT_IDENTIFIER);
-    exit_section_(b, m, OBJECT_IDENTIFIER_TYPE, r);
-    return r;
+  static boolean objectIdentifierType(PsiBuilder b, int l) {
+    return consumeToken(b, OBJECT_IDENTIFIER);
   }
 
   /* ********************************************************** */
   // nameValueList
-  public static boolean objectIdentifierValue(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "objectIdentifierValue")) return false;
-    if (!nextTokenIs(b, LEFT_BRACE)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = nameValueList(b, l + 1);
-    exit_section_(b, m, OBJECT_IDENTIFIER_VALUE, r);
-    return r;
+  static boolean objectIdentifierValue(PsiBuilder b, int l) {
+    return nameValueList(b, l + 1);
   }
 
   /* ********************************************************** */
   // OPTIONAL | (DEFAULT IDENTIFIER_STRING? value)
-  public static boolean optionalOrDefaultElement(PsiBuilder b, int l) {
+  static boolean optionalOrDefaultElement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "optionalOrDefaultElement")) return false;
-    if (!nextTokenIs(b, "<optional or default element>", DEFAULT, OPTIONAL)) return false;
+    if (!nextTokenIs(b, "", DEFAULT, OPTIONAL)) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, OPTIONAL_OR_DEFAULT_ELEMENT, "<optional or default element>");
+    Marker m = enter_section_(b);
     r = consumeToken(b, OPTIONAL);
     if (!r) r = optionalOrDefaultElement_1(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -1879,32 +1594,26 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // REAL
-  public static boolean realType(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "realType")) return false;
-    if (!nextTokenIs(b, REAL)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, REAL);
-    exit_section_(b, m, REAL_TYPE, r);
-    return r;
+  static boolean realType(PsiBuilder b, int l) {
+    return consumeToken(b, REAL);
   }
 
   /* ********************************************************** */
   // IDENTIFIER_STRING LESS_THAN type
-  public static boolean selectionType(PsiBuilder b, int l) {
+  static boolean selectionType(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "selectionType")) return false;
     if (!nextTokenIs(b, IDENTIFIER_STRING)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeTokens(b, 0, IDENTIFIER_STRING, LESS_THAN);
     r = r && type(b, l + 1);
-    exit_section_(b, m, SELECTION_TYPE, r);
+    exit_section_(b, m, null, r);
     return r;
   }
 
   /* ********************************************************** */
   // SEQUENCE constraintList? OF type
-  public static boolean sequenceOfType(PsiBuilder b, int l) {
+  static boolean sequenceOfType(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "sequenceOfType")) return false;
     if (!nextTokenIs(b, SEQUENCE)) return false;
     boolean r;
@@ -1913,7 +1622,7 @@ public class SmiParser implements PsiParser, LightPsiParser {
     r = r && sequenceOfType_1(b, l + 1);
     r = r && consumeToken(b, OF);
     r = r && type(b, l + 1);
-    exit_section_(b, m, SEQUENCE_OF_TYPE, r);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -1926,7 +1635,7 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // SEQUENCE LEFT_BRACE elementTypeList? RIGHT_BRACE
-  public static boolean sequenceType(PsiBuilder b, int l) {
+  static boolean sequenceType(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "sequenceType")) return false;
     if (!nextTokenIs(b, SEQUENCE)) return false;
     boolean r;
@@ -1934,7 +1643,7 @@ public class SmiParser implements PsiParser, LightPsiParser {
     r = consumeTokens(b, 0, SEQUENCE, LEFT_BRACE);
     r = r && sequenceType_2(b, l + 1);
     r = r && consumeToken(b, RIGHT_BRACE);
-    exit_section_(b, m, SEQUENCE_TYPE, r);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -1947,7 +1656,7 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // SET sizeConstraint? OF type
-  public static boolean setOfType(PsiBuilder b, int l) {
+  static boolean setOfType(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "setOfType")) return false;
     if (!nextTokenIs(b, SET)) return false;
     boolean r;
@@ -1956,7 +1665,7 @@ public class SmiParser implements PsiParser, LightPsiParser {
     r = r && setOfType_1(b, l + 1);
     r = r && consumeToken(b, OF);
     r = r && type(b, l + 1);
-    exit_section_(b, m, SET_OF_TYPE, r);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -1969,7 +1678,7 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // SET LEFT_BRACE elementTypeList? RIGHT_BRACE
-  public static boolean setType(PsiBuilder b, int l) {
+  static boolean setType(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "setType")) return false;
     if (!nextTokenIs(b, SET)) return false;
     boolean r;
@@ -1977,7 +1686,7 @@ public class SmiParser implements PsiParser, LightPsiParser {
     r = consumeTokens(b, 0, SET, LEFT_BRACE);
     r = r && setType_2(b, l + 1);
     r = r && consumeToken(b, RIGHT_BRACE);
-    exit_section_(b, m, SET_TYPE, r);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -1990,27 +1699,27 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // SIZE valueConstraintList
-  public static boolean sizeConstraint(PsiBuilder b, int l) {
+  static boolean sizeConstraint(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "sizeConstraint")) return false;
     if (!nextTokenIs(b, SIZE)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, SIZE);
     r = r && valueConstraintList(b, l + 1);
-    exit_section_(b, m, SIZE_CONSTRAINT, r);
+    exit_section_(b, m, null, r);
     return r;
   }
 
   /* ********************************************************** */
   // (ACCESS IDENTIFIER_STRING) | (MAX_ACCESS IDENTIFIER_STRING) | (MIN_ACCESS IDENTIFIER_STRING)
-  public static boolean snmpAccessPart(PsiBuilder b, int l) {
+  static boolean snmpAccessPart(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "snmpAccessPart")) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, SNMP_ACCESS_PART, "<snmp access part>");
+    Marker m = enter_section_(b);
     r = snmpAccessPart_0(b, l + 1);
     if (!r) r = snmpAccessPart_1(b, l + 1);
     if (!r) r = snmpAccessPart_2(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -2087,32 +1796,32 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // complianceGroup | complianceObject
-  public static boolean snmpCompliancePart(PsiBuilder b, int l) {
+  static boolean snmpCompliancePart(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "snmpCompliancePart")) return false;
-    if (!nextTokenIs(b, "<snmp compliance part>", GROUP, OBJECT)) return false;
+    if (!nextTokenIs(b, "", GROUP, OBJECT)) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, SNMP_COMPLIANCE_PART, "<snmp compliance part>");
+    Marker m = enter_section_(b);
     r = complianceGroup(b, l + 1);
     if (!r) r = complianceObject(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
+    exit_section_(b, m, null, r);
     return r;
   }
 
   /* ********************************************************** */
   // CONTACT_INFO STRING_LITERAL
-  public static boolean snmpContactPart(PsiBuilder b, int l) {
+  static boolean snmpContactPart(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "snmpContactPart")) return false;
     if (!nextTokenIs(b, CONTACT_INFO)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeTokens(b, 0, CONTACT_INFO, STRING_LITERAL);
-    exit_section_(b, m, SNMP_CONTACT_PART, r);
+    exit_section_(b, m, null, r);
     return r;
   }
 
   /* ********************************************************** */
   // CREATION_REQUIRES LEFT_BRACE valueList RIGHT_BRACE
-  public static boolean snmpCreationPart(PsiBuilder b, int l) {
+  static boolean snmpCreationPart(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "snmpCreationPart")) return false;
     if (!nextTokenIs(b, CREATION_REQUIRES)) return false;
     boolean r;
@@ -2120,13 +1829,13 @@ public class SmiParser implements PsiParser, LightPsiParser {
     r = consumeTokens(b, 0, CREATION_REQUIRES, LEFT_BRACE);
     r = r && valueList(b, l + 1);
     r = r && consumeToken(b, RIGHT_BRACE);
-    exit_section_(b, m, SNMP_CREATION_PART, r);
+    exit_section_(b, m, null, r);
     return r;
   }
 
   /* ********************************************************** */
   // DEFVAL LEFT_BRACE value RIGHT_BRACE
-  public static boolean snmpDefValPart(PsiBuilder b, int l) {
+  static boolean snmpDefValPart(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "snmpDefValPart")) return false;
     if (!nextTokenIs(b, DEFVAL)) return false;
     boolean r;
@@ -2134,57 +1843,57 @@ public class SmiParser implements PsiParser, LightPsiParser {
     r = consumeTokens(b, 0, DEFVAL, LEFT_BRACE);
     r = r && value(b, l + 1);
     r = r && consumeToken(b, RIGHT_BRACE);
-    exit_section_(b, m, SNMP_DEF_VAL_PART, r);
+    exit_section_(b, m, null, r);
     return r;
   }
 
   /* ********************************************************** */
   // DESCRIPTION STRING_LITERAL
-  public static boolean snmpDescrPart(PsiBuilder b, int l) {
+  static boolean snmpDescrPart(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "snmpDescrPart")) return false;
     if (!nextTokenIs(b, DESCRIPTION)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeTokens(b, 0, DESCRIPTION, STRING_LITERAL);
-    exit_section_(b, m, SNMP_DESCR_PART, r);
+    exit_section_(b, m, null, r);
     return r;
   }
 
   /* ********************************************************** */
   // DISPLAY_HINT STRING_LITERAL
-  public static boolean snmpDisplayPart(PsiBuilder b, int l) {
+  static boolean snmpDisplayPart(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "snmpDisplayPart")) return false;
     if (!nextTokenIs(b, DISPLAY_HINT)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeTokens(b, 0, DISPLAY_HINT, STRING_LITERAL);
-    exit_section_(b, m, SNMP_DISPLAY_PART, r);
+    exit_section_(b, m, null, r);
     return r;
   }
 
   /* ********************************************************** */
   // ENTERPRISE value
-  public static boolean snmpEnterprisePart(PsiBuilder b, int l) {
+  static boolean snmpEnterprisePart(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "snmpEnterprisePart")) return false;
     if (!nextTokenIs(b, ENTERPRISE)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, ENTERPRISE);
     r = r && value(b, l + 1);
-    exit_section_(b, m, SNMP_ENTERPRISE_PART, r);
+    exit_section_(b, m, null, r);
     return r;
   }
 
   /* ********************************************************** */
   // (INDEX LEFT_BRACE indexValueList RIGHT_BRACE) | (AUGMENTS LEFT_BRACE value RIGHT_BRACE)
-  public static boolean snmpIndexPart(PsiBuilder b, int l) {
+  static boolean snmpIndexPart(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "snmpIndexPart")) return false;
-    if (!nextTokenIs(b, "<snmp index part>", AUGMENTS, INDEX)) return false;
+    if (!nextTokenIs(b, "", AUGMENTS, INDEX)) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, SNMP_INDEX_PART, "<snmp index part>");
+    Marker m = enter_section_(b);
     r = snmpIndexPart_0(b, l + 1);
     if (!r) r = snmpIndexPart_1(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -2214,7 +1923,7 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // MANDATORY_GROUPS LEFT_BRACE valueList RIGHT_BRACE
-  public static boolean snmpMandatoryPart(PsiBuilder b, int l) {
+  static boolean snmpMandatoryPart(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "snmpMandatoryPart")) return false;
     if (!nextTokenIs(b, MANDATORY_GROUPS)) return false;
     boolean r;
@@ -2222,7 +1931,7 @@ public class SmiParser implements PsiParser, LightPsiParser {
     r = consumeTokens(b, 0, MANDATORY_GROUPS, LEFT_BRACE);
     r = r && valueList(b, l + 1);
     r = r && consumeToken(b, RIGHT_BRACE);
-    exit_section_(b, m, SNMP_MANDATORY_PART, r);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -2305,19 +2014,13 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // moduleIdentifier
-  public static boolean snmpModuleImport(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "snmpModuleImport")) return false;
-    if (!nextTokenIs(b, IDENTIFIER_STRING)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = moduleIdentifier(b, l + 1);
-    exit_section_(b, m, SNMP_MODULE_IMPORT, r);
-    return r;
+  static boolean snmpModuleImport(PsiBuilder b, int l) {
+    return moduleIdentifier(b, l + 1);
   }
 
   /* ********************************************************** */
   // MODULE snmpModuleImport? snmpMandatoryPart? snmpCompliancePart*
-  public static boolean snmpModulePart(PsiBuilder b, int l) {
+  static boolean snmpModulePart(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "snmpModulePart")) return false;
     if (!nextTokenIs(b, MODULE)) return false;
     boolean r;
@@ -2326,7 +2029,7 @@ public class SmiParser implements PsiParser, LightPsiParser {
     r = r && snmpModulePart_1(b, l + 1);
     r = r && snmpModulePart_2(b, l + 1);
     r = r && snmpModulePart_3(b, l + 1);
-    exit_section_(b, m, SNMP_MODULE_PART, r);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -2358,7 +2061,7 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // SUPPORTS snmpModuleImport INCLUDES LEFT_BRACE valueList RIGHT_BRACE snmpVariationPart*
-  public static boolean snmpModuleSupportPart(PsiBuilder b, int l) {
+  static boolean snmpModuleSupportPart(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "snmpModuleSupportPart")) return false;
     if (!nextTokenIs(b, SUPPORTS)) return false;
     boolean r;
@@ -2369,7 +2072,7 @@ public class SmiParser implements PsiParser, LightPsiParser {
     r = r && valueList(b, l + 1);
     r = r && consumeToken(b, RIGHT_BRACE);
     r = r && snmpModuleSupportPart_6(b, l + 1);
-    exit_section_(b, m, SNMP_MODULE_SUPPORT_PART, r);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -2448,7 +2151,7 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // NOTIFICATIONS LEFT_BRACE valueList RIGHT_BRACE
-  public static boolean snmpNotificationsPart(PsiBuilder b, int l) {
+  static boolean snmpNotificationsPart(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "snmpNotificationsPart")) return false;
     if (!nextTokenIs(b, NOTIFICATIONS)) return false;
     boolean r;
@@ -2456,7 +2159,7 @@ public class SmiParser implements PsiParser, LightPsiParser {
     r = consumeTokens(b, 0, NOTIFICATIONS, LEFT_BRACE);
     r = r && valueList(b, l + 1);
     r = r && consumeToken(b, RIGHT_BRACE);
-    exit_section_(b, m, SNMP_NOTIFICATIONS_PART, r);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -2577,7 +2280,7 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // OBJECTS LEFT_BRACE valueList RIGHT_BRACE
-  public static boolean snmpObjectsPart(PsiBuilder b, int l) {
+  static boolean snmpObjectsPart(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "snmpObjectsPart")) return false;
     if (!nextTokenIs(b, OBJECTS)) return false;
     boolean r;
@@ -2585,49 +2288,49 @@ public class SmiParser implements PsiParser, LightPsiParser {
     r = consumeTokens(b, 0, OBJECTS, LEFT_BRACE);
     r = r && valueList(b, l + 1);
     r = r && consumeToken(b, RIGHT_BRACE);
-    exit_section_(b, m, SNMP_OBJECTS_PART, r);
+    exit_section_(b, m, null, r);
     return r;
   }
 
   /* ********************************************************** */
   // ORGANIZATION STRING_LITERAL
-  public static boolean snmpOrganizationPart(PsiBuilder b, int l) {
+  static boolean snmpOrganizationPart(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "snmpOrganizationPart")) return false;
     if (!nextTokenIs(b, ORGANIZATION)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeTokens(b, 0, ORGANIZATION, STRING_LITERAL);
-    exit_section_(b, m, SNMP_ORGANIZATION_PART, r);
+    exit_section_(b, m, null, r);
     return r;
   }
 
   /* ********************************************************** */
   // PRODUCT_RELEASE STRING_LITERAL
-  public static boolean snmpProductReleasePart(PsiBuilder b, int l) {
+  static boolean snmpProductReleasePart(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "snmpProductReleasePart")) return false;
     if (!nextTokenIs(b, PRODUCT_RELEASE)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeTokens(b, 0, PRODUCT_RELEASE, STRING_LITERAL);
-    exit_section_(b, m, SNMP_PRODUCT_RELEASE_PART, r);
+    exit_section_(b, m, null, r);
     return r;
   }
 
   /* ********************************************************** */
   // REFERENCE STRING_LITERAL
-  public static boolean snmpReferPart(PsiBuilder b, int l) {
+  static boolean snmpReferPart(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "snmpReferPart")) return false;
     if (!nextTokenIs(b, REFERENCE)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeTokens(b, 0, REFERENCE, STRING_LITERAL);
-    exit_section_(b, m, SNMP_REFER_PART, r);
+    exit_section_(b, m, null, r);
     return r;
   }
 
   /* ********************************************************** */
   // REVISION value DESCRIPTION STRING_LITERAL
-  public static boolean snmpRevisionPart(PsiBuilder b, int l) {
+  static boolean snmpRevisionPart(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "snmpRevisionPart")) return false;
     if (!nextTokenIs(b, REVISION)) return false;
     boolean r;
@@ -2635,32 +2338,32 @@ public class SmiParser implements PsiParser, LightPsiParser {
     r = consumeToken(b, REVISION);
     r = r && value(b, l + 1);
     r = r && consumeTokens(b, 0, DESCRIPTION, STRING_LITERAL);
-    exit_section_(b, m, SNMP_REVISION_PART, r);
+    exit_section_(b, m, null, r);
     return r;
   }
 
   /* ********************************************************** */
   // STATUS IDENTIFIER_STRING
-  public static boolean snmpStatusPart(PsiBuilder b, int l) {
+  static boolean snmpStatusPart(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "snmpStatusPart")) return false;
     if (!nextTokenIs(b, STATUS)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeTokens(b, 0, STATUS, IDENTIFIER_STRING);
-    exit_section_(b, m, SNMP_STATUS_PART, r);
+    exit_section_(b, m, null, r);
     return r;
   }
 
   /* ********************************************************** */
   // SYNTAX type
-  public static boolean snmpSyntaxPart(PsiBuilder b, int l) {
+  static boolean snmpSyntaxPart(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "snmpSyntaxPart")) return false;
     if (!nextTokenIs(b, SYNTAX)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, SYNTAX);
     r = r && type(b, l + 1);
-    exit_section_(b, m, SNMP_SYNTAX_PART, r);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -2743,31 +2446,31 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // UNITS STRING_LITERAL
-  public static boolean snmpUnitsPart(PsiBuilder b, int l) {
+  static boolean snmpUnitsPart(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "snmpUnitsPart")) return false;
     if (!nextTokenIs(b, UNITS)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeTokens(b, 0, UNITS, STRING_LITERAL);
-    exit_section_(b, m, SNMP_UNITS_PART, r);
+    exit_section_(b, m, null, r);
     return r;
   }
 
   /* ********************************************************** */
   // LAST_UPDATED STRING_LITERAL
-  public static boolean snmpUpdatePart(PsiBuilder b, int l) {
+  static boolean snmpUpdatePart(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "snmpUpdatePart")) return false;
     if (!nextTokenIs(b, LAST_UPDATED)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeTokens(b, 0, LAST_UPDATED, STRING_LITERAL);
-    exit_section_(b, m, SNMP_UPDATE_PART, r);
+    exit_section_(b, m, null, r);
     return r;
   }
 
   /* ********************************************************** */
   // VARIABLES LEFT_BRACE valueList RIGHT_BRACE
-  public static boolean snmpVarPart(PsiBuilder b, int l) {
+  static boolean snmpVarPart(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "snmpVarPart")) return false;
     if (!nextTokenIs(b, VARIABLES)) return false;
     boolean r;
@@ -2775,13 +2478,13 @@ public class SmiParser implements PsiParser, LightPsiParser {
     r = consumeTokens(b, 0, VARIABLES, LEFT_BRACE);
     r = r && valueList(b, l + 1);
     r = r && consumeToken(b, RIGHT_BRACE);
-    exit_section_(b, m, SNMP_VAR_PART, r);
+    exit_section_(b, m, null, r);
     return r;
   }
 
   /* ********************************************************** */
   // VARIATION value snmpSyntaxPart? snmpWriteSyntaxPart? snmpAccessPart? snmpCreationPart? snmpDefValPart? snmpDescrPart
-  public static boolean snmpVariationPart(PsiBuilder b, int l) {
+  static boolean snmpVariationPart(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "snmpVariationPart")) return false;
     if (!nextTokenIs(b, VARIATION)) return false;
     boolean r;
@@ -2794,7 +2497,7 @@ public class SmiParser implements PsiParser, LightPsiParser {
     r = r && snmpVariationPart_5(b, l + 1);
     r = r && snmpVariationPart_6(b, l + 1);
     r = r && snmpDescrPart(b, l + 1);
-    exit_section_(b, m, SNMP_VARIATION_PART, r);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -2835,40 +2538,40 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // WRITE_SYNTAX type
-  public static boolean snmpWriteSyntaxPart(PsiBuilder b, int l) {
+  static boolean snmpWriteSyntaxPart(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "snmpWriteSyntaxPart")) return false;
     if (!nextTokenIs(b, WRITE_SYNTAX)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, WRITE_SYNTAX);
     r = r && type(b, l + 1);
-    exit_section_(b, m, SNMP_WRITE_SYNTAX_PART, r);
+    exit_section_(b, m, null, r);
     return r;
   }
 
   /* ********************************************************** */
   // PLUS_INFINITY | MINUS_INFINITY
-  public static boolean specialRealValue(PsiBuilder b, int l) {
+  static boolean specialRealValue(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "specialRealValue")) return false;
-    if (!nextTokenIs(b, "<special real value>", MINUS_INFINITY, PLUS_INFINITY)) return false;
+    if (!nextTokenIs(b, "", MINUS_INFINITY, PLUS_INFINITY)) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, SPECIAL_REAL_VALUE, "<special real value>");
+    Marker m = enter_section_(b);
     r = consumeToken(b, PLUS_INFINITY);
     if (!r) r = consumeToken(b, MINUS_INFINITY);
-    exit_section_(b, l, m, r, false, null);
+    exit_section_(b, m, null, r);
     return r;
   }
 
   /* ********************************************************** */
   // OCTET_STRING constraintList?
-  public static boolean stringType(PsiBuilder b, int l) {
+  static boolean stringType(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "stringType")) return false;
     if (!nextTokenIs(b, OCTET_STRING)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, OCTET_STRING);
     r = r && stringType_1(b, l + 1);
-    exit_section_(b, m, STRING_TYPE, r);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -2881,14 +2584,8 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // STRING_LITERAL
-  public static boolean stringValue(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "stringValue")) return false;
-    if (!nextTokenIs(b, STRING_LITERAL)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, STRING_LITERAL);
-    exit_section_(b, m, STRING_VALUE, r);
-    return r;
+  static boolean stringValue(PsiBuilder b, int l) {
+    return consumeToken(b, STRING_LITERAL);
   }
 
   /* ********************************************************** */
@@ -2936,7 +2633,7 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // LEFT_BRACKET classType? NUMBER_LITERAL RIGHT_BRACKET
-  public static boolean tag(PsiBuilder b, int l) {
+  static boolean tag(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "tag")) return false;
     if (!nextTokenIs(b, LEFT_BRACKET)) return false;
     boolean r;
@@ -2944,7 +2641,7 @@ public class SmiParser implements PsiParser, LightPsiParser {
     r = consumeToken(b, LEFT_BRACKET);
     r = r && tag_1(b, l + 1);
     r = r && consumeTokens(b, 0, NUMBER_LITERAL, RIGHT_BRACKET);
-    exit_section_(b, m, TAG, r);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -2957,14 +2654,14 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // (EXPLICIT|IMPLICIT) TAGS
-  public static boolean tagDefault(PsiBuilder b, int l) {
+  static boolean tagDefault(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "tagDefault")) return false;
-    if (!nextTokenIs(b, "<tag default>", EXPLICIT, IMPLICIT)) return false;
+    if (!nextTokenIs(b, "", EXPLICIT, IMPLICIT)) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, TAG_DEFAULT, "<tag default>");
+    Marker m = enter_section_(b);
     r = tagDefault_0(b, l + 1);
     r = r && consumeToken(b, TAGS);
-    exit_section_(b, l, m, r, false, null);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -2981,7 +2678,7 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // tag explicitOrImplicitTag? type
-  public static boolean taggedType(PsiBuilder b, int l) {
+  static boolean taggedType(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "taggedType")) return false;
     if (!nextTokenIs(b, LEFT_BRACKET)) return false;
     boolean r;
@@ -2989,7 +2686,7 @@ public class SmiParser implements PsiParser, LightPsiParser {
     r = tag(b, l + 1);
     r = r && taggedType_1(b, l + 1);
     r = r && type(b, l + 1);
-    exit_section_(b, m, TAGGED_TYPE, r);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -3042,13 +2739,13 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // value | MAX
-  public static boolean upperEndPoint(PsiBuilder b, int l) {
+  static boolean upperEndPoint(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "upperEndPoint")) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, UPPER_END_POINT, "<upper end point>");
+    Marker m = enter_section_(b);
     r = value(b, l + 1);
     if (!r) r = consumeToken(b, MAX);
-    exit_section_(b, l, m, r, false, null);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -3081,13 +2778,13 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // lowerEndPoint valueRange?
-  public static boolean valueConstraint(PsiBuilder b, int l) {
+  static boolean valueConstraint(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "valueConstraint")) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, VALUE_CONSTRAINT, "<value constraint>");
+    Marker m = enter_section_(b);
     r = lowerEndPoint(b, l + 1);
     r = r && valueConstraint_1(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -3120,29 +2817,29 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // namedNumberList | constraintList
-  public static boolean valueOrConstraintList(PsiBuilder b, int l) {
+  static boolean valueOrConstraintList(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "valueOrConstraintList")) return false;
-    if (!nextTokenIs(b, "<value or constraint list>", LEFT_BRACE, LEFT_PAREN)) return false;
+    if (!nextTokenIs(b, "", LEFT_BRACE, LEFT_PAREN)) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, VALUE_OR_CONSTRAINT_LIST, "<value or constraint list>");
+    Marker m = enter_section_(b);
     r = namedNumberList(b, l + 1);
     if (!r) r = constraintList(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
+    exit_section_(b, m, null, r);
     return r;
   }
 
   /* ********************************************************** */
   // LESS_THAN? DOUBLE_DOT LESS_THAN? upperEndPoint
-  public static boolean valueRange(PsiBuilder b, int l) {
+  static boolean valueRange(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "valueRange")) return false;
-    if (!nextTokenIs(b, "<value range>", DOUBLE_DOT, LESS_THAN)) return false;
+    if (!nextTokenIs(b, "", DOUBLE_DOT, LESS_THAN)) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, VALUE_RANGE, "<value range>");
+    Marker m = enter_section_(b);
     r = valueRange_0(b, l + 1);
     r = r && consumeToken(b, DOUBLE_DOT);
     r = r && valueRange_2(b, l + 1);
     r = r && upperEndPoint(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
+    exit_section_(b, m, null, r);
     return r;
   }
 

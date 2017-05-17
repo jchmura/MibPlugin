@@ -7,13 +7,16 @@ import com.intellij.psi.PsiElement;
 
 public interface SmiModuleDefinition extends PsiElement {
 
+  @NotNull
+  List<SmiAssignment> getAssignmentList();
+
   @Nullable
-  SmiModuleBody getModuleBody();
+  SmiExportList getExportList();
+
+  @Nullable
+  SmiImportList getImportList();
 
   @NotNull
   SmiModuleIdentifierDefinition getModuleIdentifierDefinition();
-
-  @Nullable
-  SmiTagDefault getTagDefault();
 
 }

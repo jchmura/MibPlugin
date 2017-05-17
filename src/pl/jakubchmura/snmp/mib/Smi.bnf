@@ -94,9 +94,9 @@ moduleIdentifier ::= IDENTIFIER_STRING objectIdentifierValue? {
 
 private moduleReference ::= IDENTIFIER_STRING DOT
 
-tagDefault ::= (EXPLICIT|IMPLICIT) TAGS
+private tagDefault ::= (EXPLICIT|IMPLICIT) TAGS
 
-moduleBody ::= exportList? importList? assignmentList
+private moduleBody ::= exportList? importList? assignmentList
 
 exportList ::= EXPORTS symbolList? SEMI_COLON
 importList ::= IMPORTS symbolsFromModule* SEMI_COLON
@@ -115,10 +115,10 @@ symbolName ::= IDENTIFIER_STRING {
 private assignmentList ::= assignment+
 assignment ::= (macroDefinition|typeAssignment|valueAssignment) SEMI_COLON?
 
-macroDefinition ::= macroReference MACRO DEFINITION macroBody
-macroReference ::= IDENTIFIER_STRING | definedMacroName
-macroBody ::= (BEGIN macroBodyElement* END) | (moduleReference macroReference)
-macroBodyElement ::= (LEFT_PAREN|RIGHT_PAREN|VERTICAL_BAR|DEFINITION|INTEGER|REAL|BOOLEAN|NULL|BIT|OCTET|STRING|OBJECT|IDENTIFIER|IDENTIFIER_STRING|STRING_LITERAL|OBJECT_IDENTIFIER)
+private macroDefinition ::= macroReference MACRO DEFINITION macroBody
+private macroReference ::= IDENTIFIER_STRING | definedMacroName
+private macroBody ::= (BEGIN macroBodyElement* END) | (moduleReference macroReference)
+private macroBodyElement ::= (LEFT_PAREN|RIGHT_PAREN|VERTICAL_BAR|DEFINITION|INTEGER|REAL|BOOLEAN|NULL|BIT|OCTET|STRING|OBJECT|IDENTIFIER|IDENTIFIER_STRING|STRING_LITERAL|OBJECT_IDENTIFIER)
 
 
 // Type notation
@@ -135,32 +135,32 @@ definedTypeName ::= IDENTIFIER_STRING {
     methods=[getName setName getReference]
 }
 
-definedType ::= moduleReference? definedTypeName valueOrConstraintList? {extends=type}
+definedType ::= moduleReference? definedTypeName valueOrConstraintList?
 builtinType ::= nullType | booleanType | realType | integerType | objectIdentifierType | stringType | bitStringType |
                 bitsType | sequenceType | sequenceOfType | setType | setOfType | choiceType | enumeratedType |
-                selectionType | taggedType | anyType {extends=type}
+                selectionType | taggedType | anyType
 
-nullType ::= NULL {extends=builtinType}
-booleanType ::= BOOLEAN {extends=builtinType}
-realType ::= REAL {extends=builtinType}
-integerType ::= INTEGER valueOrConstraintList? {extends=builtinType}
-objectIdentifierType ::= OBJECT_IDENTIFIER {extends=builtinType}
-stringType ::= OCTET_STRING constraintList? {extends=builtinType}
-bitStringType ::= BIT_STRING valueOrConstraintList? {extends=builtinType}
-bitsType ::= BITS valueOrConstraintList? {extends=builtinType}
-sequenceType ::= SEQUENCE LEFT_BRACE elementTypeList? RIGHT_BRACE {extends=builtinType}
-sequenceOfType ::= SEQUENCE constraintList? OF type {extends=builtinType}
-setType ::= SET LEFT_BRACE elementTypeList? RIGHT_BRACE {extends=builtinType}
-setOfType ::= SET sizeConstraint? OF type {extends=builtinType}
-choiceType ::= CHOICE LEFT_BRACE elementTypeList RIGHT_BRACE {extends=builtinType}
-enumeratedType ::= ENUMERATED namedNumberList {extends=builtinType}
-selectionType ::= IDENTIFIER_STRING LESS_THAN type {extends=builtinType}
-taggedType ::= tag explicitOrImplicitTag? type {extends=builtinType}
-anyType ::= ANY | (ANY DEFINED BY IDENTIFIER_STRING) {extends=builtinType}
+private nullType ::= NULL
+private booleanType ::= BOOLEAN
+private realType ::= REAL
+private integerType ::= INTEGER valueOrConstraintList?
+private objectIdentifierType ::= OBJECT_IDENTIFIER
+private stringType ::= OCTET_STRING constraintList?
+private bitStringType ::= BIT_STRING valueOrConstraintList?
+private bitsType ::= BITS valueOrConstraintList?
+private sequenceType ::= SEQUENCE LEFT_BRACE elementTypeList? RIGHT_BRACE
+private sequenceOfType ::= SEQUENCE constraintList? OF type
+private setType ::= SET LEFT_BRACE elementTypeList? RIGHT_BRACE
+private setOfType ::= SET sizeConstraint? OF type
+choiceType ::= CHOICE LEFT_BRACE elementTypeList RIGHT_BRACE {extends=type}
+private enumeratedType ::= ENUMERATED namedNumberList
+private selectionType ::= IDENTIFIER_STRING LESS_THAN type
+private taggedType ::= tag explicitOrImplicitTag? type
+private anyType ::= ANY | (ANY DEFINED BY IDENTIFIER_STRING)
 
-tag ::= LEFT_BRACKET classType? NUMBER_LITERAL RIGHT_BRACKET
-classType ::= UNIVERSAL | APPLICATION | "PRIVATE"
-explicitOrImplicitTag ::= EXPLICIT | IMPLICIT
+private tag ::= LEFT_BRACKET classType? NUMBER_LITERAL RIGHT_BRACKET
+private classType ::= UNIVERSAL | APPLICATION | "PRIVATE"
+private explicitOrImplicitTag ::= EXPLICIT | IMPLICIT
 
 private elementTypeList ::= <<comma_separated_list elementTyp>>
 elementTyp ::= (elementTypeName? type optionalOrDefaultElement?) | (elementTypeName? COMPONENTS OF type)
@@ -168,31 +168,31 @@ elementTypeName ::= IDENTIFIER_STRING {
   implements="pl.jakubchmura.snmp.mib.psi.SmiReferenceResolver"
   methods=[getName setName getReference shouldHaveReference]
 }
-optionalOrDefaultElement ::= OPTIONAL | (DEFAULT IDENTIFIER_STRING? value)
+private optionalOrDefaultElement ::= OPTIONAL | (DEFAULT IDENTIFIER_STRING? value)
 
-valueOrConstraintList ::= namedNumberList | constraintList
+private valueOrConstraintList ::= namedNumberList | constraintList
 private namedNumberList ::= LEFT_BRACE <<comma_separated_list namedNumber>> RIGHT_BRACE
 namedNumber ::= IDENTIFIER_STRING LEFT_PAREN number RIGHT_PAREN
 number ::= numberValue | binaryValue | hexadecimalValue | definedValue
 
 private constraintList ::= LEFT_PAREN <<bar_separated_list constraint>> RIGHT_PAREN
-constraint ::= valueConstraint | sizeConstraint | alphabetConstraint | containedTypeConstraint | innerTypeConstraint
+private constraint ::= valueConstraint | sizeConstraint | alphabetConstraint | containedTypeConstraint | innerTypeConstraint
 
 private valueConstraintList ::= LEFT_PAREN <<bar_separated_list valueConstraint>> RIGHT_PAREN
-valueConstraint ::= lowerEndPoint valueRange?
-valueRange ::= LESS_THAN? DOUBLE_DOT LESS_THAN? upperEndPoint
-lowerEndPoint ::= value | MIN
-upperEndPoint ::= value | MAX
+private valueConstraint ::= lowerEndPoint valueRange?
+private valueRange ::= LESS_THAN? DOUBLE_DOT LESS_THAN? upperEndPoint
+private lowerEndPoint ::= value | MIN
+private upperEndPoint ::= value | MAX
 
-sizeConstraint ::= SIZE valueConstraintList
-alphabetConstraint ::= FROM valueConstraintList
-containedTypeConstraint ::= INCLUDES type
-innerTypeConstraint ::= (WITH COMPONENTS valueOrConstraintList) | (WITH COMPONENTS componentsList)
-componentsList ::= (LEFT_BRACE componentConstraint componentsListTail* RIGHT_BRACE) | (LEFT_BRACE TRIPLE_DOT componentsListTail+ RIGHT_BRACE)
-componentsListTail ::= COMMA componentConstraint?
-componentConstraint ::= (IDENTIFIER_STRING componentValuePresence?) componentValuePresence
-componentValuePresence ::= (valueOrConstraintList componentPresence?) | componentPresence
-componentPresence ::= PRESENT | ABSENT | OPTIONAL
+private sizeConstraint ::= SIZE valueConstraintList
+private alphabetConstraint ::= FROM valueConstraintList
+private containedTypeConstraint ::= INCLUDES type
+private innerTypeConstraint ::= (WITH COMPONENTS valueOrConstraintList) | (WITH COMPONENTS componentsList)
+private componentsList ::= (LEFT_BRACE componentConstraint componentsListTail* RIGHT_BRACE) | (LEFT_BRACE TRIPLE_DOT componentsListTail+ RIGHT_BRACE)
+private componentsListTail ::= COMMA componentConstraint?
+private componentConstraint ::= (IDENTIFIER_STRING componentValuePresence?) componentValuePresence
+private componentValuePresence ::= (valueOrConstraintList componentPresence?) | componentPresence
+private componentPresence ::= PRESENT | ABSENT | OPTIONAL
 
 
 // Value notation
@@ -206,7 +206,7 @@ mibNode ::= IDENTIFIER_STRING {
 valueAssignment ::= mibNode type DEFINITION value
 value ::= builtinValue | definedValue
 
-definedValue ::= moduleReference? definedValueName {
+private definedValue ::= moduleReference? definedValueName {
     extends=value
 }
 definedValueName ::= IDENTIFIER_STRING {
@@ -217,15 +217,15 @@ definedValueName ::= IDENTIFIER_STRING {
 builtinValue ::= nullValue | booleanValue | specialRealValue | numberValue | binaryValue | hexadecimalValue |
                  stringValue | bitOrObjectIdentifierValue {extends=value}
 
-nullValue ::= NULL {extends=builtinValue}
-booleanValue ::= TRUE | FALSE {extends=builtinValue}
-specialRealValue ::= PLUS_INFINITY | MINUS_INFINITY {extends=builtinValue}
-numberValue ::= "-"? NUMBER_LITERAL {extends=builtinValue}
-binaryValue ::= BINARY_LITERAL {extends=builtinValue}
-hexadecimalValue ::= HEXADECIMAL_LITERAL {extends=builtinValue}
-stringValue ::= STRING_LITERAL {extends=builtinValue}
+private nullValue ::= NULL {extends=builtinValue}
+private booleanValue ::= TRUE | FALSE {extends=builtinValue}
+private specialRealValue ::= PLUS_INFINITY | MINUS_INFINITY {extends=builtinValue}
+private numberValue ::= "-"? NUMBER_LITERAL {extends=builtinValue}
+private binaryValue ::= BINARY_LITERAL {extends=builtinValue}
+private hexadecimalValue ::= HEXADECIMAL_LITERAL {extends=builtinValue}
+private stringValue ::= STRING_LITERAL {extends=builtinValue}
 bitOrObjectIdentifierValue ::= nameValueList {extends=builtinValue}
-objectIdentifierValue ::= nameValueList
+private objectIdentifierValue ::= nameValueList
 private nameValueList ::= LEFT_BRACE nameValueComponent* RIGHT_BRACE
 private nameValueComponent ::= COMMA? nameOrNumber
 private nameOrNumber ::= nameValueIndex | nameAndNumber | nameValueString
@@ -243,7 +243,7 @@ definedMacroType ::= snmpModuleIdentityMacroType | snmpObjectIdentityMacroType |
                      snmpNotificationTypeMacroType | snmpTrapTypeMacroType | snmpTextualConventionMacroType |
                      snmpObjectGroupMacroType | snmpNotificationGroupMacroType | snmpModuleComplianceMacroType |
                      snmpAgentCapabilitiesMacroType {extends=type}
-definedMacroName ::= MODULE_IDENTITY | OBJECT_IDENTITY | OBJECT_TYPE | NOTIFICATION_TYPE | TRAP_TYPE | TEXTUAL_CONVENTION | OBJECT_GROUP | NOTIFICATION_GROUP | MODULE_COMPLIANCE | AGENT_CAPABILITIES
+private definedMacroName ::= MODULE_IDENTITY | OBJECT_IDENTITY | OBJECT_TYPE | NOTIFICATION_TYPE | TRAP_TYPE | TEXTUAL_CONVENTION | OBJECT_GROUP | NOTIFICATION_GROUP | MODULE_COMPLIANCE | AGENT_CAPABILITIES
 
 snmpModuleIdentityMacroType ::= MODULE_IDENTITY
                                 snmpUpdatePart
@@ -302,38 +302,38 @@ snmpAgentCapabilitiesMacroType ::= AGENT_CAPABILITIES
                                    snmpReferPart?
                                    snmpModuleSupportPart* {extends=definedMacroType}
 
-snmpUpdatePart ::= LAST_UPDATED STRING_LITERAL
-snmpOrganizationPart ::= ORGANIZATION STRING_LITERAL
-snmpContactPart ::= CONTACT_INFO STRING_LITERAL
-snmpDescrPart ::= DESCRIPTION STRING_LITERAL
-snmpRevisionPart ::= REVISION value DESCRIPTION STRING_LITERAL
-snmpStatusPart ::= STATUS IDENTIFIER_STRING
-snmpReferPart ::= REFERENCE STRING_LITERAL
-snmpSyntaxPart ::= SYNTAX type
-snmpUnitsPart ::= UNITS STRING_LITERAL
-snmpAccessPart ::= (ACCESS IDENTIFIER_STRING) | (MAX_ACCESS IDENTIFIER_STRING) | (MIN_ACCESS IDENTIFIER_STRING)
-snmpIndexPart ::= (INDEX LEFT_BRACE indexValueList RIGHT_BRACE) | (AUGMENTS LEFT_BRACE value RIGHT_BRACE)
+private snmpUpdatePart ::= LAST_UPDATED STRING_LITERAL
+private snmpOrganizationPart ::= ORGANIZATION STRING_LITERAL
+private snmpContactPart ::= CONTACT_INFO STRING_LITERAL
+private snmpDescrPart ::= DESCRIPTION STRING_LITERAL
+private snmpRevisionPart ::= REVISION value DESCRIPTION STRING_LITERAL
+private snmpStatusPart ::= STATUS IDENTIFIER_STRING
+private snmpReferPart ::= REFERENCE STRING_LITERAL
+private snmpSyntaxPart ::= SYNTAX type
+private snmpUnitsPart ::= UNITS STRING_LITERAL
+private snmpAccessPart ::= (ACCESS IDENTIFIER_STRING) | (MAX_ACCESS IDENTIFIER_STRING) | (MIN_ACCESS IDENTIFIER_STRING)
+private snmpIndexPart ::= (INDEX LEFT_BRACE indexValueList RIGHT_BRACE) | (AUGMENTS LEFT_BRACE value RIGHT_BRACE)
 
 private indexValueList ::= <<comma_separated_list indexValue>>
 indexValue ::= value | (IMPLIED value) | indexType
 indexType ::= integerType | stringType | objectIdentifierType
 
-snmpDefValPart ::= DEFVAL LEFT_BRACE value RIGHT_BRACE
-snmpObjectsPart ::= OBJECTS LEFT_BRACE valueList RIGHT_BRACE
+private snmpDefValPart ::= DEFVAL LEFT_BRACE value RIGHT_BRACE
+private snmpObjectsPart ::= OBJECTS LEFT_BRACE valueList RIGHT_BRACE
 private valueList ::= <<comma_separated_list value>>
 
-snmpEnterprisePart ::= ENTERPRISE value
-snmpVarPart ::= VARIABLES LEFT_BRACE valueList RIGHT_BRACE
-snmpDisplayPart ::= DISPLAY_HINT STRING_LITERAL
-snmpNotificationsPart ::= NOTIFICATIONS LEFT_BRACE valueList RIGHT_BRACE
-snmpModulePart ::= MODULE snmpModuleImport? snmpMandatoryPart? snmpCompliancePart*
-snmpModuleImport ::= moduleIdentifier
-snmpMandatoryPart ::= MANDATORY_GROUPS LEFT_BRACE valueList RIGHT_BRACE
-snmpCompliancePart ::= complianceGroup | complianceObject
-complianceGroup ::= GROUP value snmpDescrPart
-complianceObject ::= OBJECT value snmpSyntaxPart? snmpWriteSyntaxPart? snmpAccessPart? snmpDescrPart
-snmpWriteSyntaxPart ::= WRITE_SYNTAX type
-snmpProductReleasePart ::= PRODUCT_RELEASE STRING_LITERAL
-snmpModuleSupportPart ::= SUPPORTS snmpModuleImport INCLUDES LEFT_BRACE valueList RIGHT_BRACE snmpVariationPart*
-snmpVariationPart ::= VARIATION value snmpSyntaxPart? snmpWriteSyntaxPart? snmpAccessPart? snmpCreationPart? snmpDefValPart? snmpDescrPart
-snmpCreationPart ::= CREATION_REQUIRES LEFT_BRACE valueList RIGHT_BRACE
+private snmpEnterprisePart ::= ENTERPRISE value
+private snmpVarPart ::= VARIABLES LEFT_BRACE valueList RIGHT_BRACE
+private snmpDisplayPart ::= DISPLAY_HINT STRING_LITERAL
+private snmpNotificationsPart ::= NOTIFICATIONS LEFT_BRACE valueList RIGHT_BRACE
+private snmpModulePart ::= MODULE snmpModuleImport? snmpMandatoryPart? snmpCompliancePart*
+private snmpModuleImport ::= moduleIdentifier
+private snmpMandatoryPart ::= MANDATORY_GROUPS LEFT_BRACE valueList RIGHT_BRACE
+private snmpCompliancePart ::= complianceGroup | complianceObject
+private complianceGroup ::= GROUP value snmpDescrPart
+private complianceObject ::= OBJECT value snmpSyntaxPart? snmpWriteSyntaxPart? snmpAccessPart? snmpDescrPart
+private snmpWriteSyntaxPart ::= WRITE_SYNTAX type
+private snmpProductReleasePart ::= PRODUCT_RELEASE STRING_LITERAL
+private snmpModuleSupportPart ::= SUPPORTS snmpModuleImport INCLUDES LEFT_BRACE valueList RIGHT_BRACE snmpVariationPart*
+private snmpVariationPart ::= VARIATION value snmpSyntaxPart? snmpWriteSyntaxPart? snmpAccessPart? snmpCreationPart? snmpDefValPart? snmpDescrPart
+private snmpCreationPart ::= CREATION_REQUIRES LEFT_BRACE valueList RIGHT_BRACE

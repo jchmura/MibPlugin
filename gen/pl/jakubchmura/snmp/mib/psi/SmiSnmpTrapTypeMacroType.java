@@ -7,16 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface SmiSnmpTrapTypeMacroType extends SmiDefinedMacroType {
 
-  @Nullable
-  SmiSnmpDescrPart getSnmpDescrPart();
-
   @NotNull
-  SmiSnmpEnterprisePart getSnmpEnterprisePart();
-
-  @Nullable
-  SmiSnmpReferPart getSnmpReferPart();
-
-  @Nullable
-  SmiSnmpVarPart getSnmpVarPart();
+  List<SmiValue> getValueList();
 
 }

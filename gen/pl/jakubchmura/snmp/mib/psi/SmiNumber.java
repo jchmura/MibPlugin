@@ -7,7 +7,19 @@ import com.intellij.psi.PsiElement;
 
 public interface SmiNumber extends PsiElement {
 
-  @NotNull
-  SmiValue getValue();
+  @Nullable
+  SmiDefinedValueName getDefinedValueName();
+
+  @Nullable
+  PsiElement getBinaryLiteral();
+
+  @Nullable
+  PsiElement getHexadecimalLiteral();
+
+  @Nullable
+  PsiElement getIdentifierString();
+
+  @Nullable
+  PsiElement getNumberLiteral();
 
 }

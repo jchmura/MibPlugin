@@ -33,15 +33,21 @@ public class SmiElementTypImpl extends ASTWrapperPsiElement implements SmiElemen
   }
 
   @Override
-  @Nullable
-  public SmiOptionalOrDefaultElement getOptionalOrDefaultElement() {
-    return findChildByClass(SmiOptionalOrDefaultElement.class);
-  }
-
-  @Override
   @NotNull
   public SmiType getType() {
     return findNotNullChildByClass(SmiType.class);
+  }
+
+  @Override
+  @Nullable
+  public SmiValue getValue() {
+    return findChildByClass(SmiValue.class);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getIdentifierString() {
+    return findChildByType(IDENTIFIER_STRING);
   }
 
 }

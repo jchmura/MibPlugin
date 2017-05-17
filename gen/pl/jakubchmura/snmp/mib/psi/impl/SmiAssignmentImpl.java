@@ -28,12 +28,6 @@ public class SmiAssignmentImpl extends ASTWrapperPsiElement implements SmiAssign
 
   @Override
   @Nullable
-  public SmiMacroDefinition getMacroDefinition() {
-    return findChildByClass(SmiMacroDefinition.class);
-  }
-
-  @Override
-  @Nullable
   public SmiTypeAssignment getTypeAssignment() {
     return findChildByClass(SmiTypeAssignment.class);
   }

@@ -27,26 +27,14 @@ public class SmiSnmpNotificationGroupMacroTypeImpl extends SmiDefinedMacroTypeIm
 
   @Override
   @NotNull
-  public SmiSnmpDescrPart getSnmpDescrPart() {
-    return findNotNullChildByClass(SmiSnmpDescrPart.class);
+  public List<SmiValue> getValueList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SmiValue.class);
   }
 
   @Override
   @NotNull
-  public SmiSnmpNotificationsPart getSnmpNotificationsPart() {
-    return findNotNullChildByClass(SmiSnmpNotificationsPart.class);
-  }
-
-  @Override
-  @Nullable
-  public SmiSnmpReferPart getSnmpReferPart() {
-    return findChildByClass(SmiSnmpReferPart.class);
-  }
-
-  @Override
-  @NotNull
-  public SmiSnmpStatusPart getSnmpStatusPart() {
-    return findNotNullChildByClass(SmiSnmpStatusPart.class);
+  public PsiElement getIdentifierString() {
+    return findNotNullChildByType(IDENTIFIER_STRING);
   }
 
 }
