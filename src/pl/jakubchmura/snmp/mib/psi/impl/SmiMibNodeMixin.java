@@ -70,11 +70,7 @@ public abstract class SmiMibNodeMixin extends ASTWrapperPsiElement implements Sm
             @NotNull
             @Override
             public String getLocationString() {
-                SnmpOid oid = getOid();
-                if (oid == null) {
-                    return null;
-                }
-                return oid.toString();
+                return getContainingFile().getName();
             }
 
             @Nullable

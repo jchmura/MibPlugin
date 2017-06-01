@@ -120,7 +120,7 @@ public class SmiPsiImplUtil {
             @Nullable
             @Override
             public String getLocationString() {
-                return null;
+                return typeName.getContainingFile().getName();
             }
 
             @Nullable
