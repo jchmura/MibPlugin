@@ -16,6 +16,8 @@ import pl.jakubchmura.snmp.mib.util.SmiFindUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class ReferenceableElementReference<T extends SmiReferenceableElement> extends PsiReferenceBase<SmiIdentifiableElement> implements PsiPolyVariantReference {
 
@@ -43,7 +45,7 @@ public class ReferenceableElementReference<T extends SmiReferenceableElement> ex
     @Override
     public ResolveResult[] multiResolve(boolean incompleteCode) {
         List<T> elements;
-        elements = getElements();
+        elements = getElementsWithName();
         List<ResolveResult> results = new ArrayList<>();
         for (T element : elements) {
             results.add(new PsiElementResolveResult(element));
@@ -85,17 +87,24 @@ public class ReferenceableElementReference<T extends SmiReferenceableElement> ex
                 elements = getDeclaredElementsFromFile(psiFile);
             }
         } else {
-            elements = SmiFindUtil.findElements(myElement.getProject(), getModuleScope(myElement), identifiableElementClass, myElement.getName());
+            elements = SmiFindUtil.findElements(myElement.getProject(), getModuleScope(myElement), identifiableElementClass);
         }
         return elements;
     }
 
+    private List<T> getElementsWithName() {
+        return getElements()
+                .stream()
+                .filter(t -> Objects.equals(t.getName(), myElement.getName()))
+                .collect(Collectors.toList());
+    }
+
     private List<T> getImportedElementsFromFile(PsiFile file) {
-        return SmiFindUtil.findImportedElements(file, identifiableElementClass, myElement.getName());
+        return SmiFindUtil.findImportedElements(file, identifiableElementClass);
     }
 
     private List<T> getDeclaredElementsFromFile(PsiFile psiFile) {
-        return SmiFindUtil.findElements(psiFile, identifiableElementClass, myElement.getName());
+        return SmiFindUtil.findElements(psiFile, identifiableElementClass);
     }
 
     private List<T> getDeclaredAndImportedElementsFromFile(PsiFile psiFile) {
