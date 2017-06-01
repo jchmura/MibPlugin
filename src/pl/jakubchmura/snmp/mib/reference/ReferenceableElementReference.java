@@ -10,6 +10,7 @@ import com.intellij.psi.search.GlobalSearchScope;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import pl.jakubchmura.snmp.mib.MibIcons;
+import pl.jakubchmura.snmp.mib.StandardSnmpv2Mibs;
 import pl.jakubchmura.snmp.mib.psi.SmiIdentifiableElement;
 import pl.jakubchmura.snmp.mib.psi.SmiReferenceableElement;
 import pl.jakubchmura.snmp.mib.util.SmiFindUtil;
@@ -44,14 +45,28 @@ public class ReferenceableElementReference<T extends SmiReferenceableElement> ex
     @NotNull
     @Override
     public ResolveResult[] multiResolve(boolean incompleteCode) {
-        List<T> elements;
-        elements = getElementsWithName();
-        List<ResolveResult> results = new ArrayList<>();
+        List<T> elements = getElementsWithName();
+        List<VirtualFile> standardMibs = StandardSnmpv2Mibs.getMibs();
+
+        List<T> standardElements = new ArrayList<>();
+        List<T> customElements = new ArrayList<>();
+
         for (T element : elements) {
-            results.add(new PsiElementResolveResult(element));
+            VirtualFile virtualFile = element.getContainingFile().getVirtualFile();
+            if (standardMibs.contains(virtualFile)) {
+                standardElements.add(element);
+            } else {
+                customElements.add(element);
+            }
         }
 
-        return results.toArray(new ResolveResult[results.size()]);
+        if (!customElements.isEmpty()) {
+            elements = customElements;
+        } else {
+            elements = standardElements;
+        }
+
+        return elements.stream().map(PsiElementResolveResult::new).toArray(ResolveResult[]::new);
     }
 
     @Nullable
