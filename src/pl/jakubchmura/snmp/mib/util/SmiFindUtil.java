@@ -85,6 +85,27 @@ public class SmiFindUtil {
         return filterMyName(findImportedElements(file, identifiableElementClass), name);
     }
 
+    public static <T extends PsiElement> List<T> filterOutStandardMibs(List<T> elements) {
+        List<VirtualFile> standardMibs = StandardSnmpv2Mibs.getMibs();
+        List<T> standardElements = new ArrayList<>();
+        List<T> customElements = new ArrayList<>();
+
+        for (T element : elements) {
+            VirtualFile virtualFile = element.getContainingFile().getVirtualFile();
+            if (standardMibs.contains(virtualFile)) {
+                standardElements.add(element);
+            } else {
+                customElements.add(element);
+            }
+        }
+
+        if (!customElements.isEmpty()) {
+            return customElements;
+        } else {
+            return standardElements;
+        }
+    }
+
 
     private static <T extends SmiReferenceableElement> List<T> filterMyName(List<T> identifiableElements, String name) {
         return identifiableElements.stream().filter(e -> name.equals(e.getName())).collect(Collectors.toList());
