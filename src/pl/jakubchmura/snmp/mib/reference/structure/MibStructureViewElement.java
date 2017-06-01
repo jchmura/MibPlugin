@@ -10,6 +10,8 @@ import pl.jakubchmura.snmp.mib.MibFile;
 import pl.jakubchmura.snmp.mib.psi.SmiMibNode;
 import pl.jakubchmura.snmp.mib.psi.SmiTypeName;
 import pl.jakubchmura.snmp.mib.psi.impl.SmiMibNodeMixin;
+import pl.jakubchmura.snmp.mib.reference.structure.presentation.MibNodeTreePresentation;
+import pl.jakubchmura.snmp.mib.reference.structure.presentation.TypeNameTreePresentation;
 import pl.jakubchmura.snmp.mib.util.SmiFindUtil;
 
 import java.util.List;
@@ -31,6 +33,12 @@ public class MibStructureViewElement implements StructureViewTreeElement {
     @NotNull
     @Override
     public ItemPresentation getPresentation() {
+        if (element instanceof SmiMibNodeMixin) {
+            return new MibNodeTreePresentation((SmiMibNodeMixin) element);
+        }
+        if (element instanceof SmiTypeName) {
+            return new TypeNameTreePresentation((SmiTypeName) element);
+        }
         if (element instanceof NavigationItem) {
             return ((NavigationItem) element).getPresentation();
         }

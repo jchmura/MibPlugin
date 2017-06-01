@@ -59,6 +59,7 @@ public abstract class SmiMibNodeMixin extends ASTWrapperPsiElement implements Sm
         return type instanceof SmiSnmpNotificationTypeMacroType || type instanceof SmiSnmpTrapTypeMacroType;
     }
 
+    @NotNull
     public ItemPresentation getPresentation() {
         return new ItemPresentation() {
             @Nullable
