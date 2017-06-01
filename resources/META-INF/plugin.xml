@@ -5,13 +5,15 @@
   <vendor email="chmura.jakub@gmail.com">Jakub Chmura</vendor>
 
   <description><![CDATA[
-      Enter short description for your plugin here.<br>
-      <em>most HTML tags may be used</em>
+      MIB file support for the IntelliJ platform.<br/>
+      Supports syntax highlighting, rename refactoring, code completion, structure view.
     ]]></description>
 
   <change-notes><![CDATA[
-      Add change notes here.<br>
-      <em>most HTML tags may be used</em>
+      <b>1.0</b><br/>
+      <ul>
+        <li>Basic support for SMIv2</li>
+      </ul>
     ]]>
   </change-notes>
 
@@ -42,9 +44,5 @@
 
     <codeInsight.lineMarkerProvider language="SMI" implementationClass="pl.jakubchmura.snmp.mib.reference.marker.MibNodeMarkerProvider"/>
   </extensions>
-
-  <actions>
-    <!-- Add your actions here -->
-  </actions>
 
 </idea-plugin>
