@@ -35,6 +35,7 @@
     <lang.findUsagesProvider language="SMI" implementationClass="pl.jakubchmura.snmp.mib.reference.usages.SmiFindUsagesProvider"/>
     <lang.namesValidator language="SMI" implementationClass="pl.jakubchmura.snmp.mib.SmiNamesValidator"/>
     <lang.psiStructureViewFactory language="SMI" implementationClass="pl.jakubchmura.snmp.mib.reference.structure.MibStructureViewFactory"/>
+    <lang.commenter language="SMI" implementationClass="pl.jakubchmura.snmp.mib.commenter.SmiCommenter"/>
 
     <!-- Disabled because of big performance overhead -->
     <!--<gotoSymbolContributor implementation="pl.jakubchmura.snmp.mib.reference.symbol.MibNodeChooseByNameContributor"/>-->
