@@ -8,16 +8,17 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static pl.jakubchmura.snmp.mib.psi.SmiTypes.*;
+import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import pl.jakubchmura.snmp.mib.psi.*;
 
-public class SmiDefinedTypeImpl extends SmiTypeImpl implements SmiDefinedType {
+public class SmiSnmpIndexPartImpl extends ASTWrapperPsiElement implements SmiSnmpIndexPart {
 
-  public SmiDefinedTypeImpl(ASTNode node) {
+  public SmiSnmpIndexPartImpl(ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull SmiVisitor visitor) {
-    visitor.visitDefinedType(this);
+    visitor.visitSnmpIndexPart(this);
   }
 
   public void accept(@NotNull PsiElementVisitor visitor) {
@@ -27,26 +28,14 @@ public class SmiDefinedTypeImpl extends SmiTypeImpl implements SmiDefinedType {
 
   @Override
   @NotNull
-  public SmiDefinedTypeName getDefinedTypeName() {
-    return findNotNullChildByClass(SmiDefinedTypeName.class);
+  public List<SmiIndexValue> getIndexValueList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SmiIndexValue.class);
   }
 
   @Override
-  @NotNull
-  public List<SmiNamedNumber> getNamedNumberList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SmiNamedNumber.class);
-  }
-
-  @Override
-  @NotNull
-  public List<SmiType> getTypeList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SmiType.class);
-  }
-
-  @Override
-  @NotNull
-  public List<SmiValue> getValueList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SmiValue.class);
+  @Nullable
+  public SmiValue getValue() {
+    return findChildByClass(SmiValue.class);
   }
 
 }

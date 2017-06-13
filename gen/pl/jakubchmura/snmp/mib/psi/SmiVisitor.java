@@ -16,7 +16,7 @@ public class SmiVisitor extends PsiElementVisitor {
   }
 
   public void visitBuiltinType(@NotNull SmiBuiltinType o) {
-    visitPsiElement(o);
+    visitType(o);
   }
 
   public void visitBuiltinValue(@NotNull SmiBuiltinValue o) {
@@ -24,7 +24,7 @@ public class SmiVisitor extends PsiElementVisitor {
   }
 
   public void visitChoiceType(@NotNull SmiChoiceType o) {
-    visitType(o);
+    visitBuiltinType(o);
   }
 
   public void visitDefinedMacroType(@NotNull SmiDefinedMacroType o) {
@@ -32,7 +32,7 @@ public class SmiVisitor extends PsiElementVisitor {
   }
 
   public void visitDefinedType(@NotNull SmiDefinedType o) {
-    visitPsiElement(o);
+    visitType(o);
   }
 
   public void visitDefinedTypeName(@NotNull SmiDefinedTypeName o) {
@@ -104,8 +104,20 @@ public class SmiVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitSequenceOfType(@NotNull SmiSequenceOfType o) {
+    visitBuiltinType(o);
+  }
+
+  public void visitSequenceType(@NotNull SmiSequenceType o) {
+    visitBuiltinType(o);
+  }
+
   public void visitSnmpAgentCapabilitiesMacroType(@NotNull SmiSnmpAgentCapabilitiesMacroType o) {
     visitDefinedMacroType(o);
+  }
+
+  public void visitSnmpIndexPart(@NotNull SmiSnmpIndexPart o) {
+    visitPsiElement(o);
   }
 
   public void visitSnmpModuleComplianceMacroType(@NotNull SmiSnmpModuleComplianceMacroType o) {

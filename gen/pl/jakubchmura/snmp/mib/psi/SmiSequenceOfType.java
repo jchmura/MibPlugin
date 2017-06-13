@@ -5,18 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface SmiDefinedType extends SmiType {
-
-  @NotNull
-  SmiDefinedTypeName getDefinedTypeName();
-
-  @NotNull
-  List<SmiNamedNumber> getNamedNumberList();
+public interface SmiSequenceOfType extends SmiBuiltinType {
 
   @NotNull
   List<SmiType> getTypeList();
-
-  @NotNull
-  List<SmiValue> getValueList();
 
 }

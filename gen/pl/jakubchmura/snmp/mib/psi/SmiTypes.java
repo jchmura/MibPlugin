@@ -32,7 +32,10 @@ public interface SmiTypes {
   IElementType NAME_VALUE_INDEX = new SmiElementType("NAME_VALUE_INDEX");
   IElementType NAME_VALUE_STRING = new SmiElementType("NAME_VALUE_STRING");
   IElementType NUMBER = new SmiElementType("NUMBER");
+  IElementType SEQUENCE_OF_TYPE = new SmiElementType("SEQUENCE_OF_TYPE");
+  IElementType SEQUENCE_TYPE = new SmiElementType("SEQUENCE_TYPE");
   IElementType SNMP_AGENT_CAPABILITIES_MACRO_TYPE = new SmiElementType("SNMP_AGENT_CAPABILITIES_MACRO_TYPE");
+  IElementType SNMP_INDEX_PART = new SmiElementType("SNMP_INDEX_PART");
   IElementType SNMP_MODULE_COMPLIANCE_MACRO_TYPE = new SmiElementType("SNMP_MODULE_COMPLIANCE_MACRO_TYPE");
   IElementType SNMP_MODULE_IDENTITY_MACRO_TYPE = new SmiElementType("SNMP_MODULE_IDENTITY_MACRO_TYPE");
   IElementType SNMP_NOTIFICATION_GROUP_MACRO_TYPE = new SmiElementType("SNMP_NOTIFICATION_GROUP_MACRO_TYPE");
@@ -232,8 +235,17 @@ public interface SmiTypes {
       else if (type == NUMBER) {
         return new SmiNumberImpl(node);
       }
+      else if (type == SEQUENCE_OF_TYPE) {
+        return new SmiSequenceOfTypeImpl(node);
+      }
+      else if (type == SEQUENCE_TYPE) {
+        return new SmiSequenceTypeImpl(node);
+      }
       else if (type == SNMP_AGENT_CAPABILITIES_MACRO_TYPE) {
         return new SmiSnmpAgentCapabilitiesMacroTypeImpl(node);
+      }
+      else if (type == SNMP_INDEX_PART) {
+        return new SmiSnmpIndexPartImpl(node);
       }
       else if (type == SNMP_MODULE_COMPLIANCE_MACRO_TYPE) {
         return new SmiSnmpModuleComplianceMacroTypeImpl(node);

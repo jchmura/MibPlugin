@@ -10,14 +10,14 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static pl.jakubchmura.snmp.mib.psi.SmiTypes.*;
 import pl.jakubchmura.snmp.mib.psi.*;
 
-public class SmiBuiltinTypeImpl extends SmiTypeImpl implements SmiBuiltinType {
+public class SmiSequenceOfTypeImpl extends SmiBuiltinTypeImpl implements SmiSequenceOfType {
 
-  public SmiBuiltinTypeImpl(ASTNode node) {
+  public SmiSequenceOfTypeImpl(ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull SmiVisitor visitor) {
-    visitor.visitBuiltinType(this);
+    visitor.visitSequenceOfType(this);
   }
 
   public void accept(@NotNull PsiElementVisitor visitor) {
@@ -27,32 +27,8 @@ public class SmiBuiltinTypeImpl extends SmiTypeImpl implements SmiBuiltinType {
 
   @Override
   @NotNull
-  public List<SmiElementTyp> getElementTypList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SmiElementTyp.class);
-  }
-
-  @Override
-  @NotNull
-  public List<SmiNamedNumber> getNamedNumberList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SmiNamedNumber.class);
-  }
-
-  @Override
-  @NotNull
   public List<SmiType> getTypeList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, SmiType.class);
-  }
-
-  @Override
-  @NotNull
-  public List<SmiValue> getValueList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SmiValue.class);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getNumberLiteral() {
-    return findChildByType(NUMBER_LITERAL);
   }
 
 }

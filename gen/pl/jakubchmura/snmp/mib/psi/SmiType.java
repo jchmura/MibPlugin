@@ -7,10 +7,4 @@ import com.intellij.psi.PsiElement;
 
 public interface SmiType extends PsiElement {
 
-  @Nullable
-  SmiBuiltinType getBuiltinType();
-
-  @Nullable
-  SmiDefinedType getDefinedType();
-
 }

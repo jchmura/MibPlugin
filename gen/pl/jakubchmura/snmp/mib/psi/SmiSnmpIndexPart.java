@@ -5,9 +5,12 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface SmiChoiceType extends SmiBuiltinType {
+public interface SmiSnmpIndexPart extends PsiElement {
 
   @NotNull
-  List<SmiElementTyp> getElementTypList();
+  List<SmiIndexValue> getIndexValueList();
+
+  @Nullable
+  SmiValue getValue();
 
 }

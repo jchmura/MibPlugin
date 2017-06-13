@@ -135,10 +135,10 @@ definedTypeName ::= IDENTIFIER_STRING {
     methods=[getName setName getReference]
 }
 
-definedType ::= moduleReference? definedTypeName valueOrConstraintList?
+definedType ::= moduleReference? definedTypeName valueOrConstraintList? {extends=type}
 builtinType ::= nullType | booleanType | realType | integerType | objectIdentifierType | stringType | bitStringType |
                 bitsType | sequenceType | sequenceOfType | setType | setOfType | choiceType | enumeratedType |
-                selectionType | taggedType | anyType
+                selectionType | taggedType | anyType {extends=type}
 
 private nullType ::= NULL
 private booleanType ::= BOOLEAN
@@ -148,11 +148,11 @@ private objectIdentifierType ::= OBJECT_IDENTIFIER
 private stringType ::= OCTET_STRING constraintList?
 private bitStringType ::= BIT_STRING valueOrConstraintList?
 private bitsType ::= BITS valueOrConstraintList?
-private sequenceType ::= SEQUENCE LEFT_BRACE elementTypeList? RIGHT_BRACE
-private sequenceOfType ::= SEQUENCE constraintList? OF type
+sequenceType ::= SEQUENCE LEFT_BRACE elementTypeList? RIGHT_BRACE {extends=builtinType}
+sequenceOfType ::= SEQUENCE constraintList? OF type {extends=builtinType}
 private setType ::= SET LEFT_BRACE elementTypeList? RIGHT_BRACE
 private setOfType ::= SET sizeConstraint? OF type
-choiceType ::= CHOICE LEFT_BRACE elementTypeList RIGHT_BRACE {extends=type}
+choiceType ::= CHOICE LEFT_BRACE elementTypeList RIGHT_BRACE {extends=builtinType}
 private enumeratedType ::= ENUMERATED namedNumberList
 private selectionType ::= IDENTIFIER_STRING LESS_THAN type
 private taggedType ::= tag explicitOrImplicitTag? type
@@ -312,7 +312,7 @@ private snmpReferPart ::= REFERENCE STRING_LITERAL
 private snmpSyntaxPart ::= SYNTAX type
 private snmpUnitsPart ::= UNITS STRING_LITERAL
 private snmpAccessPart ::= (ACCESS IDENTIFIER_STRING) | (MAX_ACCESS IDENTIFIER_STRING) | (MIN_ACCESS IDENTIFIER_STRING)
-private snmpIndexPart ::= (INDEX LEFT_BRACE indexValueList RIGHT_BRACE) | (AUGMENTS LEFT_BRACE value RIGHT_BRACE)
+snmpIndexPart ::= (INDEX LEFT_BRACE indexValueList RIGHT_BRACE) | (AUGMENTS LEFT_BRACE value RIGHT_BRACE)
 
 private indexValueList ::= <<comma_separated_list indexValue>>
 indexValue ::= value | (IMPLIED value) | indexType

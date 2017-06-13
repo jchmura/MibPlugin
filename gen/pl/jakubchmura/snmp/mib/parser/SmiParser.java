@@ -95,8 +95,17 @@ public class SmiParser implements PsiParser, LightPsiParser {
     else if (t == NUMBER) {
       r = number(b, 0);
     }
+    else if (t == SEQUENCE_OF_TYPE) {
+      r = sequenceOfType(b, 0);
+    }
+    else if (t == SEQUENCE_TYPE) {
+      r = sequenceType(b, 0);
+    }
     else if (t == SNMP_AGENT_CAPABILITIES_MACRO_TYPE) {
       r = snmpAgentCapabilitiesMacroType(b, 0);
+    }
+    else if (t == SNMP_INDEX_PART) {
+      r = snmpIndexPart(b, 0);
     }
     else if (t == SNMP_MODULE_COMPLIANCE_MACRO_TYPE) {
       r = snmpModuleComplianceMacroType(b, 0);
@@ -161,7 +170,8 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   public static final TokenSet[] EXTENDS_SETS_ = new TokenSet[] {
     create_token_set_(BIT_OR_OBJECT_IDENTIFIER_VALUE, BUILTIN_VALUE, DEFINED_VALUE_NAME, VALUE),
-    create_token_set_(CHOICE_TYPE, DEFINED_MACRO_TYPE, SNMP_AGENT_CAPABILITIES_MACRO_TYPE, SNMP_MODULE_COMPLIANCE_MACRO_TYPE,
+    create_token_set_(BUILTIN_TYPE, CHOICE_TYPE, DEFINED_MACRO_TYPE, DEFINED_TYPE,
+      SEQUENCE_OF_TYPE, SEQUENCE_TYPE, SNMP_AGENT_CAPABILITIES_MACRO_TYPE, SNMP_MODULE_COMPLIANCE_MACRO_TYPE,
       SNMP_MODULE_IDENTITY_MACRO_TYPE, SNMP_NOTIFICATION_GROUP_MACRO_TYPE, SNMP_NOTIFICATION_TYPE_MACRO_TYPE, SNMP_OBJECT_GROUP_MACRO_TYPE,
       SNMP_OBJECT_IDENTITY_MACRO_TYPE, SNMP_OBJECT_TYPE_MACRO_TYPE, SNMP_TEXTUAL_CONVENTION_MACRO_TYPE, SNMP_TRAP_TYPE_MACRO_TYPE,
       TYPE),
@@ -370,7 +380,7 @@ public class SmiParser implements PsiParser, LightPsiParser {
   public static boolean builtinType(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "builtinType")) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, BUILTIN_TYPE, "<builtin type>");
+    Marker m = enter_section_(b, l, _COLLAPSE_, BUILTIN_TYPE, "<builtin type>");
     r = nullType(b, l + 1);
     if (!r) r = booleanType(b, l + 1);
     if (!r) r = realType(b, l + 1);
@@ -1613,7 +1623,7 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // SEQUENCE constraintList? OF type
-  static boolean sequenceOfType(PsiBuilder b, int l) {
+  public static boolean sequenceOfType(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "sequenceOfType")) return false;
     if (!nextTokenIs(b, SEQUENCE)) return false;
     boolean r;
@@ -1622,7 +1632,7 @@ public class SmiParser implements PsiParser, LightPsiParser {
     r = r && sequenceOfType_1(b, l + 1);
     r = r && consumeToken(b, OF);
     r = r && type(b, l + 1);
-    exit_section_(b, m, null, r);
+    exit_section_(b, m, SEQUENCE_OF_TYPE, r);
     return r;
   }
 
@@ -1635,7 +1645,7 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // SEQUENCE LEFT_BRACE elementTypeList? RIGHT_BRACE
-  static boolean sequenceType(PsiBuilder b, int l) {
+  public static boolean sequenceType(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "sequenceType")) return false;
     if (!nextTokenIs(b, SEQUENCE)) return false;
     boolean r;
@@ -1643,7 +1653,7 @@ public class SmiParser implements PsiParser, LightPsiParser {
     r = consumeTokens(b, 0, SEQUENCE, LEFT_BRACE);
     r = r && sequenceType_2(b, l + 1);
     r = r && consumeToken(b, RIGHT_BRACE);
-    exit_section_(b, m, null, r);
+    exit_section_(b, m, SEQUENCE_TYPE, r);
     return r;
   }
 
@@ -1886,14 +1896,14 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // (INDEX LEFT_BRACE indexValueList RIGHT_BRACE) | (AUGMENTS LEFT_BRACE value RIGHT_BRACE)
-  static boolean snmpIndexPart(PsiBuilder b, int l) {
+  public static boolean snmpIndexPart(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "snmpIndexPart")) return false;
-    if (!nextTokenIs(b, "", AUGMENTS, INDEX)) return false;
+    if (!nextTokenIs(b, "<snmp index part>", AUGMENTS, INDEX)) return false;
     boolean r;
-    Marker m = enter_section_(b);
+    Marker m = enter_section_(b, l, _NONE_, SNMP_INDEX_PART, "<snmp index part>");
     r = snmpIndexPart_0(b, l + 1);
     if (!r) r = snmpIndexPart_1(b, l + 1);
-    exit_section_(b, m, null, r);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 

@@ -7,13 +7,13 @@ import com.intellij.psi.PsiElement;
 
 public interface SmiSnmpObjectTypeMacroType extends SmiDefinedMacroType {
 
-  @NotNull
-  List<SmiIndexValue> getIndexValueList();
+  @Nullable
+  SmiSnmpIndexPart getSnmpIndexPart();
 
   @NotNull
   SmiType getType();
 
-  @NotNull
-  List<SmiValue> getValueList();
+  @Nullable
+  SmiValue getValue();
 
 }

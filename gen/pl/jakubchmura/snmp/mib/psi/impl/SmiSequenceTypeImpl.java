@@ -10,25 +10,19 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static pl.jakubchmura.snmp.mib.psi.SmiTypes.*;
 import pl.jakubchmura.snmp.mib.psi.*;
 
-public class SmiChoiceTypeImpl extends SmiBuiltinTypeImpl implements SmiChoiceType {
+public class SmiSequenceTypeImpl extends SmiBuiltinTypeImpl implements SmiSequenceType {
 
-  public SmiChoiceTypeImpl(ASTNode node) {
+  public SmiSequenceTypeImpl(ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull SmiVisitor visitor) {
-    visitor.visitChoiceType(this);
+    visitor.visitSequenceType(this);
   }
 
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof SmiVisitor) accept((SmiVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @NotNull
-  public List<SmiElementTyp> getElementTypList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SmiElementTyp.class);
   }
 
 }

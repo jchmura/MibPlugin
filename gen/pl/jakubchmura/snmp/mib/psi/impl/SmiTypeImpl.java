@@ -26,16 +26,4 @@ public class SmiTypeImpl extends ASTWrapperPsiElement implements SmiType {
     else super.accept(visitor);
   }
 
-  @Override
-  @Nullable
-  public SmiBuiltinType getBuiltinType() {
-    return findChildByClass(SmiBuiltinType.class);
-  }
-
-  @Override
-  @Nullable
-  public SmiDefinedType getDefinedType() {
-    return findChildByClass(SmiDefinedType.class);
-  }
-
 }

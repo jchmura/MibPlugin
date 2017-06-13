@@ -26,9 +26,9 @@ public class SmiSnmpObjectTypeMacroTypeImpl extends SmiDefinedMacroTypeImpl impl
   }
 
   @Override
-  @NotNull
-  public List<SmiIndexValue> getIndexValueList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SmiIndexValue.class);
+  @Nullable
+  public SmiSnmpIndexPart getSnmpIndexPart() {
+    return findChildByClass(SmiSnmpIndexPart.class);
   }
 
   @Override
@@ -38,9 +38,9 @@ public class SmiSnmpObjectTypeMacroTypeImpl extends SmiDefinedMacroTypeImpl impl
   }
 
   @Override
-  @NotNull
-  public List<SmiValue> getValueList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SmiValue.class);
+  @Nullable
+  public SmiValue getValue() {
+    return findChildByClass(SmiValue.class);
   }
 
 }

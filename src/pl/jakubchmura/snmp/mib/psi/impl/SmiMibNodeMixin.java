@@ -4,6 +4,7 @@ import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.intellij.lang.ASTNode;
 import com.intellij.navigation.ItemPresentation;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiReference;
 import com.intellij.psi.util.PsiTreeUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -19,6 +20,24 @@ public abstract class SmiMibNodeMixin extends ASTWrapperPsiElement implements Sm
 
     private SmiMibNodeMixin parent;
     private long index = -1;
+
+    private enum NodeType {
+        TABLE(MibIcons.TABLE),
+        TABLE_ENTRY(MibIcons.TABLE_ROW),
+        LEAF(MibIcons.LEAF),
+        INDEX(MibIcons.KEY),
+        NOTIFICATION(MibIcons.MAIL);
+
+        private final Icon icon;
+
+        NodeType(Icon icon) {
+            this.icon = icon;
+        }
+
+        public Icon getIcon() {
+            return icon;
+        }
+    }
 
     public SmiMibNodeMixin(@NotNull ASTNode node) {
         super(node);
@@ -41,22 +60,93 @@ public abstract class SmiMibNodeMixin extends ASTWrapperPsiElement implements Sm
     }
 
     public boolean isLeaf() {
-        SmiValueAssignment valueAssignment = (SmiValueAssignment) PsiTreeUtil.findFirstParent(this, psiElement -> psiElement instanceof SmiValueAssignment);
-        if (valueAssignment == null) {
-            return false;
-        }
-
-        SmiType type = valueAssignment.getType();
-        return type instanceof SmiSnmpObjectTypeMacroType;
+        NodeType nodeType = getNodeType();
+        return nodeType == NodeType.LEAF || nodeType == NodeType.INDEX;
     }
 
-    public boolean isNotification() {
-        SmiValueAssignment valueAssignment = (SmiValueAssignment) PsiTreeUtil.findFirstParent(this, psiElement -> psiElement instanceof SmiValueAssignment);
+    @Nullable
+    private NodeType getNodeType() {
+        SmiValueAssignment valueAssignment = getParentAssignment();
         if (valueAssignment == null) {
+            return null;
+        }
+
+        SmiType assignment = valueAssignment.getType();
+        if (assignment instanceof SmiSnmpNotificationTypeMacroType || assignment instanceof SmiSnmpTrapTypeMacroType) {
+            return NodeType.NOTIFICATION;
+        }
+
+        if (assignment instanceof SmiSnmpObjectTypeMacroType) {
+            SmiSnmpObjectTypeMacroType macro = (SmiSnmpObjectTypeMacroType) assignment;
+            SmiType innerType = macro.getType();
+            if (innerType instanceof SmiSequenceOfType) {
+                return NodeType.TABLE;
+            } else if (isSequence(innerType)) {
+                return NodeType.TABLE_ENTRY;
+            } else if (isIndex()) {
+                return NodeType.INDEX;
+            } else {
+                return NodeType.LEAF;
+            }
+        }
+
+        return null;
+    }
+
+    private boolean isSequence(SmiType type) {
+        if (type instanceof SmiBuiltinType) {
+            return type instanceof SmiSequenceType;
+        }
+        if (type instanceof SmiDefinedType) {
+            SmiDefinedType definedType = (SmiDefinedType) type;
+            PsiReference reference = definedType.getDefinedTypeName().getReference();
+            if (reference != null) {
+                PsiElement resolved = reference.resolve();
+                if (resolved != null) {
+                    PsiElement parent = resolved.getParent();
+                    if (parent instanceof SmiTypeAssignment) {
+                        SmiTypeAssignment typeAssignment = (SmiTypeAssignment) parent;
+                        return isSequence(typeAssignment.getType());
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean isIndex() {
+        SmiMibNodeMixin parentMibNode = getParentMibNode();
+        if (parentMibNode == null) {
             return false;
         }
-        SmiType type = valueAssignment.getType();
-        return type instanceof SmiSnmpNotificationTypeMacroType || type instanceof SmiSnmpTrapTypeMacroType;
+
+        SmiValueAssignment parentAssignment = parentMibNode.getParentAssignment();
+        if (parentAssignment == null) {
+            return false;
+        }
+
+        SmiType assignment = parentAssignment.getType();
+        if (assignment instanceof SmiSnmpObjectTypeMacroType) {
+            SmiSnmpObjectTypeMacroType macro = (SmiSnmpObjectTypeMacroType) assignment;
+            SmiSnmpIndexPart indexPart = macro.getSnmpIndexPart();
+            if (indexPart != null) {
+                List<SmiIndexValue> indexValueList = indexPart.getIndexValueList();
+                for (SmiIndexValue indexValue : indexValueList) {
+                    SmiValue value = indexValue.getValue();
+                    if (value instanceof SmiDefinedValueName) {
+                        PsiReference reference = value.getReference();
+                        if (reference != null) {
+                            PsiElement resolved = reference.resolve();
+                            if (this.equals(resolved)) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+
     }
 
     @NotNull
@@ -77,13 +167,12 @@ public abstract class SmiMibNodeMixin extends ASTWrapperPsiElement implements Sm
             @Nullable
             @Override
             public Icon getIcon(boolean unused) {
-                if (isLeaf()) {
-                    return MibIcons.LEAF;
-                } else if (isNotification()) {
-                    return MibIcons.MAIL;
-                } else {
-                    return MibIcons.FOLDER;
+                NodeType nodeType = getNodeType();
+                if (nodeType == null) {
+                    return null;
                 }
+
+                return nodeType.getIcon();
             }
         };
     }
@@ -91,7 +180,7 @@ public abstract class SmiMibNodeMixin extends ASTWrapperPsiElement implements Sm
     @Nullable
     public SmiMibNodeMixin getParentMibNode() {
         if (parent == null) {
-            SmiValueAssignment valueAssignment = (SmiValueAssignment) PsiTreeUtil.findFirstParent(this, psiElement -> psiElement instanceof SmiValueAssignment);
+            SmiValueAssignment valueAssignment = getParentAssignment();
             if (valueAssignment == null) {
                 return null;
 //                throw new IllegalStateException("Parent of MIB node " + this + " is null");
@@ -124,7 +213,7 @@ public abstract class SmiMibNodeMixin extends ASTWrapperPsiElement implements Sm
 
     public long getIndex() {
         if (index == -1) {
-            SmiValueAssignment valueAssignment = (SmiValueAssignment) PsiTreeUtil.findFirstParent(this, psiElement -> psiElement instanceof SmiValueAssignment);
+            SmiValueAssignment valueAssignment = getParentAssignment();
             if (valueAssignment == null) {
                 return -1;
 //                throw new IllegalStateException("Parent of MIB node " + this + " is null");
@@ -162,6 +251,10 @@ public abstract class SmiMibNodeMixin extends ASTWrapperPsiElement implements Sm
             return null;
         }
         return parentOid.createChild(index);
+    }
+
+    private SmiValueAssignment getParentAssignment() {
+        return (SmiValueAssignment) PsiTreeUtil.findFirstParent(this, psiElement -> psiElement instanceof SmiValueAssignment);
     }
 
     public String toString() {

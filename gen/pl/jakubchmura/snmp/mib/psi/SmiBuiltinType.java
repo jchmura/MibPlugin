@@ -5,10 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface SmiBuiltinType extends PsiElement {
-
-  @Nullable
-  SmiChoiceType getChoiceType();
+public interface SmiBuiltinType extends SmiType {
 
   @NotNull
   List<SmiElementTyp> getElementTypList();
