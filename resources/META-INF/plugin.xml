@@ -36,8 +36,9 @@
     <lang.namesValidator language="SMI" implementationClass="pl.jakubchmura.snmp.mib.SmiNamesValidator"/>
     <lang.psiStructureViewFactory language="SMI" implementationClass="pl.jakubchmura.snmp.mib.reference.structure.MibStructureViewFactory"/>
 
-    <gotoSymbolContributor implementation="pl.jakubchmura.snmp.mib.reference.symbol.MibNodeChooseByNameContributor"/>
-    <gotoSymbolContributor implementation="pl.jakubchmura.snmp.mib.reference.symbol.TypeNameChooseByNameContributor"/>
+    <!-- Disabled because of big performance overhead -->
+    <!--<gotoSymbolContributor implementation="pl.jakubchmura.snmp.mib.reference.symbol.MibNodeChooseByNameContributor"/>-->
+    <!--<gotoSymbolContributor implementation="pl.jakubchmura.snmp.mib.reference.symbol.TypeNameChooseByNameContributor"/>-->
 
     <annotator language="SMI" implementationClass="pl.jakubchmura.snmp.mib.annotator.SmiColorAnnotator"/>
     <annotator language="SMI" implementationClass="pl.jakubchmura.snmp.mib.annotator.SmiUnresolvedReferenceAnnotator"/>
