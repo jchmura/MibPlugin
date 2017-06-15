@@ -26,7 +26,8 @@ public abstract class SmiMibNodeMixin extends ASTWrapperPsiElement implements Sm
         TABLE_ENTRY(MibIcons.TABLE_ROW),
         LEAF(MibIcons.LEAF),
         INDEX(MibIcons.KEY),
-        NOTIFICATION(MibIcons.MAIL);
+        NOTIFICATION(MibIcons.MAIL),
+        NODE(MibIcons.FOLDER);
 
         private final Icon icon;
 
@@ -64,11 +65,10 @@ public abstract class SmiMibNodeMixin extends ASTWrapperPsiElement implements Sm
         return nodeType == NodeType.LEAF || nodeType == NodeType.INDEX;
     }
 
-    @Nullable
     private NodeType getNodeType() {
         SmiValueAssignment valueAssignment = getParentAssignment();
         if (valueAssignment == null) {
-            return null;
+            return NodeType.NODE;
         }
 
         SmiType assignment = valueAssignment.getType();
@@ -90,7 +90,7 @@ public abstract class SmiMibNodeMixin extends ASTWrapperPsiElement implements Sm
             }
         }
 
-        return null;
+        return NodeType.NODE;
     }
 
     private boolean isSequence(SmiType type) {
@@ -167,12 +167,7 @@ public abstract class SmiMibNodeMixin extends ASTWrapperPsiElement implements Sm
             @Nullable
             @Override
             public Icon getIcon(boolean unused) {
-                NodeType nodeType = getNodeType();
-                if (nodeType == null) {
-                    return null;
-                }
-
-                return nodeType.getIcon();
+                return getNodeType().getIcon();
             }
         };
     }
