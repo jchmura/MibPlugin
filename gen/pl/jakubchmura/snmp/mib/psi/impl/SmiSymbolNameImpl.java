@@ -10,7 +10,7 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static pl.jakubchmura.snmp.mib.psi.SmiTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import pl.jakubchmura.snmp.mib.psi.*;
-import pl.jakubchmura.snmp.mib.reference.ReferenceableElementReference;
+import pl.jakubchmura.snmp.mib.reference.CompositeReference;
 
 public class SmiSymbolNameImpl extends ASTWrapperPsiElement implements SmiSymbolName {
 
@@ -41,11 +41,11 @@ public class SmiSymbolNameImpl extends ASTWrapperPsiElement implements SmiSymbol
     return SmiPsiImplUtil.setName(this, name);
   }
 
-  public ReferenceableElementReference<SmiReferenceableElement> getReference() {
+  public CompositeReference getReference() {
     return SmiPsiImplUtil.getReference(this);
   }
 
-  public ReferenceableElementReference[] getReferences() {
+  public CompositeReference[] getReferences() {
     return SmiPsiImplUtil.getReferences(this);
   }
 

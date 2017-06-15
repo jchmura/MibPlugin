@@ -14,7 +14,7 @@ public class GroovyMibNodeMarkerProvider extends LanguageSmiReferenceMarkerProvi
         if (element instanceof GrLiteral) {
             GrLiteral literal = (GrLiteral) element;
             String value = literal.getValue() instanceof String? (String) literal.getValue(): null;
-            if (value != null) {
+            if (value != null && isIdentifier(value)) {
                 result.add(collectSmiReferences(element, value));
             }
         }

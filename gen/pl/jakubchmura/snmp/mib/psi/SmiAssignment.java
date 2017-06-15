@@ -8,9 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface SmiAssignment extends PsiElement {
 
   @Nullable
-  SmiTypeAssignment getTypeAssignment();
-
-  @Nullable
-  SmiValueAssignment getValueAssignment();
+  SmiAssignment getAssignment();
 
 }

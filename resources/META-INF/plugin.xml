@@ -27,8 +27,8 @@
   <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
        on how to target different products -->
   <depends>com.intellij.modules.lang</depends>
-  <depends optional="true" config-file="groovy-features.xml">org.intellij.groovy</depends>
-  <depends optional="true" config-file="properties-features.xml">com.intellij.properties</depends>
+  <!--<depends optional="true" config-file="groovy-features.xml">org.intellij.groovy</depends>-->
+  <!--<depends optional="true" config-file="properties-features.xml">com.intellij.properties</depends>-->
 
   <extensions defaultExtensionNs="com.intellij">
     <fileTypeFactory implementation="pl.jakubchmura.snmp.mib.MibFileTypeFactory"/>
@@ -41,9 +41,8 @@
     <lang.psiStructureViewFactory language="SMI" implementationClass="pl.jakubchmura.snmp.mib.reference.structure.MibStructureViewFactory"/>
     <lang.commenter language="SMI" implementationClass="pl.jakubchmura.snmp.mib.commenter.SmiCommenter"/>
 
-    <!-- Disabled because of big performance overhead -->
-    <!--<gotoSymbolContributor implementation="pl.jakubchmura.snmp.mib.reference.symbol.MibNodeChooseByNameContributor"/>-->
-    <!--<gotoSymbolContributor implementation="pl.jakubchmura.snmp.mib.reference.symbol.TypeNameChooseByNameContributor"/>-->
+    <gotoSymbolContributor implementation="pl.jakubchmura.snmp.mib.reference.symbol.MibNodeChooseByNameContributor"/>
+    <gotoSymbolContributor implementation="pl.jakubchmura.snmp.mib.reference.symbol.TypeNameChooseByNameContributor"/>
 
     <annotator language="SMI" implementationClass="pl.jakubchmura.snmp.mib.annotator.SmiColorAnnotator"/>
     <annotator language="SMI" implementationClass="pl.jakubchmura.snmp.mib.annotator.SmiUnresolvedReferenceAnnotator"/>

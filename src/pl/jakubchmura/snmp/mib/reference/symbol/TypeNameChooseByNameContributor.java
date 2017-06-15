@@ -1,10 +1,14 @@
 package pl.jakubchmura.snmp.mib.reference.symbol;
 
+import pl.jakubchmura.snmp.mib.MibFile;
 import pl.jakubchmura.snmp.mib.psi.SmiTypeName;
 
-public class TypeNameChooseByNameContributor extends AbstractChooseByNameContributor {
+import java.util.List;
 
-    public TypeNameChooseByNameContributor() {
-        super(SmiTypeName.class);
+public class TypeNameChooseByNameContributor extends AbstractChooseByNameContributor<SmiTypeName> {
+
+    @Override
+    protected List<SmiTypeName> getDeclaredElementsFromFile(MibFile mibFile) {
+        return mibFile.getTextualConventions();
     }
 }

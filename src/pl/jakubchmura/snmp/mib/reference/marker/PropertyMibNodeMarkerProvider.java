@@ -14,7 +14,9 @@ public class PropertyMibNodeMarkerProvider extends LanguageSmiReferenceMarkerPro
         if (element instanceof PropertyValueImpl) {
             PropertyValueImpl value = (PropertyValueImpl) element;
             String text = value.getText();
-            result.add(collectSmiReferences(element, text));
+            if (isIdentifier(text)) {
+                result.add(collectSmiReferences(element, text));
+            }
         }
     }
 }

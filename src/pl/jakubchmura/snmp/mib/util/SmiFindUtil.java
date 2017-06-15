@@ -3,65 +3,41 @@ package pl.jakubchmura.snmp.mib.util;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
 import com.intellij.psi.ResolveResult;
 import com.intellij.psi.search.FileTypeIndex;
 import com.intellij.psi.search.GlobalSearchScope;
-import com.intellij.psi.util.PsiTreeUtil;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import pl.jakubchmura.snmp.mib.MibFile;
 import pl.jakubchmura.snmp.mib.MibFileType;
 import pl.jakubchmura.snmp.mib.StandardSnmpv2Mibs;
 import pl.jakubchmura.snmp.mib.psi.SmiReferenceableElement;
 import pl.jakubchmura.snmp.mib.psi.SmiSymbol;
 import pl.jakubchmura.snmp.mib.psi.SmiSymbolName;
-import pl.jakubchmura.snmp.mib.psi.SmiSymbolsFromModule;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class SmiFindUtil {
 
-    public static <T extends SmiReferenceableElement> List<T> findElements(Project project, GlobalSearchScope scope, Class<T> elementClass, String name) {
-        List<T> identifiableElements = findElements(project, scope, elementClass);
-        return filterMyName(identifiableElements, name);
-    }
-
-    public static <T extends SmiReferenceableElement> List<T> findElements(PsiFile file, Class<T> elementClass, String name) {
-        List<T> identifiableElements = findElements(file, elementClass);
-        return filterMyName(identifiableElements, name);
-    }
-
-    public static <T extends SmiReferenceableElement> List<T> findElements(Project project, GlobalSearchScope scope, Class<T> elementClass) {
-        List<T> result = new ArrayList<>();
+    public static List<MibFile> getMibFiles(@NotNull Project project, @Nullable GlobalSearchScope scope) {
+        List<VirtualFile> files = new ArrayList<>(StandardSnmpv2Mibs.MIBS);
         if (scope != null) {
-            Collection<VirtualFile> files = FileTypeIndex.getFiles(MibFileType.INSTANCE, scope);
-            for (VirtualFile file : files) {
-                result.addAll(findElements(project, file, elementClass));
-            }
+            files.addAll(FileTypeIndex.getFiles(MibFileType.INSTANCE, scope));
         }
-        for (VirtualFile mibFile : StandardSnmpv2Mibs.getMibs()) {
-            result.addAll(findElements(project, mibFile, elementClass));
-        }
-        return result;
+        return files.stream()
+                .map(virtualFile -> PsiManager.getInstance(project).findFile(virtualFile))
+                .filter(Objects::nonNull)
+                .map(MibFile.class::cast)
+                .collect(Collectors.toList());
     }
 
-    public static <T extends SmiReferenceableElement> List<T> findElements(Project project, VirtualFile virtualFile, Class<T> elementClass) {
-        PsiFile file = PsiManager.getInstance(project).findFile(virtualFile);
-        if (file != null) {
-            return findElements(file, elementClass);
-        }
-        return Collections.emptyList();
-    }
-
-    @NotNull
-    public static <T extends PsiElement> List<T> findElements(PsiFile file, Class<T> elementClass) {
-        return new ArrayList<>(PsiTreeUtil.collectElementsOfType(file, elementClass));
-    }
-
-    public static <T extends SmiReferenceableElement> List<T> findImportedElements(PsiFile file, Class<T> identifiableElementClass) {
-        return findElements(file, SmiSymbolsFromModule.class)
+    public static <T extends SmiReferenceableElement> List<T> findImportedElements(MibFile file, Class<T> identifiableElementClass) {
+        return file.getImportedSymbols()
                 .stream()
                 .flatMap(e -> e.getSymbolList().stream())
                 .map(SmiSymbol::getSymbolName)
@@ -77,16 +53,8 @@ public class SmiFindUtil {
                 .collect(Collectors.toList());
     }
 
-    public static List<SmiReferenceableElement> findReferenceableElements(PsiFile file) {
-        return findElements(file, SmiReferenceableElement.class);
-    }
-
-    public static <T extends SmiReferenceableElement> List<T> findImportedElements(PsiFile file, Class<T> identifiableElementClass, String name) {
-        return filterMyName(findImportedElements(file, identifiableElementClass), name);
-    }
-
     public static <T extends PsiElement> List<T> filterOutStandardMibs(List<T> elements) {
-        List<VirtualFile> standardMibs = StandardSnmpv2Mibs.getMibs();
+        List<VirtualFile> standardMibs = StandardSnmpv2Mibs.MIBS;
         List<T> standardElements = new ArrayList<>();
         List<T> customElements = new ArrayList<>();
 
@@ -104,10 +72,5 @@ public class SmiFindUtil {
         } else {
             return standardElements;
         }
-    }
-
-
-    private static <T extends SmiReferenceableElement> List<T> filterMyName(List<T> identifiableElements, String name) {
-        return identifiableElements.stream().filter(e -> name.equals(e.getName())).collect(Collectors.toList());
     }
 }

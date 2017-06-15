@@ -173,7 +173,7 @@ public class SmiVisitor extends PsiElementVisitor {
   }
 
   public void visitTypeAssignment(@NotNull SmiTypeAssignment o) {
-    visitPsiElement(o);
+    visitAssignment(o);
   }
 
   public void visitTypeName(@NotNull SmiTypeName o) {
@@ -185,7 +185,7 @@ public class SmiVisitor extends PsiElementVisitor {
   }
 
   public void visitValueAssignment(@NotNull SmiValueAssignment o) {
-    visitPsiElement(o);
+    visitAssignment(o);
   }
 
   public void visitIdentifiableElement(@NotNull SmiIdentifiableElement o) {

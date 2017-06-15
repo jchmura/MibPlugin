@@ -6,24 +6,19 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiNamedElement;
 import com.intellij.psi.search.GlobalSearchScope;
 import org.jetbrains.annotations.NotNull;
+import pl.jakubchmura.snmp.mib.MibFile;
 import pl.jakubchmura.snmp.mib.psi.SmiReferenceableElement;
 import pl.jakubchmura.snmp.mib.util.SmiFindUtil;
 
 import java.util.List;
 
-public class AbstractChooseByNameContributor implements ChooseByNameContributor {
-
-    private Class<? extends SmiReferenceableElement> elementClass;
-
-    AbstractChooseByNameContributor(Class<? extends SmiReferenceableElement> elementClass) {
-        this.elementClass = elementClass;
-    }
+public abstract class AbstractChooseByNameContributor<T extends SmiReferenceableElement> implements ChooseByNameContributor {
 
     @NotNull
     @Override
     public String[] getNames(Project project, boolean includeNonProjectItems) {
-        return SmiFindUtil.findElements(project, getScope(project, includeNonProjectItems), elementClass)
-                .stream()
+        return SmiFindUtil.getMibFiles(project, getScope(project, includeNonProjectItems)).stream()
+                .flatMap(mibFile -> getDeclaredElementsFromFile(mibFile).stream())
                 .map(PsiNamedElement::getName)
                 .toArray(String[]::new);
     }
@@ -31,15 +26,19 @@ public class AbstractChooseByNameContributor implements ChooseByNameContributor 
     @NotNull
     @Override
     public NavigationItem[] getItemsByName(String name, String pattern, Project project, boolean includeNonProjectItems) {
-        List<? extends SmiReferenceableElement> elements = SmiFindUtil.findElements(project, getScope(project, includeNonProjectItems), elementClass, name);
-        return elements.toArray(new NavigationItem[elements.size()]);
+        return SmiFindUtil.getMibFiles(project, getScope(project, includeNonProjectItems)).stream()
+                .flatMap(mibFile -> getDeclaredElementsFromFile(mibFile).stream())
+                .filter(t -> name.equals(t.getName()))
+                .toArray(NavigationItem[]::new);
     }
+
+    protected abstract List<T> getDeclaredElementsFromFile(MibFile mibFile);
 
     @NotNull
     private GlobalSearchScope getScope(Project project, boolean includeNonProjectItems) {
         GlobalSearchScope scope;
         if (includeNonProjectItems) {
-            scope = GlobalSearchScope.everythingScope(project);
+            scope = GlobalSearchScope.projectScope(project);
         } else {
             scope = GlobalSearchScope.allScope(project);
         }

@@ -9,6 +9,7 @@ import com.intellij.psi.*;
 import com.intellij.psi.search.GlobalSearchScope;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import pl.jakubchmura.snmp.mib.MibFile;
 import pl.jakubchmura.snmp.mib.MibIcons;
 import pl.jakubchmura.snmp.mib.psi.SmiIdentifiableElement;
 import pl.jakubchmura.snmp.mib.psi.SmiReferenceableElement;
@@ -19,25 +20,25 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class ReferenceableElementReference<T extends SmiReferenceableElement> extends PsiReferenceBase<SmiIdentifiableElement> implements PsiPolyVariantReference {
+public abstract class ReferenceableElementReference<T extends SmiReferenceableElement> extends PsiReferenceBase<SmiIdentifiableElement> implements PsiPolyVariantReference {
 
     private final Class<T> identifiableElementClass;
     @Nullable
-    private final PsiFile psiFile;
+    private final MibFile mibFile;
     private final boolean withImports;
 
-    public ReferenceableElementReference(@NotNull SmiIdentifiableElement element, @NotNull Class<T> identifiableElementClass) {
+    ReferenceableElementReference(@NotNull SmiIdentifiableElement element, @NotNull Class<T> identifiableElementClass) {
         this(element, identifiableElementClass, null);
     }
 
-    public ReferenceableElementReference(@NotNull SmiIdentifiableElement element, @NotNull Class<T> identifiableElementClass, @Nullable PsiFile psiFile) {
-        this(element, identifiableElementClass, psiFile, true);
+    ReferenceableElementReference(@NotNull SmiIdentifiableElement element, @NotNull Class<T> identifiableElementClass, @Nullable MibFile mibFile) {
+        this(element, identifiableElementClass, mibFile, true);
     }
 
-    public ReferenceableElementReference(@NotNull SmiIdentifiableElement element, @NotNull Class<T> identifiableElementClass, @Nullable PsiFile psiFile, boolean withImports) {
+    ReferenceableElementReference(@NotNull SmiIdentifiableElement element, @NotNull Class<T> identifiableElementClass, @Nullable MibFile mibFile, boolean withImports) {
         super(element);
         this.identifiableElementClass = identifiableElementClass;
-        this.psiFile = psiFile;
+        this.mibFile = mibFile;
         this.withImports = withImports;
     }
 
@@ -74,14 +75,14 @@ public class ReferenceableElementReference<T extends SmiReferenceableElement> ex
 
     private List<T> getElements() {
         List<T> elements;
-        if (psiFile != null) {
+        if (mibFile != null) {
             if (withImports) {
-                elements = getDeclaredAndImportedElementsFromFile(psiFile);
+                elements = getDeclaredAndImportedElementsFromFile(mibFile);
             } else {
-                elements = getDeclaredElementsFromFile(psiFile);
+                elements = getDeclaredElementsFromFile(mibFile);
             }
         } else {
-            elements = SmiFindUtil.findElements(myElement.getProject(), getModuleScope(myElement), identifiableElementClass);
+            elements = getElementsFromEverywhere();
         }
         return elements;
     }
@@ -93,24 +94,29 @@ public class ReferenceableElementReference<T extends SmiReferenceableElement> ex
                 .collect(Collectors.toList());
     }
 
-    private List<T> getImportedElementsFromFile(PsiFile file) {
-        return SmiFindUtil.findImportedElements(file, identifiableElementClass);
+    private List<T> getImportedElementsFromFile(MibFile mibFile) {
+        return SmiFindUtil.findImportedElements(mibFile, identifiableElementClass);
     }
 
-    private List<T> getDeclaredElementsFromFile(PsiFile psiFile) {
-        return SmiFindUtil.findElements(psiFile, identifiableElementClass);
+    private List<T> getElementsFromEverywhere() {
+        GlobalSearchScope scope = getScope(myElement);
+        return SmiFindUtil.getMibFiles(myElement.getProject(), scope).stream()
+                .flatMap(mibFile -> getDeclaredElementsFromFile(mibFile).stream())
+                .collect(Collectors.toList());
     }
 
-    private List<T> getDeclaredAndImportedElementsFromFile(PsiFile psiFile) {
-        List<T> imported = getImportedElementsFromFile(psiFile);
-        List<T> declared = getDeclaredElementsFromFile(psiFile);
+    protected abstract List<T> getDeclaredElementsFromFile(MibFile mibFile);
+
+    private List<T> getDeclaredAndImportedElementsFromFile(MibFile mibFile) {
+        List<T> imported = getImportedElementsFromFile(mibFile);
+        List<T> declared = getDeclaredElementsFromFile(mibFile);
         List<T> elements = new ArrayList<>(imported);
         elements.addAll(declared);
         return elements;
     }
 
     @Nullable
-    private GlobalSearchScope getModuleScope(PsiElement element) {
+    private GlobalSearchScope getScope(PsiElement element) {
         VirtualFile virtualFile = element.getContainingFile().getVirtualFile();
         if (virtualFile == null) {
             return null;

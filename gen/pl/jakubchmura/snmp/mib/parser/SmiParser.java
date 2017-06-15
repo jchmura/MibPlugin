@@ -169,6 +169,7 @@ public class SmiParser implements PsiParser, LightPsiParser {
   }
 
   public static final TokenSet[] EXTENDS_SETS_ = new TokenSet[] {
+    create_token_set_(ASSIGNMENT, TYPE_ASSIGNMENT, VALUE_ASSIGNMENT),
     create_token_set_(BIT_OR_OBJECT_IDENTIFIER_VALUE, BUILTIN_VALUE, DEFINED_VALUE_NAME, VALUE),
     create_token_set_(BUILTIN_TYPE, CHOICE_TYPE, DEFINED_MACRO_TYPE, DEFINED_TYPE,
       SEQUENCE_OF_TYPE, SEQUENCE_TYPE, SNMP_AGENT_CAPABILITIES_MACRO_TYPE, SNMP_MODULE_COMPLIANCE_MACRO_TYPE,
@@ -218,7 +219,7 @@ public class SmiParser implements PsiParser, LightPsiParser {
   public static boolean assignment(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "assignment")) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, ASSIGNMENT, "<assignment>");
+    Marker m = enter_section_(b, l, _COLLAPSE_, ASSIGNMENT, "<assignment>");
     r = assignment_0(b, l + 1);
     r = r && assignment_1(b, l + 1);
     exit_section_(b, l, m, r, false, null);

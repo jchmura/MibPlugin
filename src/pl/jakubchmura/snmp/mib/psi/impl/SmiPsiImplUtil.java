@@ -7,11 +7,12 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiReference;
 import com.intellij.psi.ResolveResult;
 import com.intellij.psi.util.PsiTreeUtil;
-import org.jetbrains.annotations.Nullable;
 import pl.jakubchmura.snmp.mib.MibIcons;
 import pl.jakubchmura.snmp.mib.psi.*;
+import pl.jakubchmura.snmp.mib.reference.CompositeReference;
 import pl.jakubchmura.snmp.mib.reference.MibNodeReference;
-import pl.jakubchmura.snmp.mib.reference.ReferenceableElementReference;
+import pl.jakubchmura.snmp.mib.reference.ModuleIdentifierReference;
+import pl.jakubchmura.snmp.mib.reference.TextualConventionReference;
 
 import javax.swing.*;
 import java.util.stream.Stream;
@@ -49,11 +50,11 @@ public class SmiPsiImplUtil {
         return null;
     }
 
-    public static ReferenceableElementReference<SmiTypeName> getReference(SmiDefinedTypeName definedTypeName) {
-        return new ReferenceableElementReference<>(definedTypeName, SmiTypeName.class, definedTypeName.getContainingFile());
+    public static TextualConventionReference getReference(SmiDefinedTypeName definedTypeName) {
+        return new TextualConventionReference(definedTypeName, definedTypeName.getContainingFile());
     }
 
-    public static ReferenceableElementReference<SmiReferenceableElement> getReference(SmiSymbolName symbolName) {
+    public static CompositeReference getReference(SmiSymbolName symbolName) {
         SmiSymbolsFromModule symbolsFromModule = (SmiSymbolsFromModule) PsiTreeUtil.findFirstParent(symbolName, element -> element instanceof SmiSymbolsFromModule);
         if (symbolsFromModule != null) {
             PsiReference reference = symbolsFromModule.getModuleIdentifier().getReference();
@@ -62,14 +63,16 @@ public class SmiPsiImplUtil {
                 if (resolved instanceof SmiModuleIdentifierDefinition) {
                     SmiModuleIdentifierDefinition moduleIdentifierDefinition = (SmiModuleIdentifierDefinition) resolved;
                     PsiFile containingFile = moduleIdentifierDefinition.getContainingFile();
-                    return new ReferenceableElementReference<>(symbolName, SmiReferenceableElement.class, containingFile, false);
+                    MibNodeReference mibNodeReference = new MibNodeReference(symbolName, containingFile, false);
+                    TextualConventionReference tcReference = new TextualConventionReference(symbolName, containingFile, false);
+                    return new CompositeReference(mibNodeReference, tcReference);
                 }
             }
         }
         return null;
     }
 
-    public static ReferenceableElementReference[] getReferences(SmiSymbolName symbolName) {
+    public static CompositeReference[] getReferences(SmiSymbolName symbolName) {
         SmiSymbolsFromModule symbolsFromModule = (SmiSymbolsFromModule) PsiTreeUtil.findFirstParent(symbolName, element -> element instanceof SmiSymbolsFromModule);
         SmiExportList exportList = (SmiExportList) PsiTreeUtil.findFirstParent(symbolName, element -> element instanceof SmiExportList);
         if (symbolsFromModule != null) {
@@ -77,11 +80,11 @@ public class SmiPsiImplUtil {
         } else if (exportList != null) {
             return getExportedReferences(symbolName);
         }
-        return new ReferenceableElementReference[0];
+        return new CompositeReference[0];
     }
 
-    private static ReferenceableElementReference[] getImportedReferences(SmiSymbolName symbolName, SmiSymbolsFromModule symbolsFromModule) {
-        ReferenceableElementReference<SmiModuleIdentifierDefinition> reference = symbolsFromModule.getModuleIdentifier().getReference();
+    private static CompositeReference[] getImportedReferences(SmiSymbolName symbolName, SmiSymbolsFromModule symbolsFromModule) {
+        ModuleIdentifierReference reference = symbolsFromModule.getModuleIdentifier().getReference();
         if (reference != null) {
             ResolveResult[] resolveResults = reference.multiResolve(false);
             return Stream.of(resolveResults)
@@ -90,18 +93,23 @@ public class SmiPsiImplUtil {
                     .filter(e -> e instanceof SmiModuleIdentifierDefinition)
                     .map(e -> {
                         PsiFile containingFile = e.getContainingFile();
-                        return new ReferenceableElementReference<>(symbolName, SmiReferenceableElement.class, containingFile, false);
-                    }).toArray(ReferenceableElementReference[]::new);
+                        MibNodeReference mibNodeReference = new MibNodeReference(symbolName, containingFile, false);
+                        TextualConventionReference tcReference = new TextualConventionReference(symbolName, containingFile, false);
+                        return new CompositeReference(mibNodeReference, tcReference);
+                    }).toArray(CompositeReference[]::new);
         }
-        return new ReferenceableElementReference[0];
+        return new CompositeReference[0];
     }
 
-    private static ReferenceableElementReference[] getExportedReferences(SmiSymbolName symbolName) {
-        return new ReferenceableElementReference[] {new ReferenceableElementReference<>(symbolName, SmiReferenceableElement.class, symbolName.getContainingFile(), false)};
+    private static CompositeReference[] getExportedReferences(SmiSymbolName symbolName) {
+        PsiFile psiFile = symbolName.getContainingFile();
+        MibNodeReference mibNodeReference = new MibNodeReference(symbolName, psiFile, false);
+        TextualConventionReference tcReference = new TextualConventionReference(symbolName, psiFile, false);
+        return new CompositeReference[] {new CompositeReference(mibNodeReference, tcReference)};
     }
 
-    public static ReferenceableElementReference<SmiModuleIdentifierDefinition> getReference(SmiModuleIdentifier moduleIdentifier) {
-        return new ReferenceableElementReference<>(moduleIdentifier, SmiModuleIdentifierDefinition.class);
+    public static ModuleIdentifierReference getReference(SmiModuleIdentifier moduleIdentifier) {
+        return new ModuleIdentifierReference(moduleIdentifier);
     }
 
     public static boolean shouldHaveReference(SmiElementTypeName elementTypeName) {
@@ -111,19 +119,16 @@ public class SmiPsiImplUtil {
 
     public static ItemPresentation getPresentation(SmiTypeName typeName) {
         return new ItemPresentation() {
-            @Nullable
             @Override
             public String getPresentableText() {
                 return typeName.getName();
             }
 
-            @Nullable
             @Override
             public String getLocationString() {
                 return typeName.getContainingFile().getName();
             }
 
-            @Nullable
             @Override
             public Icon getIcon(boolean unused) {
                 return MibIcons.FONT;

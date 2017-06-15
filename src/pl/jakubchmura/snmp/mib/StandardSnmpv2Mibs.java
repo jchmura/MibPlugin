@@ -12,12 +12,10 @@ public class StandardSnmpv2Mibs {
     private static final String DIRECTORY = "/pl/jakubchmura/snmp/mib/mibs/";
     private static final List<String> FILE_NAMES = Arrays.asList("SNMPv2-SMI", "SNMPv2-TC", "SNMPv2-CONF");
 
-    public static List<VirtualFile> getMibs() {
-        return FILE_NAMES.stream()
-                .map(s -> DIRECTORY + s)
-                .map(StandardSnmpv2Mibs.class::getResource)
-                .map(VfsUtil::findFileByURL)
-                .collect(Collectors.toList());
-    }
+    public static final List<VirtualFile> MIBS = FILE_NAMES.stream()
+            .map(s -> DIRECTORY + s)
+            .map(StandardSnmpv2Mibs.class::getResource)
+            .map(VfsUtil::findFileByURL)
+            .collect(Collectors.toList());
 
 }

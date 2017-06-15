@@ -3,16 +3,18 @@ package pl.jakubchmura.snmp.mib;
 import com.intellij.extapi.psi.PsiFileBase;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.psi.FileViewProvider;
+import com.intellij.psi.util.PsiTreeUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import pl.jakubchmura.snmp.mib.psi.SmiTypeName;
+import pl.jakubchmura.snmp.mib.psi.*;
 import pl.jakubchmura.snmp.mib.psi.impl.SmiMibNodeMixin;
-import pl.jakubchmura.snmp.mib.util.SmiFindUtil;
 import pl.jakubchmura.snmp.mib.util.oid.SnmpOid;
 
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class MibFile extends PsiFileBase {
     public MibFile(@NotNull FileViewProvider viewProvider) {
@@ -40,7 +42,7 @@ public class MibFile extends PsiFileBase {
     public List<SmiMibNodeMixin> getTopLevelMibNodes() {
         int minDepth = Integer.MAX_VALUE;
         List<SmiMibNodeMixin> topLevelMibNodes = new ArrayList<>();
-        List<SmiMibNodeMixin> mibNodes = SmiFindUtil.findElements(this, SmiMibNodeMixin.class);
+        List<SmiMibNodeMixin> mibNodes = getMibNodes();
         for (SmiMibNodeMixin mibNode : mibNodes) {
             SnmpOid oid = mibNode.getOid();
             if (oid == null) {
@@ -59,8 +61,38 @@ public class MibFile extends PsiFileBase {
     }
 
     @NotNull
+    public List<SmiMibNodeMixin> getMibNodes() {
+        return getModuleDefinitions().stream()
+                .flatMap(definition -> definition.getAssignmentList().stream())
+                .filter(assignment -> assignment instanceof SmiValueAssignment)
+                .map(SmiValueAssignment.class::cast)
+                .map(SmiValueAssignment::getMibNode)
+                .map(SmiMibNodeMixin.class::cast)
+                .collect(Collectors.toList());
+    }
+
+    @NotNull
     public List<SmiTypeName> getTextualConventions() {
-        return SmiFindUtil.findElements(this, SmiTypeName.class);
+        return getModuleDefinitions().stream()
+                .flatMap(definition -> definition.getAssignmentList().stream())
+                .filter(assignment -> assignment instanceof SmiTypeAssignment)
+                .map(SmiTypeAssignment.class::cast)
+                .map(SmiTypeAssignment::getTypeName)
+                .collect(Collectors.toList());
+    }
+
+    @NotNull
+    public List<SmiSymbolsFromModule> getImportedSymbols() {
+        return getModuleDefinitions().stream()
+                .map(SmiModuleDefinition::getImportList)
+                .filter(Objects::nonNull)
+                .flatMap(list -> list.getSymbolsFromModuleList().stream())
+                .collect(Collectors.toList());
+    }
+
+    @NotNull
+    public List<SmiModuleDefinition> getModuleDefinitions() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, SmiModuleDefinition.class);
     }
 
 

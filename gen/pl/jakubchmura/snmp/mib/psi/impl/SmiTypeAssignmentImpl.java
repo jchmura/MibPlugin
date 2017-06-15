@@ -8,10 +8,9 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static pl.jakubchmura.snmp.mib.psi.SmiTypes.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import pl.jakubchmura.snmp.mib.psi.*;
 
-public class SmiTypeAssignmentImpl extends ASTWrapperPsiElement implements SmiTypeAssignment {
+public class SmiTypeAssignmentImpl extends SmiAssignmentImpl implements SmiTypeAssignment {
 
   public SmiTypeAssignmentImpl(ASTNode node) {
     super(node);

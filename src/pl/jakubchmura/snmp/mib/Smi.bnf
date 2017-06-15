@@ -115,7 +115,7 @@ symbolName ::= IDENTIFIER_STRING {
 private assignmentList ::= assignment+
 assignment ::= (macroDefinition|typeAssignment|valueAssignment) SEMI_COLON?
 
-private macroDefinition ::= macroReference MACRO DEFINITION macroBody
+private macroDefinition ::= macroReference MACRO DEFINITION macroBody {extends=assignment}
 private macroReference ::= IDENTIFIER_STRING | definedMacroName
 private macroBody ::= (BEGIN macroBodyElement* END) | (moduleReference macroReference)
 private macroBodyElement ::= (LEFT_PAREN|RIGHT_PAREN|VERTICAL_BAR|DEFINITION|INTEGER|REAL|BOOLEAN|NULL|BIT|OCTET|STRING|OBJECT|IDENTIFIER|IDENTIFIER_STRING|STRING_LITERAL|OBJECT_IDENTIFIER)
@@ -123,7 +123,7 @@ private macroBodyElement ::= (LEFT_PAREN|RIGHT_PAREN|VERTICAL_BAR|DEFINITION|INT
 
 // Type notation
 
-typeAssignment ::= typeName DEFINITION type
+typeAssignment ::= typeName DEFINITION type {extends=assignment}
 typeName ::= IDENTIFIER_STRING {
   implements="pl.jakubchmura.snmp.mib.psi.SmiReferenceableElement"
   methods=[getName setName getPresentation]
@@ -203,7 +203,7 @@ mibNode ::= IDENTIFIER_STRING {
 //  methods=[getName setName isLeaf getPresentation getParentMibNode getIndex getOid toString]
 }
 
-valueAssignment ::= mibNode type DEFINITION value
+valueAssignment ::= mibNode type DEFINITION value {extends=assignment}
 value ::= builtinValue | definedValue
 
 private definedValue ::= moduleReference? definedValueName {
