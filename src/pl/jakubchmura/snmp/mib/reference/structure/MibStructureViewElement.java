@@ -8,7 +8,6 @@ import com.intellij.psi.PsiElement;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import pl.jakubchmura.snmp.mib.MibFile;
-import pl.jakubchmura.snmp.mib.psi.SmiMibNode;
 import pl.jakubchmura.snmp.mib.psi.SmiTypeName;
 import pl.jakubchmura.snmp.mib.psi.impl.SmiMibNodeMixin;
 import pl.jakubchmura.snmp.mib.reference.structure.presentation.MibNodeTreePresentation;
@@ -84,7 +83,7 @@ public class MibStructureViewElement implements StructureViewTreeElement {
 
             return rootElements.toArray(new TreeElement[rootElements.size()]);
         }
-        if (element instanceof SmiMibNode) {
+        if (element instanceof SmiMibNodeMixin) {
             MibFile mibFile = (MibFile) element.getContainingFile();
             return mibFile.getMibNodes()
                     .stream()
