@@ -44,6 +44,7 @@
     <lang.namesValidator language="SMI" implementationClass="pl.jakubchmura.snmp.mib.SmiNamesValidator"/>
     <lang.psiStructureViewFactory language="SMI" implementationClass="pl.jakubchmura.snmp.mib.reference.structure.MibStructureViewFactory"/>
     <lang.commenter language="SMI" implementationClass="pl.jakubchmura.snmp.mib.commenter.SmiCommenter"/>
+    <lang.documentationProvider language="SMI" implementationClass="pl.jakubchmura.snmp.mib.doc.SmiDocumentationProvider"/>
 
     <gotoSymbolContributor implementation="pl.jakubchmura.snmp.mib.reference.symbol.MibNodeChooseByNameContributor"/>
     <gotoSymbolContributor implementation="pl.jakubchmura.snmp.mib.reference.symbol.TypeNameChooseByNameContributor"/>
