@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>pl.jakubchmura.snmp.mib</id>
   <name>MIB file support</name>
-    <version>1.2</version>
+    <version>1.3</version>
   <vendor email="chmura.jakub@gmail.com">Jakub Chmura</vendor>
 
   <description><![CDATA[
@@ -10,6 +10,11 @@
     ]]></description>
 
   <change-notes><![CDATA[
+      <b>1.3</b><br/>
+      <ul>
+        <li>Support for RFC1155</li>
+        <li>Simple documentation for MIB node</li>
+      </ul>
       <b>1.2</b><br/>
       <ul>
           <li>Performance improvements</li>
