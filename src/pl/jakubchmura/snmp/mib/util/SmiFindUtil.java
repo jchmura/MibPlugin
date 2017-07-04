@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import pl.jakubchmura.snmp.mib.MibFile;
 import pl.jakubchmura.snmp.mib.MibFileType;
-import pl.jakubchmura.snmp.mib.StandardSnmpv2Mibs;
+import pl.jakubchmura.snmp.mib.StandardSnmpMibs;
 import pl.jakubchmura.snmp.mib.psi.SmiReferenceableElement;
 import pl.jakubchmura.snmp.mib.psi.SmiSymbol;
 import pl.jakubchmura.snmp.mib.psi.SmiSymbolName;
@@ -25,7 +25,7 @@ import java.util.stream.Stream;
 public class SmiFindUtil {
 
     public static List<MibFile> getMibFiles(@NotNull Project project, @Nullable GlobalSearchScope scope) {
-        List<VirtualFile> files = new ArrayList<>(StandardSnmpv2Mibs.MIBS);
+        List<VirtualFile> files = new ArrayList<>(StandardSnmpMibs.MIBS);
         if (scope != null) {
             files.addAll(FileTypeIndex.getFiles(MibFileType.INSTANCE, scope));
         }
@@ -54,7 +54,7 @@ public class SmiFindUtil {
     }
 
     public static <T extends PsiElement> List<T> filterOutStandardMibs(List<T> elements) {
-        List<VirtualFile> standardMibs = StandardSnmpv2Mibs.MIBS;
+        List<VirtualFile> standardMibs = StandardSnmpMibs.MIBS;
         List<T> standardElements = new ArrayList<>();
         List<T> customElements = new ArrayList<>();
 
