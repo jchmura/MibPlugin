@@ -35,6 +35,8 @@ public class SmiColorAnnotator implements Annotator {
             }
         } else if (element instanceof SmiModuleIdentifier || element instanceof SmiModuleIdentifierDefinition) {
             annotateWithColor(element, holder, SmiHighlightingColors.MODULE_IDENTIFIER);
+        } else if (element.getNode().getElementType().equals(SmiTypes.IDENTIFIER_STRING) && element.getParent() instanceof SmiNameAndNumber) {
+            annotateWithColor(element, holder, SmiHighlightingColors.MIB_NODE);
         }
     }
 

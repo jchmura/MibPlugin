@@ -184,8 +184,16 @@ public abstract class SmiMibNodeMixin extends ASTWrapperPsiElement implements Sm
             SmiValue value = valueAssignment.getValue();
             if (value instanceof SmiBitOrObjectIdentifierValue) {
                 SmiBitOrObjectIdentifierValue oidValue = (SmiBitOrObjectIdentifierValue) value;
+
+                List<SmiNameAndNumber> nameAndNumberList = oidValue.getNameAndNumberList();
+                if (!nameAndNumberList.isEmpty()) {
+                    SmiNameAndNumber last = nameAndNumberList.get(nameAndNumberList.size() - 1);
+                    parent = new SmiV1MibNodeMixin(last);
+                    return parent;
+                }
+
                 List<SmiNameValueString> nameValueStringList = oidValue.getNameValueStringList();
-                if (nameValueStringList.size() == 0) {
+                if (nameValueStringList.isEmpty()) {
                     return null;
 //                    throw new IllegalStateException("No parent in OID assignment of MIB node " + this);
                 }
@@ -206,7 +214,7 @@ public abstract class SmiMibNodeMixin extends ASTWrapperPsiElement implements Sm
         return parent;
     }
 
-    public long getIndex() {
+    protected long getIndex() {
         if (index == -1) {
             SmiValueAssignment valueAssignment = getParentAssignment();
             if (valueAssignment == null) {
