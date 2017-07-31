@@ -18,13 +18,13 @@ public class SmiV1MibNodeMixin extends SmiMibNodeImpl {
     }
 
     @Override
-    protected long getIndex() {
+    protected Long[] getIndex() {
         PsiElement numberLiteral = smiNameAndNumber.getNumberLiteral();
         if (numberLiteral == null) {
             throw new IllegalStateException("No number literal in SMIv1 mib node " + this);
         }
         String text = numberLiteral.getText();
-        return Long.parseLong(text);
+        return new Long[]{Long.parseLong(text)};
     }
 
     @Nullable

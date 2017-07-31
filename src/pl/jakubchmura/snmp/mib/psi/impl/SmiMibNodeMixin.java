@@ -14,12 +14,15 @@ import pl.jakubchmura.snmp.mib.reference.MibNodeReference;
 import pl.jakubchmura.snmp.mib.util.oid.SnmpOid;
 
 import javax.swing.*;
+import java.util.Arrays;
 import java.util.List;
 
 public abstract class SmiMibNodeMixin extends ASTWrapperPsiElement implements SmiReferenceableElement {
 
+    private static final Long[] INDEX_NOT_FOUND = new Long[]{-1L};
+
     private SmiMibNodeMixin parent;
-    private long index = -1;
+    private Long[] index = INDEX_NOT_FOUND;
 
     public enum NodeType {
         TABLE(MibIcons.TABLE),
@@ -214,11 +217,11 @@ public abstract class SmiMibNodeMixin extends ASTWrapperPsiElement implements Sm
         return parent;
     }
 
-    protected long getIndex() {
-        if (index == -1) {
+    protected Long[] getIndex() {
+        if (Arrays.equals(index, INDEX_NOT_FOUND)) {
             SmiValueAssignment valueAssignment = getParentAssignment();
             if (valueAssignment == null) {
-                return -1;
+                return INDEX_NOT_FOUND;
 //                throw new IllegalStateException("Parent of MIB node " + this + " is null");
             }
 
@@ -227,12 +230,13 @@ public abstract class SmiMibNodeMixin extends ASTWrapperPsiElement implements Sm
                 SmiBitOrObjectIdentifierValue oidValue = (SmiBitOrObjectIdentifierValue) value;
                 List<SmiNameValueIndex> nameValueIndexList = oidValue.getNameValueIndexList();
                 if (nameValueIndexList.size() == 0) {
-                    return -1;
+                    return INDEX_NOT_FOUND;
 //                    throw new IllegalStateException("No parent in OID assignment of MIB node " + this);
                 }
-                SmiNameValueIndex nameValueIndex = nameValueIndexList.get(0);
-                String text = nameValueIndex.getNumberLiteral().getText();
-                index = Long.parseLong(text);
+                index = nameValueIndexList.stream()
+                        .map(smiNameValueIndex -> smiNameValueIndex.getNumberLiteral().getText())
+                        .map(Long::parseLong)
+                        .toArray(Long[]::new);
             }
 //            throw new IllegalStateException("MIB node " + this + " is not in a OID assignment");
         }
@@ -249,11 +253,11 @@ public abstract class SmiMibNodeMixin extends ASTWrapperPsiElement implements Sm
         if (parentOid == null) {
             return null;
         }
-        long index = getIndex();
-        if (index == -1) {
+        Long[] indices = getIndex();
+        if (Arrays.equals(indices, INDEX_NOT_FOUND)) {
             return null;
         }
-        return parentOid.createChild(index);
+        return parentOid.createChild(indices);
     }
 
     private SmiValueAssignment getParentAssignment() {

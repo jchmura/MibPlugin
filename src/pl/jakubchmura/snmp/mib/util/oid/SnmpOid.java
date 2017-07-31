@@ -22,11 +22,19 @@ public class SnmpOid implements Comparable<SnmpOid> {
         return new SnmpOid(Arrays.copyOf(oid, oid.length - 1));
     }
 
-    public SnmpOid createChild(long index) {
+    private SnmpOid createChild(long index) {
         int newLength = oid.length + 1;
         long[] child = Arrays.copyOf(oid, newLength);
         child[newLength - 1] = index;
         return new SnmpOid(child);
+    }
+
+    public SnmpOid createChild(Long... indices) {
+        SnmpOid child = this;
+        for (long index : indices) {
+            child = child.createChild(index);
+        }
+        return child;
     }
 
     public int getDepth() {
