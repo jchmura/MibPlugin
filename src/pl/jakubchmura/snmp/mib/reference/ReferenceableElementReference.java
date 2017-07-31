@@ -117,7 +117,11 @@ public abstract class ReferenceableElementReference<T extends SmiReferenceableEl
 
     @Nullable
     private GlobalSearchScope getScope(PsiElement element) {
-        VirtualFile virtualFile = element.getContainingFile().getVirtualFile();
+        PsiFile containingFile = element.getContainingFile();
+        if (containingFile == null) {
+            return null;
+        }
+        VirtualFile virtualFile = containingFile.getVirtualFile();
         if (virtualFile == null) {
             return null;
         }

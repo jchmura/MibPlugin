@@ -21,7 +21,7 @@ public abstract class SmiMibNodeMixin extends ASTWrapperPsiElement implements Sm
     private SmiMibNodeMixin parent;
     private long index = -1;
 
-    private enum NodeType {
+    public enum NodeType {
         TABLE(MibIcons.TABLE),
         TABLE_ENTRY(MibIcons.TABLE_ROW),
         LEAF(MibIcons.LEAF),
@@ -65,7 +65,7 @@ public abstract class SmiMibNodeMixin extends ASTWrapperPsiElement implements Sm
         return nodeType == NodeType.LEAF || nodeType == NodeType.INDEX;
     }
 
-    private NodeType getNodeType() {
+    public NodeType getNodeType() {
         SmiValueAssignment valueAssignment = getParentAssignment();
         if (valueAssignment == null) {
             return NodeType.NODE;
