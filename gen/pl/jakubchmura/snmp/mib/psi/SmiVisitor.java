@@ -42,6 +42,7 @@ public class SmiVisitor extends PsiElementVisitor {
   public void visitDefinedValueName(@NotNull SmiDefinedValueName o) {
     visitValue(o);
     // visitIdentifiableElement(o);
+    // visitReferenceResolver(o);
   }
 
   public void visitElementTyp(@NotNull SmiElementTyp o) {
@@ -114,6 +115,10 @@ public class SmiVisitor extends PsiElementVisitor {
 
   public void visitSnmpAgentCapabilitiesMacroType(@NotNull SmiSnmpAgentCapabilitiesMacroType o) {
     visitDefinedMacroType(o);
+  }
+
+  public void visitSnmpDefValPart(@NotNull SmiSnmpDefValPart o) {
+    visitPsiElement(o);
   }
 
   public void visitSnmpIndexPart(@NotNull SmiSnmpIndexPart o) {

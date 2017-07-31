@@ -44,4 +44,8 @@ public class SmiDefinedValueNameImpl extends SmiValueImpl implements SmiDefinedV
     return SmiPsiImplUtil.getReference(this);
   }
 
+  public boolean shouldHaveReference() {
+    return SmiPsiImplUtil.shouldHaveReference(this);
+  }
+
 }

@@ -26,7 +26,10 @@ public class SmiColorAnnotator implements Annotator {
         } else if (element instanceof SmiNameValueString) {
             annotateWithColor(element, holder, SmiHighlightingColors.MIB_NODE);
         } else if (element instanceof SmiDefinedValueName) {
-            annotateWithColor(element, holder, SmiHighlightingColors.MIB_NODE);
+            SmiDefinedValueName definedValueName = (SmiDefinedValueName) element;
+            if (definedValueName.shouldHaveReference()) {
+                annotateWithColor(element, holder, SmiHighlightingColors.MIB_NODE);
+            }
         } else if (element instanceof SmiSymbolName) {
             if (PsiSmiUtil.hasReferenceToReferenceableElement(element, SmiMibNodeMixin.class)) {
                 annotateWithColor(element, holder, SmiHighlightingColors.MIB_NODE);

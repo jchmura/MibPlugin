@@ -5,15 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface SmiSnmpObjectTypeMacroType extends SmiDefinedMacroType {
-
-  @Nullable
-  SmiSnmpDefValPart getSnmpDefValPart();
-
-  @Nullable
-  SmiSnmpIndexPart getSnmpIndexPart();
+public interface SmiSnmpDefValPart extends PsiElement {
 
   @NotNull
-  SmiType getType();
+  SmiValue getValue();
 
 }

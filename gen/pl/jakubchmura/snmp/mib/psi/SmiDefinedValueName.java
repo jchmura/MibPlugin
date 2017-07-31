@@ -6,7 +6,7 @@ import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 import pl.jakubchmura.snmp.mib.reference.MibNodeReference;
 
-public interface SmiDefinedValueName extends SmiValue, SmiIdentifiableElement {
+public interface SmiDefinedValueName extends SmiValue, SmiIdentifiableElement, SmiReferenceResolver {
 
   @NotNull
   PsiElement getIdentifierString();
@@ -16,5 +16,7 @@ public interface SmiDefinedValueName extends SmiValue, SmiIdentifiableElement {
   PsiElement setName(String name);
 
   MibNodeReference getReference();
+
+  boolean shouldHaveReference();
 
 }

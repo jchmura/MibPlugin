@@ -104,6 +104,9 @@ public class SmiParser implements PsiParser, LightPsiParser {
     else if (t == SNMP_AGENT_CAPABILITIES_MACRO_TYPE) {
       r = snmpAgentCapabilitiesMacroType(b, 0);
     }
+    else if (t == SNMP_DEF_VAL_PART) {
+      r = snmpDefValPart(b, 0);
+    }
     else if (t == SNMP_INDEX_PART) {
       r = snmpIndexPart(b, 0);
     }
@@ -1846,7 +1849,7 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // DEFVAL LEFT_BRACE value RIGHT_BRACE
-  static boolean snmpDefValPart(PsiBuilder b, int l) {
+  public static boolean snmpDefValPart(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "snmpDefValPart")) return false;
     if (!nextTokenIs(b, DEFVAL)) return false;
     boolean r;
@@ -1854,7 +1857,7 @@ public class SmiParser implements PsiParser, LightPsiParser {
     r = consumeTokens(b, 0, DEFVAL, LEFT_BRACE);
     r = r && value(b, l + 1);
     r = r && consumeToken(b, RIGHT_BRACE);
-    exit_section_(b, m, null, r);
+    exit_section_(b, m, SNMP_DEF_VAL_PART, r);
     return r;
   }
 

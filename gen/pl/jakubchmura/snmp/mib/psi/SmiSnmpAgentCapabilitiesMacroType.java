@@ -11,6 +11,9 @@ public interface SmiSnmpAgentCapabilitiesMacroType extends SmiDefinedMacroType {
   List<SmiModuleIdentifier> getModuleIdentifierList();
 
   @NotNull
+  List<SmiSnmpDefValPart> getSnmpDefValPartList();
+
+  @NotNull
   List<SmiType> getTypeList();
 
   @NotNull

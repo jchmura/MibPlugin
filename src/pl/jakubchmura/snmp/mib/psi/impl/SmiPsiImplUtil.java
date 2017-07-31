@@ -117,6 +117,10 @@ public class SmiPsiImplUtil {
         return firstParent == null;
     }
 
+    public static boolean shouldHaveReference(SmiDefinedValueName definedValueName) {
+        return !(definedValueName.getParent() instanceof SmiSnmpDefValPart);
+    }
+
     public static ItemPresentation getPresentation(SmiTypeName typeName) {
         return new ItemPresentation() {
             @Override

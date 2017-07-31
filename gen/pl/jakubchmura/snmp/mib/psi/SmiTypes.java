@@ -35,6 +35,7 @@ public interface SmiTypes {
   IElementType SEQUENCE_OF_TYPE = new SmiElementType("SEQUENCE_OF_TYPE");
   IElementType SEQUENCE_TYPE = new SmiElementType("SEQUENCE_TYPE");
   IElementType SNMP_AGENT_CAPABILITIES_MACRO_TYPE = new SmiElementType("SNMP_AGENT_CAPABILITIES_MACRO_TYPE");
+  IElementType SNMP_DEF_VAL_PART = new SmiElementType("SNMP_DEF_VAL_PART");
   IElementType SNMP_INDEX_PART = new SmiElementType("SNMP_INDEX_PART");
   IElementType SNMP_MODULE_COMPLIANCE_MACRO_TYPE = new SmiElementType("SNMP_MODULE_COMPLIANCE_MACRO_TYPE");
   IElementType SNMP_MODULE_IDENTITY_MACRO_TYPE = new SmiElementType("SNMP_MODULE_IDENTITY_MACRO_TYPE");
@@ -243,6 +244,9 @@ public interface SmiTypes {
       }
       else if (type == SNMP_AGENT_CAPABILITIES_MACRO_TYPE) {
         return new SmiSnmpAgentCapabilitiesMacroTypeImpl(node);
+      }
+      else if (type == SNMP_DEF_VAL_PART) {
+        return new SmiSnmpDefValPartImpl(node);
       }
       else if (type == SNMP_INDEX_PART) {
         return new SmiSnmpIndexPartImpl(node);

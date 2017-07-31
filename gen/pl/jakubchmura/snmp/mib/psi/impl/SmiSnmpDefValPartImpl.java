@@ -8,16 +8,17 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static pl.jakubchmura.snmp.mib.psi.SmiTypes.*;
+import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import pl.jakubchmura.snmp.mib.psi.*;
 
-public class SmiSnmpObjectTypeMacroTypeImpl extends SmiDefinedMacroTypeImpl implements SmiSnmpObjectTypeMacroType {
+public class SmiSnmpDefValPartImpl extends ASTWrapperPsiElement implements SmiSnmpDefValPart {
 
-  public SmiSnmpObjectTypeMacroTypeImpl(ASTNode node) {
+  public SmiSnmpDefValPartImpl(ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull SmiVisitor visitor) {
-    visitor.visitSnmpObjectTypeMacroType(this);
+    visitor.visitSnmpDefValPart(this);
   }
 
   public void accept(@NotNull PsiElementVisitor visitor) {
@@ -26,21 +27,9 @@ public class SmiSnmpObjectTypeMacroTypeImpl extends SmiDefinedMacroTypeImpl impl
   }
 
   @Override
-  @Nullable
-  public SmiSnmpDefValPart getSnmpDefValPart() {
-    return findChildByClass(SmiSnmpDefValPart.class);
-  }
-
-  @Override
-  @Nullable
-  public SmiSnmpIndexPart getSnmpIndexPart() {
-    return findChildByClass(SmiSnmpIndexPart.class);
-  }
-
-  @Override
   @NotNull
-  public SmiType getType() {
-    return findNotNullChildByClass(SmiType.class);
+  public SmiValue getValue() {
+    return findNotNullChildByClass(SmiValue.class);
   }
 
 }

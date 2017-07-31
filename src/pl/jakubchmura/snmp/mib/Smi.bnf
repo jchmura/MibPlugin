@@ -211,8 +211,8 @@ private definedValue ::= moduleReference? definedValueName {
 }
 definedValueName ::= IDENTIFIER_STRING {
     extends=value
-    implements="pl.jakubchmura.snmp.mib.psi.SmiIdentifiableElement"
-    methods=[getName setName getReference]
+    implements=["pl.jakubchmura.snmp.mib.psi.SmiIdentifiableElement" "pl.jakubchmura.snmp.mib.psi.SmiReferenceResolver"]
+    methods=[getName setName getReference shouldHaveReference]
 }
 builtinValue ::= nullValue | booleanValue | specialRealValue | numberValue | binaryValue | hexadecimalValue |
                  stringValue | bitOrObjectIdentifierValue {extends=value}
@@ -318,7 +318,7 @@ private indexValueList ::= <<comma_separated_list indexValue>>
 indexValue ::= value | (IMPLIED value) | indexType
 indexType ::= integerType | stringType | objectIdentifierType
 
-private snmpDefValPart ::= DEFVAL LEFT_BRACE value RIGHT_BRACE
+snmpDefValPart ::= DEFVAL LEFT_BRACE value RIGHT_BRACE
 private snmpObjectsPart ::= OBJECTS LEFT_BRACE valueList RIGHT_BRACE
 private valueList ::= <<comma_separated_list value>>
 
