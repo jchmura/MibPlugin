@@ -33,7 +33,7 @@ public class SmiDocumentationProvider extends AbstractDocumentationProvider {
 
     private static ASTNode getNextSibling(ASTNode node) {
         ASTNode next = node.getTreeNext();
-        if (next.getElementType().equals(TokenType.WHITE_SPACE)) {
+        if (TokenType.WHITE_SPACE.equals(next.getElementType())) {
             return getNextSibling(next);
         } else {
             return next;
