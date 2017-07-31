@@ -31,7 +31,7 @@ public class SmiFindUtil {
         }
         return files.stream()
                 .map(virtualFile -> PsiManager.getInstance(project).findFile(virtualFile))
-                .filter(Objects::nonNull)
+                .filter(psiFile -> psiFile instanceof MibFile)
                 .map(MibFile.class::cast)
                 .collect(Collectors.toList());
     }
