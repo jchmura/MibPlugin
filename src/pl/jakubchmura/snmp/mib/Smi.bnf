@@ -75,12 +75,7 @@
 
 mibFile ::= moduleDefinition+
 
-moduleDefinition ::= moduleIdentifierDefinition DEFINITIONS tagDefault? DEFINITION BEGIN moduleBody? END {
-    pin=5
-    recoverWhile=end_rule_recover
-}
-
-private end_rule_recover ::= !END
+moduleDefinition ::= moduleIdentifierDefinition DEFINITIONS tagDefault? DEFINITION BEGIN moduleBody? END
 
 moduleIdentifierDefinition ::= IDENTIFIER_STRING objectIdentifierValue? {
     implements="pl.jakubchmura.snmp.mib.psi.SmiReferenceableElement"

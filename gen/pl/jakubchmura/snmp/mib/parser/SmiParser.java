@@ -932,17 +932,6 @@ public class SmiParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // !END
-  static boolean end_rule_recover(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "end_rule_recover")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NOT_);
-    r = !consumeToken(b, END);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  /* ********************************************************** */
   // ENUMERATED namedNumberList
   static boolean enumeratedType(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "enumeratedType")) return false;
@@ -1291,17 +1280,17 @@ public class SmiParser implements PsiParser, LightPsiParser {
   // moduleIdentifierDefinition DEFINITIONS tagDefault? DEFINITION BEGIN moduleBody? END
   public static boolean moduleDefinition(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "moduleDefinition")) return false;
-    boolean r, p;
-    Marker m = enter_section_(b, l, _NONE_, MODULE_DEFINITION, "<module definition>");
+    if (!nextTokenIs(b, IDENTIFIER_STRING)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
     r = moduleIdentifierDefinition(b, l + 1);
     r = r && consumeToken(b, DEFINITIONS);
     r = r && moduleDefinition_2(b, l + 1);
-    r = r && consumeTokens(b, 2, DEFINITION, BEGIN);
-    p = r; // pin = 5
-    r = r && report_error_(b, moduleDefinition_5(b, l + 1));
-    r = p && consumeToken(b, END) && r;
-    exit_section_(b, l, m, r, p, end_rule_recover_parser_);
-    return r || p;
+    r = r && consumeTokens(b, 0, DEFINITION, BEGIN);
+    r = r && moduleDefinition_5(b, l + 1);
+    r = r && consumeToken(b, END);
+    exit_section_(b, m, MODULE_DEFINITION, r);
+    return r;
   }
 
   // tagDefault?
@@ -2879,11 +2868,6 @@ public class SmiParser implements PsiParser, LightPsiParser {
   final static Parser elementTyp_parser_ = new Parser() {
     public boolean parse(PsiBuilder b, int l) {
       return elementTyp(b, l + 1);
-    }
-  };
-  final static Parser end_rule_recover_parser_ = new Parser() {
-    public boolean parse(PsiBuilder b, int l) {
-      return end_rule_recover(b, l + 1);
     }
   };
   final static Parser indexValue_parser_ = new Parser() {
