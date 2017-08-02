@@ -1,0 +1,45 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
+
+plugins {
+    id "org.jetbrains.intellij" version "0.2.11"
+}
+
+apply plugin: 'java'
+
+sourceCompatibility = javaVersion
+targetCompatibility = javaTargetVersion
+tasks.withType(JavaCompile) { options.encoding = 'UTF-8' }
+
+def genRoot = file('gen')
+
+sourceSets.main.java.srcDir genRoot
+
+
+apply plugin: 'org.jetbrains.intellij'
+intellij {
+    version ideaVersion
+    downloadSources Boolean.valueOf(downloadIdeaSource)
+    plugins 'groovy', 'properties'
+    pluginName 'MIB file support'
+}
+
+
+
+
+apply plugin: 'idea'
+idea {
+    project {
+        jdkName = javaVersion
+        languageLevel = javaVersion
+    }
+    module {
+        generatedSourceDirs += genRoot
+    }
+}
+
+// group 'pl.jakubchmura.snmp.mib'
+// version '1.4'

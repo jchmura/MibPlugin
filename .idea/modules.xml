@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/MibPlugin.iml" filepath="$PROJECT_DIR$/MibPlugin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/MibPlugin_main.iml" filepath="$PROJECT_DIR$/.idea/modules/MibPlugin_main.iml" group="MibPlugin" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/MibPlugin_test.iml" filepath="$PROJECT_DIR$/.idea/modules/MibPlugin_test.iml" group="MibPlugin" />
     </modules>
   </component>
 </project>
