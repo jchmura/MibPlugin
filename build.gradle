@@ -5,7 +5,7 @@ buildscript {
 }
 
 plugins {
-    id "org.jetbrains.intellij" version "0.2.11"
+    id "org.jetbrains.intellij" version "0.2.15"
 }
 
 apply plugin: 'java'
@@ -24,7 +24,7 @@ intellij {
     version ideaVersion
     downloadSources Boolean.valueOf(downloadIdeaSource)
     plugins 'groovy', 'properties'
-    pluginName 'MIB file support'
+    pluginName 'MIB'
 }
 
 
@@ -41,5 +41,5 @@ idea {
     }
 }
 
-// group 'pl.jakubchmura.snmp.mib'
-// version '1.4'
+ group 'pl.jakubchmura'
+ version '1.4'
