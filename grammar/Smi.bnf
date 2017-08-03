@@ -79,7 +79,7 @@ moduleDefinition ::= moduleIdentifierDefinition DEFINITIONS tagDefault? DEFINITI
 
 moduleIdentifierDefinition ::= IDENTIFIER_STRING objectIdentifierValue? {
     implements="pl.jakubchmura.snmp.mib.psi.SmiReferenceableElement"
-    methods=[getName setName]
+    methods=[getName setName getPresentation]
 }
 
 moduleIdentifier ::= IDENTIFIER_STRING objectIdentifierValue? {

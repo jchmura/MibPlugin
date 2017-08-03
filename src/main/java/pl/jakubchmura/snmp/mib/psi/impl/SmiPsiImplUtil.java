@@ -7,6 +7,7 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiReference;
 import com.intellij.psi.ResolveResult;
 import com.intellij.psi.util.PsiTreeUtil;
+import org.jetbrains.annotations.Nullable;
 import pl.jakubchmura.snmp.mib.MibIcons;
 import pl.jakubchmura.snmp.mib.psi.*;
 import pl.jakubchmura.snmp.mib.reference.CompositeReference;
@@ -136,6 +137,25 @@ public class SmiPsiImplUtil {
             @Override
             public Icon getIcon(boolean unused) {
                 return MibIcons.FONT;
+            }
+        };
+    }
+
+    public static ItemPresentation getPresentation(SmiModuleIdentifierDefinition moduleIdentifierDefinition) {
+        return new ItemPresentation() {
+            @Override
+            public String getPresentableText() {
+                return moduleIdentifierDefinition.getName();
+            }
+
+            @Override
+            public String getLocationString() {
+                return moduleIdentifierDefinition.getContainingFile().getName();
+            }
+
+            @Override
+            public Icon getIcon(boolean unused) {
+                return MibIcons.FILE;
             }
         };
     }

@@ -7,12 +7,11 @@ import com.intellij.psi.PsiNamedElement;
 import com.intellij.psi.search.GlobalSearchScope;
 import org.jetbrains.annotations.NotNull;
 import pl.jakubchmura.snmp.mib.MibFile;
-import pl.jakubchmura.snmp.mib.psi.SmiReferenceableElement;
 import pl.jakubchmura.snmp.mib.util.SmiFindUtil;
 
 import java.util.List;
 
-public abstract class AbstractChooseByNameContributor<T extends SmiReferenceableElement> implements ChooseByNameContributor {
+public abstract class AbstractChooseByNameContributor<T extends PsiNamedElement> implements ChooseByNameContributor {
 
     @NotNull
     @Override
