@@ -39,9 +39,9 @@ public class SmiFindUsagesProvider implements FindUsagesProvider {
     @Override
     public String getType(@NotNull PsiElement element) {
         if (element instanceof SmiMibNode) {
-            return "mib node";
+            return "MIB node";
         } else if (element instanceof SmiTypeName) {
-            return "type name";
+            return "Textual Convention";
         } else {
             return "";
         }
