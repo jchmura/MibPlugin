@@ -164,7 +164,7 @@ public abstract class SmiMibNodeMixin extends ASTWrapperPsiElement implements Sm
             @NotNull
             @Override
             public String getLocationString() {
-                return getContainingFile().getName();
+                return SmiMibNodeMixin.this.getLocationString();
             }
 
             @Nullable
@@ -173,6 +173,11 @@ public abstract class SmiMibNodeMixin extends ASTWrapperPsiElement implements Sm
                 return getNodeType().getIcon();
             }
         };
+    }
+
+    @NotNull
+    protected String getLocationString() {
+        return getContainingFile().getName();
     }
 
     @Nullable

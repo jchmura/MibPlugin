@@ -4,14 +4,34 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SnmpOid implements Comparable<SnmpOid> {
+
+    private static final Pattern PATTERN = Pattern.compile("\\.?(\\d+)");
 
     @NotNull
     private final long[] oid;
 
     public SnmpOid(@NotNull long[] oid) {
         this.oid = oid;
+    }
+
+    @Nullable
+    public static SnmpOid parse(@NotNull String text) {
+        Matcher matcher = PATTERN.matcher(text);
+        List<Long> oids = new LinkedList<>();
+        while (matcher.find()) {
+            String group = matcher.group(1);
+            oids.add(Long.parseLong(group));
+        }
+        if (!oids.isEmpty()) {
+            return new SnmpOid(oids.stream().mapToLong(i -> i).toArray());
+        }
+        return null;
     }
 
     @Nullable

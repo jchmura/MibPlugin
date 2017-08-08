@@ -6,18 +6,30 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiNamedElement;
 import com.intellij.psi.search.GlobalSearchScope;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import pl.jakubchmura.snmp.mib.MibFile;
 import pl.jakubchmura.snmp.mib.util.SmiFindUtil;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 public abstract class AbstractChooseByNameContributor<T extends PsiNamedElement> implements ChooseByNameContributor {
+
+    private final MibFile mibFile;
+
+    AbstractChooseByNameContributor() {
+        this(null);
+    }
+
+    AbstractChooseByNameContributor(@Nullable MibFile mibFile) {
+        this.mibFile = mibFile;
+    }
 
     @NotNull
     @Override
     public String[] getNames(Project project, boolean includeNonProjectItems) {
-        return SmiFindUtil.getMibFiles(project, getScope(project, includeNonProjectItems)).stream()
-                .flatMap(mibFile -> getDeclaredElementsFromFile(mibFile).stream())
+        return getMibFiles(project)
+                .flatMap(mibFile -> getDeclaredElementsFromFile(mibFile, includeNonProjectItems).stream())
                 .map(PsiNamedElement::getName)
                 .toArray(String[]::new);
     }
@@ -25,22 +37,24 @@ public abstract class AbstractChooseByNameContributor<T extends PsiNamedElement>
     @NotNull
     @Override
     public NavigationItem[] getItemsByName(String name, String pattern, Project project, boolean includeNonProjectItems) {
-        return SmiFindUtil.getMibFiles(project, getScope(project, includeNonProjectItems)).stream()
-                .flatMap(mibFile -> getDeclaredElementsFromFile(mibFile).stream())
+        return getMibFiles(project)
+                .flatMap(mibFile -> getDeclaredElementsFromFile(mibFile, includeNonProjectItems).stream())
                 .filter(t -> name.equals(t.getName()))
                 .toArray(NavigationItem[]::new);
     }
 
-    protected abstract List<T> getDeclaredElementsFromFile(MibFile mibFile);
+    private Stream<MibFile> getMibFiles(Project project) {
+        if (mibFile == null) {
+            return SmiFindUtil.getMibFiles(project, getScope(project)).stream();
+        } else {
+            return Stream.of(mibFile);
+        }
+    }
+
+    protected abstract List<T> getDeclaredElementsFromFile(MibFile mibFile, boolean includeNumericalOids);
 
     @NotNull
-    private GlobalSearchScope getScope(Project project, boolean includeNonProjectItems) {
-        GlobalSearchScope scope;
-        if (includeNonProjectItems) {
-            scope = GlobalSearchScope.projectScope(project);
-        } else {
-            scope = GlobalSearchScope.allScope(project);
-        }
-        return scope;
+    private GlobalSearchScope getScope(Project project) {
+        return GlobalSearchScope.projectScope(project);
     }
 }

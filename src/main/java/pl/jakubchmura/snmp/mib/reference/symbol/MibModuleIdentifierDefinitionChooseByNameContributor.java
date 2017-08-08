@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 public class MibModuleIdentifierDefinitionChooseByNameContributor extends AbstractChooseByNameContributor<SmiModuleIdentifierDefinition> {
 
     @Override
-    protected List<SmiModuleIdentifierDefinition> getDeclaredElementsFromFile(MibFile mibFile) {
+    protected List<SmiModuleIdentifierDefinition> getDeclaredElementsFromFile(MibFile mibFile, boolean includeNumericalOids) {
         return mibFile.getModuleDefinitions().stream()
                 .map(SmiModuleDefinition::getModuleIdentifierDefinition)
                 .collect(Collectors.toList());
