@@ -23,7 +23,7 @@ apply plugin: 'org.jetbrains.intellij'
 intellij {
     version ideaVersion
     downloadSources Boolean.valueOf(downloadIdeaSource)
-    plugins 'groovy', 'properties'
+    plugins 'groovy', 'properties', 'PsiViewer:3.28.93'
     pluginName 'MIB'
 }
 

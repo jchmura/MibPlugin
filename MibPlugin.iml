@@ -150,6 +150,7 @@
     <orderEntry type="library" scope="PROVIDED" name="Gradle: org.jetbrains.plugins:groovy_rt:2017.2.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Gradle: org.jetbrains.plugins:properties:2017.2.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Gradle: org.jetbrains.plugins:resources_en:2017.2.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Gradle: org.jetbrains.plugins:PsiViewer:3.28.93" level="project" />
     <orderEntry type="module-library" scope="RUNTIME">
       <library name="Gradle: tools">
         <CLASSES>
@@ -293,6 +294,7 @@
     <orderEntry type="library" scope="TEST" name="Gradle: org.jetbrains.plugins:groovy_rt:2017.2.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: org.jetbrains.plugins:properties:2017.2.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: org.jetbrains.plugins:resources_en:2017.2.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.jetbrains.plugins:PsiViewer:3.28.93" level="project" />
     <orderEntry type="module-library" scope="TEST">
       <library name="Gradle: tools">
         <CLASSES>
