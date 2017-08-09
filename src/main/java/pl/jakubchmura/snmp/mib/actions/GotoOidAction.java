@@ -13,23 +13,12 @@ import pl.jakubchmura.snmp.mib.MibFile;
 
 public class GotoOidAction extends GotoActionBase {
 
-    @Nullable
-    private final MibFile mibFile;
-
-    public GotoOidAction() {
-        this(null);
-    }
-
-    public GotoOidAction(@Nullable MibFile mibFile) {
-        this.mibFile = mibFile;
-    }
-
     @Override
     protected void gotoActionPerformed(AnActionEvent e) {
         Project project = e.getProject();
         if (project == null) return;
 
-        GotoOidModel model = new GotoOidModel(project, mibFile);
+        GotoOidModel model = new GotoOidModel(project);
         PsiDocumentManager.getInstance(project).commitAllDocuments();
         showNavigationPopup(e, model, new GotoActionCallback<Language>() {
             @Override

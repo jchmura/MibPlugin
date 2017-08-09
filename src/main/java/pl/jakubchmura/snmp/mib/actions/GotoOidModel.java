@@ -7,30 +7,19 @@ import com.intellij.navigation.GotoClassContributor;
 import com.intellij.navigation.NavigationItem;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.SystemInfo;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.presentation.java.SymbolPresentationUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import pl.jakubchmura.snmp.mib.MibFile;
-import pl.jakubchmura.snmp.mib.reference.symbol.MibNodeChooseByNameContributor;
+import pl.jakubchmura.snmp.mib.reference.contributor.MibNodeChooseByNameContributor;
 
 public class GotoOidModel extends ContributorsBasedGotoByModel {
 
-    private final boolean inFile;
-
-    public GotoOidModel(@NotNull Project project, @Nullable MibFile mibFile) {
-        super(project, new ChooseByNameContributor[]{new MibNodeChooseByNameContributor(mibFile)});
-        inFile = mibFile != null;
+    GotoOidModel(@NotNull Project project) {
+        super(project, new ChooseByNameContributor[]{new MibNodeChooseByNameContributor()});
     }
 
     @Override
     public String getPromptText() {
-        String text = "Enter OID";
-        if (inFile) {
-            text += " (in file)";
-        }
-        text += ":";
-        return text;
+        return "Enter OID:";
     }
 
     @Override
@@ -51,21 +40,21 @@ public class GotoOidModel extends ContributorsBasedGotoByModel {
 
     @Override
     public char getCheckBoxMnemonic() {
-        return SystemInfo.isMac?'m':'n';
+        return SystemInfo.isMac?'P':'n';
     }
 
     @Override
     public boolean loadInitialCheckBoxState() {
         PropertiesComponent propertiesComponent = PropertiesComponent.getInstance(myProject);
         return Boolean.TRUE.toString().equals(propertiesComponent.getValue("GoToClass.toSaveIncludeLibraries")) &&
-                Boolean.TRUE.toString().equals(propertiesComponent.getValue("GoToOid.includeNumerical"));
+                Boolean.TRUE.toString().equals(propertiesComponent.getValue("GoToOid.includeProject"));
     }
 
     @Override
     public void saveInitialCheckBoxState(boolean state) {
         PropertiesComponent propertiesComponent = PropertiesComponent.getInstance(myProject);
         if (Boolean.TRUE.toString().equals(propertiesComponent.getValue("GoToClass.toSaveIncludeLibraries"))){
-            propertiesComponent.setValue("GoToOid.includeNumerical", Boolean.toString(state));
+            propertiesComponent.setValue("GoToOid.includeProject", Boolean.toString(state));
         }
     }
 
@@ -89,10 +78,6 @@ public class GotoOidModel extends ContributorsBasedGotoByModel {
 
         String elementName = getElementName(element);
         if (elementName == null) return null;
-
-        if (element instanceof PsiElement) {
-            return SymbolPresentationUtil.getSymbolContainerText((PsiElement)element) + "." + elementName;
-        }
 
         return elementName;
     }

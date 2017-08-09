@@ -56,7 +56,9 @@
     <lang.commenter language="SMI" implementationClass="pl.jakubchmura.snmp.mib.commenter.SmiCommenter"/>
     <lang.documentationProvider language="SMI" implementationClass="pl.jakubchmura.snmp.mib.doc.SmiDocumentationProvider"/>
 
-    <gotoClassContributor implementation="pl.jakubchmura.snmp.mib.reference.symbol.MibModuleIdentifierDefinitionChooseByNameContributor"/>
+    <stubElementTypeHolder class="pl.jakubchmura.snmp.mib.parsing.SmiElementsTypes"/>
+    <stubIndex implementation="pl.jakubchmura.snmp.mib.psi.MibNodeNameIndex"/>
+    <stubIndex implementation="pl.jakubchmura.snmp.mib.psi.MibNodeOidIndex"/>
 
     <annotator language="SMI" implementationClass="pl.jakubchmura.snmp.mib.annotator.SmiColorAnnotator"/>
     <annotator language="SMI" implementationClass="pl.jakubchmura.snmp.mib.annotator.SmiUnresolvedReferenceAnnotator"/>
@@ -69,11 +71,6 @@
             text="OID..." description="Search OID in project">
       <add-to-group group-id="GoToTargetEx" anchor="last"/>
       <keyboard-shortcut keymap="$default" first-keystroke="alt shift O"/>
-    </action>
-    <action id="pl.jakubchmura.snmp.mib.actions.GotoOidInFileAction" class="pl.jakubchmura.snmp.mib.actions.GotoOidInFileAction"
-            text="OID in file..." description="Search OID in current file">
-      <add-to-group group-id="GoToTargetEx" anchor="last"/>
-      <keyboard-shortcut keymap="$default" first-keystroke="control shift O"/>
     </action>
   </actions>
 </idea-plugin>

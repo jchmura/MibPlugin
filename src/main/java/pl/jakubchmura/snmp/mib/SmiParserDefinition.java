@@ -9,17 +9,22 @@ import com.intellij.psi.FileViewProvider;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.TokenType;
+import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.IFileElementType;
+import com.intellij.psi.tree.IStubFileElementType;
 import com.intellij.psi.tree.TokenSet;
 import org.jetbrains.annotations.NotNull;
 import pl.jakubchmura.snmp.mib.parser.SmiParser;
+import pl.jakubchmura.snmp.mib.parsing.MibNodeStubElementType;
+import pl.jakubchmura.snmp.mib.parsing.SmiElementsTypes;
+import pl.jakubchmura.snmp.mib.psi.SmiElementType;
 import pl.jakubchmura.snmp.mib.psi.SmiTypes;
 
 public class SmiParserDefinition implements ParserDefinition {
-    public static final TokenSet WHITE_SPACES = TokenSet.create(TokenType.WHITE_SPACE);
-    public static final TokenSet COMMENTS = TokenSet.create(SmiTypes.COMMENT);
+    private static final TokenSet WHITE_SPACES = TokenSet.create(TokenType.WHITE_SPACE);
+    private static final TokenSet COMMENTS = TokenSet.create(SmiTypes.COMMENT);
 
-    public static final IFileElementType FILE = new IFileElementType(SmiLanguage.INSTANCE);
+    private static final IFileElementType FILE = new IStubFileElementType("MIB FILE", SmiLanguage.INSTANCE);
 
 
     @NotNull

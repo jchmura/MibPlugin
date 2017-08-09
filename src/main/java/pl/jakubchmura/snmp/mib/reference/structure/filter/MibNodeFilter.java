@@ -5,6 +5,7 @@ import com.intellij.ide.util.treeView.smartTree.ActionPresentation;
 import com.intellij.ide.util.treeView.smartTree.Filter;
 import com.intellij.ide.util.treeView.smartTree.TreeElement;
 import org.jetbrains.annotations.NotNull;
+import pl.jakubchmura.snmp.mib.psi.NodeType;
 import pl.jakubchmura.snmp.mib.psi.impl.SmiMibNodeMixin;
 
 import javax.swing.*;
@@ -13,14 +14,14 @@ import java.util.EnumSet;
 
 public class MibNodeFilter implements Filter {
 
-    private static final EnumSet<SmiMibNodeMixin.NodeType> NODE_TYPES = EnumSet.of(SmiMibNodeMixin.NodeType.NODE, SmiMibNodeMixin.NodeType.TABLE, SmiMibNodeMixin.NodeType.TABLE_ENTRY);
+    private static final EnumSet<NodeType> NODE_TYPES = EnumSet.of(NodeType.NODE, NodeType.TABLE, NodeType.TABLE_ENTRY);
 
-    private final EnumSet<SmiMibNodeMixin.NodeType> nodeTypes;
+    private final EnumSet<NodeType> nodeTypes;
     private final String text;
     private final Icon icon;
     private final String name;
 
-    MibNodeFilter(EnumSet<SmiMibNodeMixin.NodeType> nodeTypes, String text, Icon icon, String name) {
+    MibNodeFilter(EnumSet<NodeType> nodeTypes, String text, Icon icon, String name) {
         this.nodeTypes = nodeTypes;
         this.text = text;
         this.icon = icon;
@@ -34,7 +35,7 @@ public class MibNodeFilter implements Filter {
             Object value = viewElement.getValue();
             if (value instanceof SmiMibNodeMixin) {
                 SmiMibNodeMixin mibNodeMixin = (SmiMibNodeMixin) value;
-                SmiMibNodeMixin.NodeType nodeType = mibNodeMixin.getNodeType();
+                NodeType nodeType = mibNodeMixin.getNodeType();
                 if (NODE_TYPES.contains(nodeType)) {
                     return Arrays.stream(viewElement.getChildren()).anyMatch(this::isVisible);
                 }

@@ -1,14 +1,16 @@
 package pl.jakubchmura.snmp.mib.psi.impl;
 
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
+import com.intellij.extapi.psi.StubBasedPsiElementBase;
 import com.intellij.lang.ASTNode;
 import com.intellij.navigation.ItemPresentation;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiReference;
+import com.intellij.psi.StubBasedPsiElement;
+import com.intellij.psi.stubs.IStubElementType;
 import com.intellij.psi.util.PsiTreeUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import pl.jakubchmura.snmp.mib.MibIcons;
+import pl.jakubchmura.snmp.mib.parsing.MibNodeStubElementType;
 import pl.jakubchmura.snmp.mib.psi.*;
 import pl.jakubchmura.snmp.mib.reference.MibNodeReference;
 import pl.jakubchmura.snmp.mib.util.oid.SnmpOid;
@@ -17,37 +19,34 @@ import javax.swing.*;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class SmiMibNodeMixin extends ASTWrapperPsiElement implements SmiReferenceableElement {
+import static pl.jakubchmura.snmp.mib.psi.SmiTypes.IDENTIFIER_STRING;
+
+public class SmiMibNodeMixin extends StubBasedPsiElementBase<MibNodeStub> implements SmiReferenceableElement, StubBasedPsiElement<MibNodeStub> {
 
     private static final Long[] INDEX_NOT_FOUND = new Long[]{-1L};
 
     private SmiMibNodeMixin parent;
     private Long[] index = INDEX_NOT_FOUND;
 
-    public enum NodeType {
-        TABLE(MibIcons.TABLE),
-        TABLE_ENTRY(MibIcons.TABLE_ROW),
-        LEAF(MibIcons.LEAF),
-        INDEX(MibIcons.KEY),
-        NOTIFICATION(MibIcons.MAIL),
-        NODE(MibIcons.FOLDER);
-
-        private final Icon icon;
-
-        NodeType(Icon icon) {
-            this.icon = icon;
-        }
-
-        public Icon getIcon() {
-            return icon;
-        }
-    }
-
     public SmiMibNodeMixin(@NotNull ASTNode node) {
         super(node);
     }
 
+    public SmiMibNodeMixin(@NotNull MibNodeStub stub, @NotNull IStubElementType nodeType) {
+        super(stub, nodeType);
+    }
+
+    @NotNull
+    @Override
+    public PsiElement getIdentifierString() {
+        return findNotNullChildByType(IDENTIFIER_STRING);
+    }
+
     public String getName() {
+        MibNodeStub stub = getStub();
+        if (stub != null) {
+            return stub.getName();
+        }
         return getIdentifierString().getText();
     }
 
@@ -69,6 +68,11 @@ public abstract class SmiMibNodeMixin extends ASTWrapperPsiElement implements Sm
     }
 
     public NodeType getNodeType() {
+        MibNodeStub stub = getStub();
+        if (stub != null) {
+            return stub.getNodeType();
+        }
+
         SmiValueAssignment valueAssignment = getParentAssignment();
         if (valueAssignment == null) {
             return NodeType.NODE;
@@ -250,6 +254,11 @@ public abstract class SmiMibNodeMixin extends ASTWrapperPsiElement implements Sm
 
     @Nullable
     public SnmpOid getOid() {
+        MibNodeStub stub = getStub();
+        if (stub != null) {
+            return stub.getOid();
+        }
+
         SmiMibNodeMixin parent = getParentMibNode();
         if (parent == null) {
             return null;

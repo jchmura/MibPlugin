@@ -1,4 +1,4 @@
-package pl.jakubchmura.snmp.mib;
+package pl.jakubchmura.snmp.mib.parser;
 
 import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;

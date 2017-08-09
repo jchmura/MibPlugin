@@ -9,11 +9,16 @@ import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static pl.jakubchmura.snmp.mib.psi.SmiTypes.*;
 import pl.jakubchmura.snmp.mib.psi.*;
+import com.intellij.psi.stubs.IStubElementType;
 
 public class SmiMibNodeImpl extends SmiMibNodeMixin implements SmiMibNode {
 
   public SmiMibNodeImpl(ASTNode node) {
     super(node);
+  }
+
+  public SmiMibNodeImpl(MibNodeStub stub, IStubElementType type) {
+    super(stub, type);
   }
 
   public void accept(@NotNull SmiVisitor visitor) {

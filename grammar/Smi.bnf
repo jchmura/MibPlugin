@@ -8,12 +8,12 @@
     psiPackage="pl.jakubchmura.snmp.mib.psi"
     psiImplPackage="pl.jakubchmura.snmp.mib.psi.impl"
 
+    elementTypeFactory="pl.jakubchmura.snmp.mib.psi.SmiElementTypeFactory.createType"
     elementTypeHolderClass="pl.jakubchmura.snmp.mib.psi.SmiTypes"
     elementTypeClass="pl.jakubchmura.snmp.mib.psi.SmiElementType"
     tokenTypeClass="pl.jakubchmura.snmp.mib.psi.SmiTokenType"
 
     psiImplUtilClass="pl.jakubchmura.snmp.mib.psi.impl.SmiPsiImplUtil"
-
 
     tokens=[
         DOT="."
@@ -193,9 +193,7 @@ private componentPresence ::= PRESENT | ABSENT | OPTIONAL
 // Value notation
 
 mibNode ::= IDENTIFIER_STRING {
-//  implements="pl.jakubchmura.snmp.mib.psi.SmiReferenceableElement"
   mixin="pl.jakubchmura.snmp.mib.psi.impl.SmiMibNodeMixin"
-//  methods=[getName setName isLeaf getPresentation getParentMibNode getIndex getOid toString]
 }
 
 valueAssignment ::= mibNode type DEFINITION value {extends=assignment}
