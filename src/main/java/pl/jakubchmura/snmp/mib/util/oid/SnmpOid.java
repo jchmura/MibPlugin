@@ -49,7 +49,7 @@ public class SnmpOid implements Comparable<SnmpOid> {
         return new SnmpOid(child);
     }
 
-    public SnmpOid createChild(Long... indices) {
+    public SnmpOid createChild(long... indices) {
         SnmpOid child = this;
         for (long index : indices) {
             child = child.createChild(index);
