@@ -29,7 +29,7 @@ public class SmiSnmpDefValPartImpl extends ASTWrapperPsiElement implements SmiSn
   @Override
   @NotNull
   public SmiValue getValue() {
-    return findNotNullChildByClass(SmiValue.class);
+    return notNullChild(PsiTreeUtil.getChildOfType(this, SmiValue.class));
   }
 
 }

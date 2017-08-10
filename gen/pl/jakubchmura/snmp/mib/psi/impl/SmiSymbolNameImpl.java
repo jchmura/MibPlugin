@@ -30,7 +30,7 @@ public class SmiSymbolNameImpl extends ASTWrapperPsiElement implements SmiSymbol
   @Override
   @NotNull
   public PsiElement getIdentifierString() {
-    return findNotNullChildByType(IDENTIFIER_STRING);
+    return notNullChild(findChildByType(IDENTIFIER_STRING));
   }
 
   public String getName() {
@@ -43,10 +43,6 @@ public class SmiSymbolNameImpl extends ASTWrapperPsiElement implements SmiSymbol
 
   public CompositeReference getReference() {
     return SmiPsiImplUtil.getReference(this);
-  }
-
-  public CompositeReference[] getReferences() {
-    return SmiPsiImplUtil.getReferences(this);
   }
 
 }

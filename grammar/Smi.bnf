@@ -80,6 +80,7 @@ moduleDefinition ::= moduleIdentifierDefinition DEFINITIONS tagDefault? DEFINITI
 moduleIdentifierDefinition ::= IDENTIFIER_STRING objectIdentifierValue? {
     implements="pl.jakubchmura.snmp.mib.psi.SmiReferenceableElement"
     methods=[getName setName getPresentation]
+    stubClass="pl.jakubchmura.snmp.mib.psi.ModuleIdentifierDefinitionStub"
 }
 
 moduleIdentifier ::= IDENTIFIER_STRING objectIdentifierValue? {
@@ -104,7 +105,7 @@ private symbolList ::= <<comma_separated_list symbol>>
 symbol ::= symbolName | definedMacroName
 symbolName ::= IDENTIFIER_STRING {
   implements="pl.jakubchmura.snmp.mib.psi.SmiIdentifiableElement"
-  methods=[getName setName getReference getReferences]
+  methods=[getName setName getReference]
 }
 
 private assignmentList ::= assignment+
@@ -122,6 +123,7 @@ typeAssignment ::= typeName DEFINITION type {extends=assignment}
 typeName ::= IDENTIFIER_STRING {
   implements="pl.jakubchmura.snmp.mib.psi.SmiReferenceableElement"
   methods=[getName setName getPresentation]
+  stubClass="pl.jakubchmura.snmp.mib.psi.TextualConventionStub"
 }
 type ::= builtinType | definedType | definedMacroType | macroDefinition
 

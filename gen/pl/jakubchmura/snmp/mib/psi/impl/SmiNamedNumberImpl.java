@@ -29,13 +29,13 @@ public class SmiNamedNumberImpl extends ASTWrapperPsiElement implements SmiNamed
   @Override
   @NotNull
   public SmiNumber getNumber() {
-    return findNotNullChildByClass(SmiNumber.class);
+    return notNullChild(PsiTreeUtil.getChildOfType(this, SmiNumber.class));
   }
 
   @Override
   @NotNull
   public PsiElement getIdentifierString() {
-    return findNotNullChildByType(IDENTIFIER_STRING);
+    return notNullChild(findChildByType(IDENTIFIER_STRING));
   }
 
 }

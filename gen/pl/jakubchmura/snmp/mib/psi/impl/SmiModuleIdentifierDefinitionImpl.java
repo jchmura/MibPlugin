@@ -8,14 +8,25 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static pl.jakubchmura.snmp.mib.psi.SmiTypes.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
+import com.intellij.extapi.psi.StubBasedPsiElementBase;
+import pl.jakubchmura.snmp.mib.psi.ModuleIdentifierDefinitionStub;
 import pl.jakubchmura.snmp.mib.psi.*;
 import com.intellij.navigation.ItemPresentation;
+import com.intellij.psi.stubs.IStubElementType;
+import com.intellij.psi.tree.IElementType;
 
-public class SmiModuleIdentifierDefinitionImpl extends ASTWrapperPsiElement implements SmiModuleIdentifierDefinition {
+public class SmiModuleIdentifierDefinitionImpl extends StubBasedPsiElementBase<ModuleIdentifierDefinitionStub> implements SmiModuleIdentifierDefinition {
+
+  public SmiModuleIdentifierDefinitionImpl(ModuleIdentifierDefinitionStub stub, IStubElementType type) {
+    super(stub, type);
+  }
 
   public SmiModuleIdentifierDefinitionImpl(ASTNode node) {
     super(node);
+  }
+
+  public SmiModuleIdentifierDefinitionImpl(ModuleIdentifierDefinitionStub stub, IElementType type, ASTNode node) {
+    super(stub, type, node);
   }
 
   public void accept(@NotNull SmiVisitor visitor) {
@@ -48,7 +59,7 @@ public class SmiModuleIdentifierDefinitionImpl extends ASTWrapperPsiElement impl
   @Override
   @NotNull
   public PsiElement getIdentifierString() {
-    return findNotNullChildByType(IDENTIFIER_STRING);
+    return notNullChild(findChildByType(IDENTIFIER_STRING));
   }
 
   public String getName() {

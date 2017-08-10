@@ -7,6 +7,4 @@ public interface MibNodeStub extends StubElement<SmiMibNodeMixin> {
 
     String getName();
 
-    NodeType getNodeType();
-
 }

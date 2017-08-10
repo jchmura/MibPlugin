@@ -29,19 +29,19 @@ public class SmiElementTypImpl extends ASTWrapperPsiElement implements SmiElemen
   @Override
   @Nullable
   public SmiElementTypeName getElementTypeName() {
-    return findChildByClass(SmiElementTypeName.class);
+    return PsiTreeUtil.getChildOfType(this, SmiElementTypeName.class);
   }
 
   @Override
   @NotNull
   public SmiType getType() {
-    return findNotNullChildByClass(SmiType.class);
+    return notNullChild(PsiTreeUtil.getChildOfType(this, SmiType.class));
   }
 
   @Override
   @Nullable
   public SmiValue getValue() {
-    return findChildByClass(SmiValue.class);
+    return PsiTreeUtil.getChildOfType(this, SmiValue.class);
   }
 
   @Override

@@ -10,7 +10,7 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static pl.jakubchmura.snmp.mib.psi.SmiTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import pl.jakubchmura.snmp.mib.psi.*;
-import pl.jakubchmura.snmp.mib.reference.MibNodeReference;
+import pl.jakubchmura.snmp.mib.reference.SmiReference;
 
 public class SmiElementTypeNameImpl extends ASTWrapperPsiElement implements SmiElementTypeName {
 
@@ -30,7 +30,7 @@ public class SmiElementTypeNameImpl extends ASTWrapperPsiElement implements SmiE
   @Override
   @NotNull
   public PsiElement getIdentifierString() {
-    return findNotNullChildByType(IDENTIFIER_STRING);
+    return notNullChild(findChildByType(IDENTIFIER_STRING));
   }
 
   public String getName() {
@@ -41,7 +41,7 @@ public class SmiElementTypeNameImpl extends ASTWrapperPsiElement implements SmiE
     return SmiPsiImplUtil.setName(this, name);
   }
 
-  public MibNodeReference getReference() {
+  public SmiReference getReference() {
     return SmiPsiImplUtil.getReference(this);
   }
 

@@ -28,19 +28,19 @@ public class SmiSnmpObjectTypeMacroTypeImpl extends SmiDefinedMacroTypeImpl impl
   @Override
   @Nullable
   public SmiSnmpDefValPart getSnmpDefValPart() {
-    return findChildByClass(SmiSnmpDefValPart.class);
+    return PsiTreeUtil.getChildOfType(this, SmiSnmpDefValPart.class);
   }
 
   @Override
   @Nullable
   public SmiSnmpIndexPart getSnmpIndexPart() {
-    return findChildByClass(SmiSnmpIndexPart.class);
+    return PsiTreeUtil.getChildOfType(this, SmiSnmpIndexPart.class);
   }
 
   @Override
   @NotNull
   public SmiType getType() {
-    return findNotNullChildByClass(SmiType.class);
+    return notNullChild(PsiTreeUtil.getChildOfType(this, SmiType.class));
   }
 
 }

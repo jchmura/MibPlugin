@@ -29,7 +29,7 @@ public class SmiNumberImpl extends ASTWrapperPsiElement implements SmiNumber {
   @Override
   @Nullable
   public SmiDefinedValueName getDefinedValueName() {
-    return findChildByClass(SmiDefinedValueName.class);
+    return PsiTreeUtil.getChildOfType(this, SmiDefinedValueName.class);
   }
 
   @Override

@@ -29,7 +29,7 @@ public class SmiSymbolImpl extends ASTWrapperPsiElement implements SmiSymbol {
   @Override
   @Nullable
   public SmiSymbolName getSymbolName() {
-    return findChildByClass(SmiSymbolName.class);
+    return PsiTreeUtil.getChildOfType(this, SmiSymbolName.class);
   }
 
 }

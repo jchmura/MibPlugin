@@ -29,7 +29,7 @@ public class SmiAssignmentImpl extends ASTWrapperPsiElement implements SmiAssign
   @Override
   @Nullable
   public SmiAssignment getAssignment() {
-    return findChildByClass(SmiAssignment.class);
+    return PsiTreeUtil.getChildOfType(this, SmiAssignment.class);
   }
 
 }

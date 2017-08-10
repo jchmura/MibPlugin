@@ -4,7 +4,7 @@ package pl.jakubchmura.snmp.mib.psi;
 import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
-import pl.jakubchmura.snmp.mib.reference.MibNodeReference;
+import pl.jakubchmura.snmp.mib.reference.SmiReference;
 
 public interface SmiElementTypeName extends SmiReferenceResolver {
 
@@ -15,7 +15,7 @@ public interface SmiElementTypeName extends SmiReferenceResolver {
 
   PsiElement setName(String name);
 
-  MibNodeReference getReference();
+  SmiReference getReference();
 
   boolean shouldHaveReference();
 

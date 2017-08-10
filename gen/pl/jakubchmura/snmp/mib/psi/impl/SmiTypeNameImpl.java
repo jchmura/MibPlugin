@@ -8,14 +8,25 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static pl.jakubchmura.snmp.mib.psi.SmiTypes.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
+import com.intellij.extapi.psi.StubBasedPsiElementBase;
+import pl.jakubchmura.snmp.mib.psi.TextualConventionStub;
 import pl.jakubchmura.snmp.mib.psi.*;
 import com.intellij.navigation.ItemPresentation;
+import com.intellij.psi.stubs.IStubElementType;
+import com.intellij.psi.tree.IElementType;
 
-public class SmiTypeNameImpl extends ASTWrapperPsiElement implements SmiTypeName {
+public class SmiTypeNameImpl extends StubBasedPsiElementBase<TextualConventionStub> implements SmiTypeName {
+
+  public SmiTypeNameImpl(TextualConventionStub stub, IStubElementType type) {
+    super(stub, type);
+  }
 
   public SmiTypeNameImpl(ASTNode node) {
     super(node);
+  }
+
+  public SmiTypeNameImpl(TextualConventionStub stub, IElementType type, ASTNode node) {
+    super(stub, type, node);
   }
 
   public void accept(@NotNull SmiVisitor visitor) {
@@ -30,7 +41,7 @@ public class SmiTypeNameImpl extends ASTWrapperPsiElement implements SmiTypeName
   @Override
   @NotNull
   public PsiElement getIdentifierString() {
-    return findNotNullChildByType(IDENTIFIER_STRING);
+    return notNullChild(findChildByType(IDENTIFIER_STRING));
   }
 
   public String getName() {

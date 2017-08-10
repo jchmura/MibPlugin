@@ -35,19 +35,19 @@ public class SmiModuleDefinitionImpl extends ASTWrapperPsiElement implements Smi
   @Override
   @Nullable
   public SmiExportList getExportList() {
-    return findChildByClass(SmiExportList.class);
+    return PsiTreeUtil.getChildOfType(this, SmiExportList.class);
   }
 
   @Override
   @Nullable
   public SmiImportList getImportList() {
-    return findChildByClass(SmiImportList.class);
+    return PsiTreeUtil.getChildOfType(this, SmiImportList.class);
   }
 
   @Override
   @NotNull
   public SmiModuleIdentifierDefinition getModuleIdentifierDefinition() {
-    return findNotNullChildByClass(SmiModuleIdentifierDefinition.class);
+    return notNullChild(PsiTreeUtil.getChildOfType(this, SmiModuleIdentifierDefinition.class));
   }
 
 }

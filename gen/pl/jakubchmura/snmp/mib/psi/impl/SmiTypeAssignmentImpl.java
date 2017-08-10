@@ -28,13 +28,13 @@ public class SmiTypeAssignmentImpl extends SmiAssignmentImpl implements SmiTypeA
   @Override
   @NotNull
   public SmiType getType() {
-    return findNotNullChildByClass(SmiType.class);
+    return notNullChild(PsiTreeUtil.getChildOfType(this, SmiType.class));
   }
 
   @Override
   @NotNull
   public SmiTypeName getTypeName() {
-    return findNotNullChildByClass(SmiTypeName.class);
+    return notNullChild(PsiTreeUtil.getChildOfType(this, SmiTypeName.class));
   }
 
 }

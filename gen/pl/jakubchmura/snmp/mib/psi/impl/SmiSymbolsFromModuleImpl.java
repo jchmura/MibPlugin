@@ -29,7 +29,7 @@ public class SmiSymbolsFromModuleImpl extends ASTWrapperPsiElement implements Sm
   @Override
   @NotNull
   public SmiModuleIdentifier getModuleIdentifier() {
-    return findNotNullChildByClass(SmiModuleIdentifier.class);
+    return notNullChild(PsiTreeUtil.getChildOfType(this, SmiModuleIdentifier.class));
   }
 
   @Override

@@ -1,24 +1,28 @@
 package pl.jakubchmura.snmp.mib.reference;
 
+import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import pl.jakubchmura.snmp.mib.MibFile;
+import pl.jakubchmura.snmp.mib.psi.ModuleIdentifierDefinitionIndex;
 import pl.jakubchmura.snmp.mib.psi.SmiIdentifiableElement;
 import pl.jakubchmura.snmp.mib.psi.SmiModuleDefinition;
-import pl.jakubchmura.snmp.mib.psi.SmiModuleIdentifierDefinition;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-public class ModuleIdentifierReference extends ReferenceableElementReference<SmiModuleIdentifierDefinition> {
+public class ModuleIdentifierReference extends SmiReference {
 
     public ModuleIdentifierReference(@NotNull SmiIdentifiableElement element) {
-        super(element, SmiModuleIdentifierDefinition.class);
+        this(element, null);
+    }
+
+    private ModuleIdentifierReference(@NotNull SmiIdentifiableElement element, @Nullable PsiFile psiFile) {
+        super(element, psiFile, ModuleIdentifierDefinitionIndex.getInstance());
     }
 
     @Override
-    protected List<SmiModuleIdentifierDefinition> getDeclaredElementsFromFile(MibFile mibFile) {
-        return mibFile.getModuleDefinitions().stream()
-                .map(SmiModuleDefinition::getModuleIdentifierDefinition)
-                .collect(Collectors.toList());
+    protected Stream<SmiIdentifiableElement> getElements(Stream<MibFile> mibFileStream) {
+        return mibFileStream.flatMap(mibFile -> mibFile.getModuleDefinitions().stream())
+                .map(SmiModuleDefinition::getModuleIdentifierDefinition);
     }
 }

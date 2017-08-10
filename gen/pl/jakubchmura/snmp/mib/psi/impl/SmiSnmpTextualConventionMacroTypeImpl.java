@@ -28,13 +28,13 @@ public class SmiSnmpTextualConventionMacroTypeImpl extends SmiDefinedMacroTypeIm
   @Override
   @NotNull
   public SmiType getType() {
-    return findNotNullChildByClass(SmiType.class);
+    return notNullChild(PsiTreeUtil.getChildOfType(this, SmiType.class));
   }
 
   @Override
   @NotNull
   public PsiElement getIdentifierString() {
-    return findNotNullChildByType(IDENTIFIER_STRING);
+    return notNullChild(findChildByType(IDENTIFIER_STRING));
   }
 
 }

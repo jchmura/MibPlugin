@@ -6,17 +6,20 @@ import com.intellij.psi.FileViewProvider;
 import com.intellij.psi.util.PsiTreeUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import pl.jakubchmura.snmp.mib.psi.*;
+import pl.jakubchmura.snmp.mib.psi.SmiModuleDefinition;
+import pl.jakubchmura.snmp.mib.psi.SmiTypeAssignment;
+import pl.jakubchmura.snmp.mib.psi.SmiTypeName;
+import pl.jakubchmura.snmp.mib.psi.SmiValueAssignment;
 import pl.jakubchmura.snmp.mib.psi.impl.SmiMibNodeMixin;
 import pl.jakubchmura.snmp.mib.util.oid.SnmpOid;
 
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class MibFile extends PsiFileBase {
+
     public MibFile(@NotNull FileViewProvider viewProvider) {
         super(viewProvider, SmiLanguage.INSTANCE);
     }
@@ -29,7 +32,7 @@ public class MibFile extends PsiFileBase {
 
     @Override
     public String toString() {
-        return "MIB File";
+        return "MIB";
     }
 
     @Nullable
@@ -78,15 +81,6 @@ public class MibFile extends PsiFileBase {
                 .filter(assignment -> assignment instanceof SmiTypeAssignment)
                 .map(SmiTypeAssignment.class::cast)
                 .map(SmiTypeAssignment::getTypeName)
-                .collect(Collectors.toList());
-    }
-
-    @NotNull
-    public List<SmiSymbolsFromModule> getImportedSymbols() {
-        return getModuleDefinitions().stream()
-                .map(SmiModuleDefinition::getImportList)
-                .filter(Objects::nonNull)
-                .flatMap(list -> list.getSymbolsFromModuleList().stream())
                 .collect(Collectors.toList());
     }
 

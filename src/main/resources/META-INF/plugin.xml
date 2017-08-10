@@ -58,6 +58,8 @@
 
     <stubElementTypeHolder class="pl.jakubchmura.snmp.mib.parsing.SmiElementsTypes"/>
     <stubIndex implementation="pl.jakubchmura.snmp.mib.psi.MibNodeNameIndex"/>
+    <stubIndex implementation="pl.jakubchmura.snmp.mib.psi.ModuleIdentifierDefinitionIndex"/>
+    <stubIndex implementation="pl.jakubchmura.snmp.mib.psi.TextualConventionIndex"/>
 
     <annotator language="SMI" implementationClass="pl.jakubchmura.snmp.mib.annotator.SmiColorAnnotator"/>
     <annotator language="SMI" implementationClass="pl.jakubchmura.snmp.mib.annotator.SmiUnresolvedReferenceAnnotator"/>

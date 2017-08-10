@@ -4,7 +4,7 @@ package pl.jakubchmura.snmp.mib.psi;
 import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
-import pl.jakubchmura.snmp.mib.reference.ModuleIdentifierReference;
+import pl.jakubchmura.snmp.mib.reference.SmiReference;
 
 public interface SmiModuleIdentifier extends SmiIdentifiableElement {
 
@@ -24,6 +24,6 @@ public interface SmiModuleIdentifier extends SmiIdentifiableElement {
 
   PsiElement setName(String name);
 
-  ModuleIdentifierReference getReference();
+  SmiReference getReference();
 
 }

@@ -4,7 +4,6 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiManager;
-import com.intellij.psi.ResolveResult;
 import com.intellij.psi.search.FileTypeIndex;
 import com.intellij.psi.search.GlobalSearchScope;
 import org.jetbrains.annotations.NotNull;
@@ -12,15 +11,10 @@ import org.jetbrains.annotations.Nullable;
 import pl.jakubchmura.snmp.mib.MibFile;
 import pl.jakubchmura.snmp.mib.MibFileType;
 import pl.jakubchmura.snmp.mib.StandardSnmpMibs;
-import pl.jakubchmura.snmp.mib.psi.SmiReferenceableElement;
-import pl.jakubchmura.snmp.mib.psi.SmiSymbol;
-import pl.jakubchmura.snmp.mib.psi.SmiSymbolName;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class SmiFindUtil {
 
@@ -33,23 +27,6 @@ public class SmiFindUtil {
                 .map(virtualFile -> PsiManager.getInstance(project).findFile(virtualFile))
                 .filter(psiFile -> psiFile instanceof MibFile)
                 .map(MibFile.class::cast)
-                .collect(Collectors.toList());
-    }
-
-    public static <T extends SmiReferenceableElement> List<T> findImportedElements(MibFile file, Class<T> identifiableElementClass) {
-        return file.getImportedSymbols()
-                .stream()
-                .flatMap(e -> e.getSymbolList().stream())
-                .map(SmiSymbol::getSymbolName)
-                .filter(Objects::nonNull)
-                .map(SmiSymbolName::getReferences)
-                .flatMap(Stream::of)
-                .map(r -> r.multiResolve(false))
-                .flatMap(Stream::of)
-                .map(ResolveResult::getElement)
-                .filter(Objects::nonNull)
-                .filter(e -> identifiableElementClass.isAssignableFrom(e.getClass()))
-                .map(identifiableElementClass::cast)
                 .collect(Collectors.toList());
     }
 

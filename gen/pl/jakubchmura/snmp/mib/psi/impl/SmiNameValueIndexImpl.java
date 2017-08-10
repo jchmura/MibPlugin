@@ -29,7 +29,7 @@ public class SmiNameValueIndexImpl extends ASTWrapperPsiElement implements SmiNa
   @Override
   @NotNull
   public PsiElement getNumberLiteral() {
-    return findNotNullChildByType(NUMBER_LITERAL);
+    return notNullChild(findChildByType(NUMBER_LITERAL));
   }
 
 }

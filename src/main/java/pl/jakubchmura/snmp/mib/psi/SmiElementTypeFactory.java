@@ -6,10 +6,16 @@ import pl.jakubchmura.snmp.mib.parsing.SmiElementsTypes;
 public class SmiElementTypeFactory {
 
     static IElementType createType(String name) {
-        if (name.equals("MIB_NODE")) {
-            return SmiElementsTypes.MIB_NODE;
+        switch (name) {
+            case "MIB_NODE":
+                return SmiElementsTypes.MIB_NODE;
+            case "MODULE_IDENTIFIER_DEFINITION":
+                return SmiElementsTypes.MODULE_IDENTIFIER_DEFINITION;
+            case "TYPE_NAME":
+                return SmiElementsTypes.TEXTUAL_CONVENTION;
+            default:
+                return new SmiElementType(name);
         }
-        return new SmiElementType(name);
     }
 
 }

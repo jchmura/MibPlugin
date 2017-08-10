@@ -35,7 +35,7 @@ public class SmiSnmpIndexPartImpl extends ASTWrapperPsiElement implements SmiSnm
   @Override
   @Nullable
   public SmiValue getValue() {
-    return findChildByClass(SmiValue.class);
+    return PsiTreeUtil.getChildOfType(this, SmiValue.class);
   }
 
 }

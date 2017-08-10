@@ -33,7 +33,7 @@ public class SmiMibNodeImpl extends SmiMibNodeMixin implements SmiMibNode {
   @Override
   @NotNull
   public PsiElement getIdentifierString() {
-    return findNotNullChildByType(IDENTIFIER_STRING);
+    return notNullChild(findChildByType(IDENTIFIER_STRING));
   }
 
 }

@@ -17,6 +17,4 @@ public interface SmiSymbolName extends SmiIdentifiableElement {
 
   CompositeReference getReference();
 
-  CompositeReference[] getReferences();
-
 }

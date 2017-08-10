@@ -10,9 +10,8 @@ import com.intellij.psi.stubs.IStubElementType;
 import com.intellij.psi.util.PsiTreeUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import pl.jakubchmura.snmp.mib.parsing.MibNodeStubElementType;
 import pl.jakubchmura.snmp.mib.psi.*;
-import pl.jakubchmura.snmp.mib.reference.MibNodeReference;
+import pl.jakubchmura.snmp.mib.reference.SmiReference;
 import pl.jakubchmura.snmp.mib.util.oid.SnmpOid;
 
 import javax.swing.*;
@@ -21,7 +20,7 @@ import java.util.List;
 
 import static pl.jakubchmura.snmp.mib.psi.SmiTypes.IDENTIFIER_STRING;
 
-public class SmiMibNodeMixin extends StubBasedPsiElementBase<MibNodeStub> implements SmiReferenceableElement, StubBasedPsiElement<MibNodeStub> {
+public class SmiMibNodeMixin extends StubBasedPsiElementBase<MibNodeStub> implements SmiMibNode, SmiReferenceableElement, StubBasedPsiElement<MibNodeStub> {
 
     private static final Long[] INDEX_NOT_FOUND = new Long[]{-1L};
 
@@ -68,11 +67,6 @@ public class SmiMibNodeMixin extends StubBasedPsiElementBase<MibNodeStub> implem
     }
 
     public NodeType getNodeType() {
-        MibNodeStub stub = getStub();
-        if (stub != null) {
-            return stub.getNodeType();
-        }
-
         SmiValueAssignment valueAssignment = getParentAssignment();
         if (valueAssignment == null) {
             return NodeType.NODE;
@@ -209,7 +203,7 @@ public class SmiMibNodeMixin extends StubBasedPsiElementBase<MibNodeStub> implem
 //                    throw new IllegalStateException("No parent in OID assignment of MIB node " + this);
                 }
                 SmiNameValueString nameValueString = nameValueStringList.get(0);
-                MibNodeReference reference = nameValueString.getReference();
+                SmiReference reference = nameValueString.getReference();
                 if (reference != null) {
                     PsiElement resolved = reference.resolve();
                     if (resolved == null) {

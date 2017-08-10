@@ -7,7 +7,6 @@ import com.intellij.psi.ResolveResult;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import pl.jakubchmura.snmp.mib.psi.SmiIdentifiableElement;
-import pl.jakubchmura.snmp.mib.psi.SmiReferenceableElement;
 
 import java.util.Arrays;
 import java.util.List;
@@ -15,10 +14,9 @@ import java.util.Objects;
 
 public class CompositeReference extends PsiReferenceBase<SmiIdentifiableElement> implements PsiPolyVariantReference {
 
-    private final List<ReferenceableElementReference<? extends SmiReferenceableElement>> references;
+    private final List<SmiReference> references;
 
-    @SafeVarargs
-    public CompositeReference(ReferenceableElementReference<? extends SmiReferenceableElement>... references) {
+    public CompositeReference(SmiReference... references) {
         super(references[0].getElement());
         this.references = Arrays.asList(references);
     }
@@ -35,7 +33,7 @@ public class CompositeReference extends PsiReferenceBase<SmiIdentifiableElement>
     @Override
     public PsiElement resolve() {
         return references.stream()
-                .map(ReferenceableElementReference::resolve)
+                .map(SmiReference::resolve)
                 .filter(Objects::nonNull)
                 .findFirst()
                 .orElse(null);

@@ -4,9 +4,10 @@ package pl.jakubchmura.snmp.mib.psi;
 import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.StubBasedPsiElement;
 import com.intellij.navigation.ItemPresentation;
 
-public interface SmiTypeName extends SmiReferenceableElement {
+public interface SmiTypeName extends SmiReferenceableElement, StubBasedPsiElement<TextualConventionStub> {
 
   @NotNull
   PsiElement getIdentifierString();

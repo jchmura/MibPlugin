@@ -8,8 +8,6 @@ import com.intellij.navigation.NavigationItem;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiDocumentManager;
-import org.jetbrains.annotations.Nullable;
-import pl.jakubchmura.snmp.mib.MibFile;
 
 public class GotoOidAction extends GotoActionBase {
 

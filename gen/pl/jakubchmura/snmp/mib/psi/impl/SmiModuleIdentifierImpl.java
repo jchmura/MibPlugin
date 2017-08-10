@@ -10,7 +10,7 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static pl.jakubchmura.snmp.mib.psi.SmiTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import pl.jakubchmura.snmp.mib.psi.*;
-import pl.jakubchmura.snmp.mib.reference.ModuleIdentifierReference;
+import pl.jakubchmura.snmp.mib.reference.SmiReference;
 
 public class SmiModuleIdentifierImpl extends ASTWrapperPsiElement implements SmiModuleIdentifier {
 
@@ -48,7 +48,7 @@ public class SmiModuleIdentifierImpl extends ASTWrapperPsiElement implements Smi
   @Override
   @NotNull
   public PsiElement getIdentifierString() {
-    return findNotNullChildByType(IDENTIFIER_STRING);
+    return notNullChild(findChildByType(IDENTIFIER_STRING));
   }
 
   public String getName() {
@@ -59,7 +59,7 @@ public class SmiModuleIdentifierImpl extends ASTWrapperPsiElement implements Smi
     return SmiPsiImplUtil.setName(this, name);
   }
 
-  public ModuleIdentifierReference getReference() {
+  public SmiReference getReference() {
     return SmiPsiImplUtil.getReference(this);
   }
 

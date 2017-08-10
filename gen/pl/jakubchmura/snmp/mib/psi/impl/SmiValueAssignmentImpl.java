@@ -28,19 +28,19 @@ public class SmiValueAssignmentImpl extends SmiAssignmentImpl implements SmiValu
   @Override
   @NotNull
   public SmiMibNode getMibNode() {
-    return findNotNullChildByClass(SmiMibNode.class);
+    return notNullChild(PsiTreeUtil.getChildOfType(this, SmiMibNode.class));
   }
 
   @Override
   @NotNull
   public SmiType getType() {
-    return findNotNullChildByClass(SmiType.class);
+    return notNullChild(PsiTreeUtil.getChildOfType(this, SmiType.class));
   }
 
   @Override
   @NotNull
   public SmiValue getValue() {
-    return findNotNullChildByClass(SmiValue.class);
+    return notNullChild(PsiTreeUtil.getChildOfType(this, SmiValue.class));
   }
 
 }

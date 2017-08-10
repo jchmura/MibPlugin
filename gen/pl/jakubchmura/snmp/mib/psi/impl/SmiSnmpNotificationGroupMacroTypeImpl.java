@@ -34,7 +34,7 @@ public class SmiSnmpNotificationGroupMacroTypeImpl extends SmiDefinedMacroTypeIm
   @Override
   @NotNull
   public PsiElement getIdentifierString() {
-    return findNotNullChildByType(IDENTIFIER_STRING);
+    return notNullChild(findChildByType(IDENTIFIER_STRING));
   }
 
 }

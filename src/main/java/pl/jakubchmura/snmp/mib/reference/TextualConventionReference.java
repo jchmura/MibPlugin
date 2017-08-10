@@ -5,26 +5,22 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import pl.jakubchmura.snmp.mib.MibFile;
 import pl.jakubchmura.snmp.mib.psi.SmiIdentifiableElement;
-import pl.jakubchmura.snmp.mib.psi.SmiTypeName;
+import pl.jakubchmura.snmp.mib.psi.TextualConventionIndex;
 
-import java.util.List;
+import java.util.stream.Stream;
 
-public class TextualConventionReference extends ReferenceableElementReference<SmiTypeName> {
+public class TextualConventionReference extends SmiReference {
 
     public TextualConventionReference(@NotNull SmiIdentifiableElement element) {
-        super(element, SmiTypeName.class);
+        this(element, null);
     }
 
     public TextualConventionReference(@NotNull SmiIdentifiableElement element, @Nullable PsiFile psiFile) {
-        super(element, SmiTypeName.class, (MibFile) psiFile);
-    }
-
-    public TextualConventionReference(@NotNull SmiIdentifiableElement element, @Nullable PsiFile psiFile, boolean withImports) {
-        super(element, SmiTypeName.class, (MibFile) psiFile, withImports);
+        super(element, psiFile, TextualConventionIndex.getInstance());
     }
 
     @Override
-    protected List<SmiTypeName> getDeclaredElementsFromFile(MibFile mibFile) {
-        return mibFile.getTextualConventions();
+    protected Stream<SmiIdentifiableElement> getElements(Stream<MibFile> mibFileStream) {
+        return mibFileStream.flatMap(mibFile -> mibFile.getTextualConventions().stream());
     }
 }

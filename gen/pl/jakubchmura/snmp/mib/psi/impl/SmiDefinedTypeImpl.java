@@ -28,7 +28,7 @@ public class SmiDefinedTypeImpl extends SmiTypeImpl implements SmiDefinedType {
   @Override
   @NotNull
   public SmiDefinedTypeName getDefinedTypeName() {
-    return findNotNullChildByClass(SmiDefinedTypeName.class);
+    return notNullChild(PsiTreeUtil.getChildOfType(this, SmiDefinedTypeName.class));
   }
 
   @Override
