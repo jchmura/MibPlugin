@@ -41,8 +41,8 @@
   <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
        on how to target different products -->
   <depends>com.intellij.modules.lang</depends>
-  <!--<depends optional="true" config-file="groovy-features.xml">org.intellij.groovy</depends>-->
-  <!--<depends optional="true" config-file="properties-features.xml">com.intellij.properties</depends>-->
+  <depends optional="true" config-file="groovy-features.xml">org.intellij.groovy</depends>
+  <depends optional="true" config-file="properties-features.xml">com.intellij.properties</depends>
 
   <extensions defaultExtensionNs="com.intellij">
     <fileTypeFactory implementation="pl.jakubchmura.snmp.mib.MibFileTypeFactory"/>

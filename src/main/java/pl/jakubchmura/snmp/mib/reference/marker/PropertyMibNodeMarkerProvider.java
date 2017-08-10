@@ -6,6 +6,7 @@ import com.intellij.psi.PsiElement;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
+import java.util.regex.Matcher;
 
 public class PropertyMibNodeMarkerProvider extends LanguageSmiReferenceMarkerProvider {
 
@@ -14,8 +15,12 @@ public class PropertyMibNodeMarkerProvider extends LanguageSmiReferenceMarkerPro
         if (element instanceof PropertyValueImpl) {
             PropertyValueImpl value = (PropertyValueImpl) element;
             String text = value.getText();
-            if (isIdentifier(text)) {
-                result.add(collectSmiReferences(element, text));
+            Matcher matcher = getMatcher(text);
+            if (matcher.matches()) {
+                RelatedItemLineMarkerInfo<PsiElement> lineMarkerInfo = collectSmiReferences(element, matcher.group(1));
+                if (lineMarkerInfo != null) {
+                    result.add(lineMarkerInfo);
+                }
             }
         }
     }

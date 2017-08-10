@@ -6,6 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.literals.GrLiteral;
 
 import java.util.Collection;
+import java.util.regex.Matcher;
 
 public class GroovyMibNodeMarkerProvider extends LanguageSmiReferenceMarkerProvider {
 
@@ -14,8 +15,12 @@ public class GroovyMibNodeMarkerProvider extends LanguageSmiReferenceMarkerProvi
         if (element instanceof GrLiteral) {
             GrLiteral literal = (GrLiteral) element;
             String value = literal.getValue() instanceof String? (String) literal.getValue(): null;
-            if (value != null && isIdentifier(value)) {
-                result.add(collectSmiReferences(element, value));
+            Matcher matcher = getMatcher(value);
+            if (value != null && matcher.matches()) {
+                RelatedItemLineMarkerInfo<PsiElement> lineMarkerInfo = collectSmiReferences(element, matcher.group(1));
+                if (lineMarkerInfo != null) {
+                    result.add(lineMarkerInfo);
+                }
             }
         }
     }

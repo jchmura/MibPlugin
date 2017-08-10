@@ -5,74 +5,56 @@ import com.intellij.codeInsight.daemon.RelatedItemLineMarkerProvider;
 import com.intellij.codeInsight.navigation.NavigationGutterIconBuilder;
 import com.intellij.navigation.NavigationItem;
 import com.intellij.openapi.module.Module;
-import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.ProjectFileIndex;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.search.GlobalSearchScope;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import pl.jakubchmura.snmp.mib.MibFile;
 import pl.jakubchmura.snmp.mib.MibIcons;
-import pl.jakubchmura.snmp.mib.psi.SmiReferenceableElement;
-import pl.jakubchmura.snmp.mib.util.SmiFindUtil;
+import pl.jakubchmura.snmp.mib.psi.MibNodeNameIndex;
+import pl.jakubchmura.snmp.mib.psi.impl.SmiMibNodeMixin;
 
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 abstract class LanguageSmiReferenceMarkerProvider extends RelatedItemLineMarkerProvider {
 
-    private static final Pattern IDENTIFIER_STRING = Pattern.compile("[a-zA-Z][a-zA-Z0-9_-]*");
+    private static final Pattern IDENTIFIER_STRING = Pattern.compile("([a-zA-Z][a-zA-Z0-9_-]*)(\\.\\d)?");
 
     RelatedItemLineMarkerInfo<PsiElement> collectSmiReferences(@NotNull PsiElement element, String name) {
-        GlobalSearchScope scope = getScope(element);
-        Project project = element.getProject();
-        List<SmiReferenceableElement> elements = SmiFindUtil.getMibFiles(project, scope).stream()
-                .flatMap(mibFile -> getDeclaredElementsFromFile(mibFile).stream())
-                .filter(e -> name.equals(e.getName()))
-                .collect(Collectors.toList());
-        List<SmiReferenceableElement> filtered = SmiFindUtil.filterOutStandardMibs(elements);
+        Collection<SmiMibNodeMixin> mibNodes = MibNodeNameIndex.getInstance().get(name, element.getProject(), getScope(element));
 
-        if (!filtered.isEmpty()) {
-            Icon icon = filtered.stream().findFirst()
+        if (!mibNodes.isEmpty()) {
+            Icon icon = mibNodes.stream().findFirst()
                     .map(NavigationItem::getPresentation)
                     .map(presentation -> presentation.getIcon(false))
                     .orElse(MibIcons.FILE);
 
             NavigationGutterIconBuilder<PsiElement> builder = NavigationGutterIconBuilder
                     .create(icon)
-                    .setTargets(filtered);
+                    .setTargets(mibNodes);
 
             return builder.createLineMarkerInfo(element);
         }
         return null;
     }
 
-    boolean isIdentifier(String text) {
-        return IDENTIFIER_STRING.matcher(text).matches();
+    Matcher getMatcher(String text) {
+        return IDENTIFIER_STRING.matcher(text);
     }
 
-    private List<SmiReferenceableElement> getDeclaredElementsFromFile(MibFile mibFile) {
-        List<SmiReferenceableElement> elements = new ArrayList<>();
-        elements.addAll(mibFile.getMibNodes());
-        elements.addAll(mibFile.getTextualConventions());
-        return elements;
-    }
-
-    @Nullable
     private GlobalSearchScope getScope(PsiElement element) {
         VirtualFile virtualFile = element.getContainingFile().getVirtualFile();
         if (virtualFile == null) {
-            return null;
+            return GlobalSearchScope.EMPTY_SCOPE;
         }
         Module module = ProjectFileIndex.getInstance(element.getProject()).getModuleForFile(virtualFile);
         if (module != null) {
             return module.getModuleScope(false);
         } else {
-            return null;
+            return GlobalSearchScope.EMPTY_SCOPE;
         }
     }
 
