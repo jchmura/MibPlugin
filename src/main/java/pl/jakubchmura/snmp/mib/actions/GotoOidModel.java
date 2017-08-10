@@ -1,5 +1,6 @@
 package pl.jakubchmura.snmp.mib.actions;
 
+import com.intellij.ide.IdeBundle;
 import com.intellij.ide.util.PropertiesComponent;
 import com.intellij.ide.util.gotoByName.ContributorsBasedGotoByModel;
 import com.intellij.navigation.ChooseByNameContributor;
@@ -35,7 +36,7 @@ public class GotoOidModel extends ContributorsBasedGotoByModel {
     @Nullable
     @Override
     public String getCheckBoxName() {
-        return "Include numerical OIDs";
+        return IdeBundle.message("checkbox.include.non.project.files");
     }
 
     @Override

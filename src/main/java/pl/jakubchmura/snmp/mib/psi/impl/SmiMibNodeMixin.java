@@ -171,7 +171,6 @@ public class SmiMibNodeMixin extends StubBasedPsiElementBase<MibNodeStub> implem
                 return SmiMibNodeMixin.this.getLocationString();
             }
 
-            @Nullable
             @Override
             public Icon getIcon(boolean unused) {
                 return getNodeType().getIcon();
@@ -254,11 +253,6 @@ public class SmiMibNodeMixin extends StubBasedPsiElementBase<MibNodeStub> implem
 
     @Nullable
     public SnmpOid getOid() {
-        MibNodeStub stub = getStub();
-        if (stub != null) {
-            return stub.getOid();
-        }
-
         SmiMibNodeMixin parent = getParentMibNode();
         if (parent == null) {
             return null;
