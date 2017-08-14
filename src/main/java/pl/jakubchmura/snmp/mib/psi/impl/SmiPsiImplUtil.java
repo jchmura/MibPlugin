@@ -3,10 +3,10 @@ package pl.jakubchmura.snmp.mib.psi.impl;
 import com.intellij.lang.ASTNode;
 import com.intellij.navigation.ItemPresentation;
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiReference;
 import com.intellij.psi.util.PsiTreeUtil;
 import org.jetbrains.annotations.NotNull;
+import pl.jakubchmura.snmp.mib.MibFile;
 import pl.jakubchmura.snmp.mib.MibIcons;
 import pl.jakubchmura.snmp.mib.psi.*;
 import pl.jakubchmura.snmp.mib.reference.*;
@@ -52,7 +52,7 @@ public class SmiPsiImplUtil {
     }
 
     public static CompositeReference getReference(SmiSymbolName symbolName) {
-        PsiFile containingFile = null;
+        MibFile containingFile = null;
         SmiSymbolsFromModule symbolsFromModule = (SmiSymbolsFromModule) PsiTreeUtil.findFirstParent(symbolName, element -> element instanceof SmiSymbolsFromModule);
         if (symbolsFromModule != null) {
             PsiReference reference = symbolsFromModule.getModuleIdentifier().getReference();
@@ -60,13 +60,13 @@ public class SmiPsiImplUtil {
                 PsiElement resolved = reference.resolve();
                 if (resolved instanceof SmiModuleIdentifierDefinition) {
                     SmiModuleIdentifierDefinition moduleIdentifierDefinition = (SmiModuleIdentifierDefinition) resolved;
-                    containingFile = moduleIdentifierDefinition.getContainingFile();
+                    containingFile = (MibFile) moduleIdentifierDefinition.getContainingFile();
                 }
             }
         } else {
             PsiElement exportList = PsiTreeUtil.findFirstParent(symbolName, element -> element instanceof SmiExportList);
             if (exportList != null) {
-                containingFile = symbolName.getContainingFile();
+                containingFile = (MibFile) symbolName.getContainingFile();
             }
         }
 

@@ -21,10 +21,10 @@ import java.util.stream.Stream;
 
 public abstract class SmiReference extends PsiReferenceBase<SmiIdentifiableElement> implements PsiPolyVariantReference {
 
-    private final PsiFile psiFile;
+    private final MibFile psiFile;
     private final SmiStubIndex<? extends SmiIdentifiableElement> index;
 
-    SmiReference(@NotNull SmiIdentifiableElement element, @Nullable PsiFile psiFile, @NotNull SmiStubIndex<? extends SmiIdentifiableElement> index) {
+    SmiReference(@NotNull SmiIdentifiableElement element, @Nullable MibFile psiFile, @NotNull SmiStubIndex<? extends SmiIdentifiableElement> index) {
         super(element);
         this.psiFile = psiFile;
         this.index = index;
@@ -53,7 +53,7 @@ public abstract class SmiReference extends PsiReferenceBase<SmiIdentifiableEleme
                         .collect(Collectors.toSet()));
             }
 
-            MibFile mibFile = getMibFile();
+            MibFile mibFile = getStandardMibFile();
             if (mibFile != null) {
                 return mapToResult(getElements(Stream.of(mibFile))
                         .filter(element -> name.equals(element.getName()))
@@ -67,9 +67,15 @@ public abstract class SmiReference extends PsiReferenceBase<SmiIdentifiableEleme
     @NotNull
     @Override
     public Object[] getVariants() {
-        CommonProcessors.CollectUniquesProcessor<String> processor = new CommonProcessors.CollectUniquesProcessor<>();
-        index.processAllKeys(processor, getScope());
-        return processor.toArray(new String[0]);
+        if (psiFile == null) {
+            CommonProcessors.CollectUniquesProcessor<String> processor = new CommonProcessors.CollectUniquesProcessor<>();
+            index.processAllKeys(processor, getScope());
+            return processor.toArray(new String[0]);
+        } else {
+            return getElements(Stream.of((psiFile)))
+                    .map(PsiNamedElement::getName)
+                    .toArray();
+        }
     }
 
     protected abstract Stream<SmiIdentifiableElement> getElements(Stream<MibFile> mibFileStream);
@@ -99,15 +105,15 @@ public abstract class SmiReference extends PsiReferenceBase<SmiIdentifiableEleme
     }
 
     @Nullable
-    private MibFile getMibFile() {
+    private MibFile getStandardMibFile() {
         if (psiFile == null) {
             return null;
         }
         List<String> collect = StandardSnmpMibs.MIBS.stream().map(VirtualFile::getName).collect(Collectors.toList());
         boolean contains = collect.contains(psiFile.getVirtualFile().getName());
 
-        if (contains && psiFile instanceof MibFile) {
-            return (MibFile) psiFile;
+        if (contains) {
+            return psiFile;
         }
         return null;
     }

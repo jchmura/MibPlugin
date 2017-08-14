@@ -2,7 +2,6 @@ package pl.jakubchmura.snmp.mib.reference;
 
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementResolveResult;
-import com.intellij.psi.PsiFile;
 import com.intellij.psi.ResolveResult;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -22,7 +21,7 @@ public class MibNodeReference extends SmiReference {
         this(element, null);
     }
 
-    public MibNodeReference(@NotNull SmiIdentifiableElement element, @Nullable PsiFile psiFile) {
+    public MibNodeReference(@NotNull SmiIdentifiableElement element, @Nullable MibFile psiFile) {
         super(element, psiFile, MibNodeNameIndex.getInstance());
     }
 
