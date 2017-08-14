@@ -21,6 +21,7 @@ public interface SmiModuleIdentifierDefinition extends SmiReferenceableElement, 
   @NotNull
   PsiElement getIdentifierString();
 
+  @NotNull
   String getName();
 
   PsiElement setName(String name);

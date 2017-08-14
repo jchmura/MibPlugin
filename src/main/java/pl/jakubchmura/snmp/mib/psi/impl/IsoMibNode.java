@@ -8,7 +8,7 @@ import pl.jakubchmura.snmp.mib.util.oid.SnmpOid;
 public class IsoMibNode extends SmiMibNodeImpl {
 
     public static final String ISO = "iso";
-    public static final SnmpOid ISO_OID = new SnmpOid(new long[]{1});
+    private static final SnmpOid ISO_OID = new SnmpOid(new long[]{1});
 
     public IsoMibNode(ASTNode node) {
         super(node);
@@ -20,6 +20,7 @@ public class IsoMibNode extends SmiMibNodeImpl {
         return this;
     }
 
+    @NotNull
     @Override
     public String getName() {
         return ISO;

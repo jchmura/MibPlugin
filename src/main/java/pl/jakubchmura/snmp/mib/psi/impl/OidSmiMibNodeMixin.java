@@ -9,6 +9,7 @@ public class OidSmiMibNodeMixin extends SmiMibNodeImpl {
         super(mibNodeMixin.getNode());
     }
 
+    @NotNull
     @Override
     public String getName() {
         SnmpOid oid = super.getOid();

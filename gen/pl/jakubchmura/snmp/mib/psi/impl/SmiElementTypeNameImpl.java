@@ -33,6 +33,7 @@ public class SmiElementTypeNameImpl extends ASTWrapperPsiElement implements SmiE
     return notNullChild(findChildByType(IDENTIFIER_STRING));
   }
 
+  @NotNull
   public String getName() {
     return SmiPsiImplUtil.getName(this);
   }

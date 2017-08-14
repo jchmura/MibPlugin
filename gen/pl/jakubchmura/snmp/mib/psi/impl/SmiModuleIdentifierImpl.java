@@ -51,6 +51,7 @@ public class SmiModuleIdentifierImpl extends ASTWrapperPsiElement implements Smi
     return notNullChild(findChildByType(IDENTIFIER_STRING));
   }
 
+  @NotNull
   public String getName() {
     return SmiPsiImplUtil.getName(this);
   }

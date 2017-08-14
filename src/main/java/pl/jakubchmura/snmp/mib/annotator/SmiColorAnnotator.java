@@ -5,6 +5,7 @@ import com.intellij.lang.annotation.AnnotationHolder;
 import com.intellij.lang.annotation.Annotator;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiReference;
 import org.jetbrains.annotations.NotNull;
 import pl.jakubchmura.snmp.mib.highlight.SmiHighlightingColors;
 import pl.jakubchmura.snmp.mib.psi.*;
@@ -31,9 +32,10 @@ public class SmiColorAnnotator implements Annotator {
                 annotateWithColor(element, holder, SmiHighlightingColors.MIB_NODE);
             }
         } else if (element instanceof SmiSymbolName) {
-            if (PsiSmiUtil.hasReferenceToReferenceableElement(element, SmiMibNodeMixin.class)) {
+            PsiReference reference = element.getReference();
+            if (PsiSmiUtil.isReferenceToReferenceableElement(reference, SmiMibNodeMixin.class)) {
                 annotateWithColor(element, holder, SmiHighlightingColors.MIB_NODE);
-            } else if (PsiSmiUtil.hasReferenceToReferenceableElement(element, SmiTypeName.class)) {
+            } else if (PsiSmiUtil.isReferenceToReferenceableElement(reference, SmiTypeName.class)) {
                 annotateWithColor(element, holder, SmiHighlightingColors.DEFINED_TYPE);
             }
         } else if (element instanceof SmiModuleIdentifier || element instanceof SmiModuleIdentifierDefinition) {

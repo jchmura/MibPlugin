@@ -6,6 +6,7 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiReference;
 import com.intellij.psi.util.PsiTreeUtil;
+import org.jetbrains.annotations.NotNull;
 import pl.jakubchmura.snmp.mib.MibIcons;
 import pl.jakubchmura.snmp.mib.psi.*;
 import pl.jakubchmura.snmp.mib.reference.*;
@@ -14,6 +15,7 @@ import javax.swing.*;
 
 public class SmiPsiImplUtil {
 
+    @NotNull
     public static String getName(SmiIdentifiableElement element) {
         return element.getIdentifierString().getText();
     }

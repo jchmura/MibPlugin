@@ -11,6 +11,7 @@ public interface SmiSymbolName extends SmiIdentifiableElement {
   @NotNull
   PsiElement getIdentifierString();
 
+  @NotNull
   String getName();
 
   PsiElement setName(String name);

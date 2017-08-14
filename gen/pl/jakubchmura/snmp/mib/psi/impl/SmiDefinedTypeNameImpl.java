@@ -33,6 +33,7 @@ public class SmiDefinedTypeNameImpl extends ASTWrapperPsiElement implements SmiD
     return notNullChild(findChildByType(IDENTIFIER_STRING));
   }
 
+  @NotNull
   public String getName() {
     return SmiPsiImplUtil.getName(this);
   }

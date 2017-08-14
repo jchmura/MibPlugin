@@ -44,6 +44,7 @@ public class SmiMibNodeMixin extends StubBasedPsiElementBase<MibNodeStub> implem
         return findNotNullChildByType(IDENTIFIER_STRING);
     }
 
+    @NotNull
     public String getName() {
         MibNodeStub stub = getStub();
         if (stub != null) {
@@ -156,7 +157,6 @@ public class SmiMibNodeMixin extends StubBasedPsiElementBase<MibNodeStub> implem
     @NotNull
     public ItemPresentation getPresentation() {
         return new ItemPresentation() {
-            @Nullable
             @Override
             public String getPresentableText() {
                 return getName();

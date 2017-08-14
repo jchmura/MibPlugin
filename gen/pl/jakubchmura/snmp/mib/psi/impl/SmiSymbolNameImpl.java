@@ -33,6 +33,7 @@ public class SmiSymbolNameImpl extends ASTWrapperPsiElement implements SmiSymbol
     return notNullChild(findChildByType(IDENTIFIER_STRING));
   }
 
+  @NotNull
   public String getName() {
     return SmiPsiImplUtil.getName(this);
   }

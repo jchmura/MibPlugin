@@ -11,6 +11,7 @@ public interface SmiDefinedTypeName extends SmiIdentifiableElement {
   @NotNull
   PsiElement getIdentifierString();
 
+  @NotNull
   String getName();
 
   PsiElement setName(String name);
