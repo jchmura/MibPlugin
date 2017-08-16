@@ -25,6 +25,12 @@ public class SmiSyntaxHighlighter extends SyntaxHighlighterBase {
         highlightMap.put(SmiTypes.NUMBER_LITERAL, SmiHighlightingColors.NUMBER);
         highlightMap.put(SmiTypes.HEXADECIMAL_LITERAL, SmiHighlightingColors.NUMBER);
         highlightMap.put(SmiTypes.BINARY_LITERAL, SmiHighlightingColors.NUMBER);
+        highlightMap.put(SmiTypes.LEFT_BRACE, SmiHighlightingColors.BRACES);
+        highlightMap.put(SmiTypes.RIGHT_BRACE, SmiHighlightingColors.BRACES);
+        highlightMap.put(SmiTypes.LEFT_BRACKET, SmiHighlightingColors.BRACKETS);
+        highlightMap.put(SmiTypes.RIGHT_BRACKET, SmiHighlightingColors.BRACKETS);
+        highlightMap.put(SmiTypes.LEFT_PAREN, SmiHighlightingColors.PARENTHESES);
+        highlightMap.put(SmiTypes.RIGHT_PAREN, SmiHighlightingColors.PARENTHESES);
         highlightMap.put(TokenType.BAD_CHARACTER, SmiHighlightingColors.BAD_CHARACTER);
     }
 

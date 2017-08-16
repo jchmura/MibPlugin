@@ -55,6 +55,7 @@
     <lang.psiStructureViewFactory language="SMI" implementationClass="pl.jakubchmura.snmp.mib.reference.structure.MibStructureViewFactory"/>
     <lang.commenter language="SMI" implementationClass="pl.jakubchmura.snmp.mib.commenter.SmiCommenter"/>
     <lang.documentationProvider language="SMI" implementationClass="pl.jakubchmura.snmp.mib.doc.SmiDocumentationProvider"/>
+    <lang.braceMatcher language="SMI" implementationClass="pl.jakubchmura.snmp.mib.highlight.SmiBraceMatcher"/>
 
     <stubElementTypeHolder class="pl.jakubchmura.snmp.mib.parsing.SmiElementsTypes"/>
     <indexedRootsProvider implementation="pl.jakubchmura.snmp.mib.StandardSnmpMibs"/>
