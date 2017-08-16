@@ -57,6 +57,7 @@
     <lang.documentationProvider language="SMI" implementationClass="pl.jakubchmura.snmp.mib.doc.SmiDocumentationProvider"/>
 
     <stubElementTypeHolder class="pl.jakubchmura.snmp.mib.parsing.SmiElementsTypes"/>
+    <indexedRootsProvider implementation="pl.jakubchmura.snmp.mib.StandardSnmpMibs"/>
     <stubIndex implementation="pl.jakubchmura.snmp.mib.psi.MibNodeNameIndex"/>
     <stubIndex implementation="pl.jakubchmura.snmp.mib.psi.ModuleIdentifierDefinitionIndex"/>
     <stubIndex implementation="pl.jakubchmura.snmp.mib.psi.TextualConventionIndex"/>

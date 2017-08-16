@@ -16,7 +16,6 @@ import pl.jakubchmura.snmp.mib.psi.SmiStubIndex;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public abstract class SmiReference extends PsiReferenceBase<SmiIdentifiableElement> implements PsiPolyVariantReference {
@@ -45,20 +44,7 @@ public abstract class SmiReference extends PsiReferenceBase<SmiIdentifiableEleme
         if (name != null) {
             Project project = getElement().getProject();
             Collection<? extends SmiIdentifiableElement> definitions = index.get(name, project, getScope());
-            if (!definitions.isEmpty()) {
-                return mapToResult(definitions);
-            } else if (psiFile == null) {
-                return mapToResult(getElements(StandardSnmpMibs.getMibFiles(project))
-                        .filter(element -> name.equals(element.getName()))
-                        .collect(Collectors.toSet()));
-            }
-
-            MibFile mibFile = getStandardMibFile();
-            if (mibFile != null) {
-                return mapToResult(getElements(Stream.of(mibFile))
-                        .filter(element -> name.equals(element.getName()))
-                        .collect(Collectors.toSet()));
-            }
+            return mapToResult(definitions);
         }
 
         return new ResolveResult[0];
@@ -84,38 +70,31 @@ public abstract class SmiReference extends PsiReferenceBase<SmiIdentifiableEleme
         if (psiFile != null) {
             return GlobalSearchScope.fileScope(psiFile);
         }
+
+        Project project = getElement().getProject();
+        GlobalSearchScope standardMibs = StandardSnmpMibs.getScope(project);
+
         PsiFile containingFile = getElement().getContainingFile();
         if (containingFile == null) {
-            return GlobalSearchScope.EMPTY_SCOPE;
+            return standardMibs;
         }
         VirtualFile virtualFile = containingFile.getVirtualFile();
         if (virtualFile == null) {
-            return GlobalSearchScope.EMPTY_SCOPE;
+            return standardMibs;
         }
-        Module module = ProjectFileIndex.getInstance(getElement().getProject()).getModuleForFile(virtualFile);
+
+        Module module = ProjectFileIndex.getInstance(project).getModuleForFile(virtualFile);
         if (module != null) {
-            return module.getModuleWithDependenciesAndLibrariesScope(false);
+            GlobalSearchScope moduleScope = module.getModuleWithDependenciesAndLibrariesScope(false);
+            return moduleScope.uniteWith(standardMibs);
         } else {
-            return GlobalSearchScope.EMPTY_SCOPE;
+            return standardMibs;
         }
     }
 
     private ResolveResult[] mapToResult(Collection<? extends PsiElement> elements) {
-        return elements.stream().map(PsiElementResolveResult::new).toArray(ResolveResult[]::new);
-    }
-
-    @Nullable
-    private MibFile getStandardMibFile() {
-        if (psiFile == null) {
-            return null;
-        }
-        List<String> collect = StandardSnmpMibs.MIBS.stream().map(VirtualFile::getName).collect(Collectors.toList());
-        boolean contains = collect.contains(psiFile.getVirtualFile().getName());
-
-        if (contains) {
-            return psiFile;
-        }
-        return null;
+        List<? extends PsiElement> filtered = StandardSnmpMibs.filterOutStandardMibs(elements);
+        return filtered.stream().map(PsiElementResolveResult::new).toArray(ResolveResult[]::new);
     }
 
 }
