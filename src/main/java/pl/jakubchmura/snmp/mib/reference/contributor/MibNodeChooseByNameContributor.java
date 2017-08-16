@@ -5,9 +5,18 @@ import com.intellij.navigation.NavigationItem;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.search.GlobalSearchScope;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import pl.jakubchmura.snmp.mib.MibFile;
 import pl.jakubchmura.snmp.mib.psi.MibNodeNameIndex;
 
 public class MibNodeChooseByNameContributor implements ChooseByNameContributor {
+
+    @Nullable
+    private final MibFile mibFile;
+
+    public MibNodeChooseByNameContributor(@Nullable MibFile mibFile) {
+        this.mibFile = mibFile;
+    }
 
     @NotNull
     @Override
@@ -24,7 +33,9 @@ public class MibNodeChooseByNameContributor implements ChooseByNameContributor {
     @NotNull
     private GlobalSearchScope getScope(Project project, boolean includeNonProjectItems) {
         GlobalSearchScope scope;
-        if (includeNonProjectItems) {
+        if (mibFile != null) {
+            scope = GlobalSearchScope.fileScope(mibFile);
+        } else if (includeNonProjectItems) {
             scope = GlobalSearchScope.allScope(project);
         } else {
             scope = GlobalSearchScope.projectScope(project);

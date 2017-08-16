@@ -1,21 +1,21 @@
 package pl.jakubchmura.snmp.mib.actions;
 
-import com.intellij.ide.IdeBundle;
-import com.intellij.ide.util.PropertiesComponent;
 import com.intellij.ide.util.gotoByName.ContributorsBasedGotoByModel;
 import com.intellij.navigation.ChooseByNameContributor;
 import com.intellij.navigation.GotoClassContributor;
 import com.intellij.navigation.NavigationItem;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.SystemInfo;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import pl.jakubchmura.snmp.mib.MibFile;
 import pl.jakubchmura.snmp.mib.reference.contributor.MibNodeChooseByNameContributor;
+import pl.jakubchmura.snmp.mib.reference.contributor.MibNodeOidChooseByNameContributor;
 
-public class GotoOidModel extends ContributorsBasedGotoByModel {
+public class GotoOidInFileModel extends ContributorsBasedGotoByModel {
 
-    GotoOidModel(@NotNull Project project) {
-        super(project, new ChooseByNameContributor[]{new MibNodeChooseByNameContributor()});
+    GotoOidInFileModel(@NotNull MibFile mibFile) {
+        super(mibFile.getProject(), new ChooseByNameContributor[]{
+                new MibNodeOidChooseByNameContributor(mibFile),
+                new MibNodeChooseByNameContributor(mibFile)});
     }
 
     @Override
@@ -25,38 +25,33 @@ public class GotoOidModel extends ContributorsBasedGotoByModel {
 
     @Override
     public String getNotInMessage() {
-        return "No matches found";
+        return "No matches found in file";
     }
 
     @Override
     public String getNotFoundMessage() {
-        return "No matches found";
+        return null;
     }
 
     @Nullable
     @Override
     public String getCheckBoxName() {
-        return IdeBundle.message("checkbox.include.non.project.files");
+        return null;
     }
 
     @Override
     public char getCheckBoxMnemonic() {
-        return SystemInfo.isMac?'P':'n';
+        return 0;
     }
 
     @Override
     public boolean loadInitialCheckBoxState() {
-        PropertiesComponent propertiesComponent = PropertiesComponent.getInstance(myProject);
-        return Boolean.TRUE.toString().equals(propertiesComponent.getValue("GoToClass.toSaveIncludeLibraries")) &&
-                Boolean.TRUE.toString().equals(propertiesComponent.getValue("GoToOid.includeProject"));
+        return false;
     }
 
     @Override
     public void saveInitialCheckBoxState(boolean state) {
-        PropertiesComponent propertiesComponent = PropertiesComponent.getInstance(myProject);
-        if (Boolean.TRUE.toString().equals(propertiesComponent.getValue("GoToClass.toSaveIncludeLibraries"))){
-            propertiesComponent.setValue("GoToOid.includeProject", Boolean.toString(state));
-        }
+
     }
 
     @NotNull
@@ -68,7 +63,7 @@ public class GotoOidModel extends ContributorsBasedGotoByModel {
     @Nullable
     @Override
     public String getFullName(Object element) {
-        for(ChooseByNameContributor c: getContributors()) {
+        for (ChooseByNameContributor c : getContributors()) {
             if (c instanceof GotoClassContributor) {
                 String result = ((GotoClassContributor) c).getQualifiedName((NavigationItem) element);
                 if (result != null) {

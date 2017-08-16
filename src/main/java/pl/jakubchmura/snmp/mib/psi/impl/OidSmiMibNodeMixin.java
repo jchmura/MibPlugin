@@ -23,6 +23,6 @@ public class OidSmiMibNodeMixin extends SmiMibNodeImpl {
     @NotNull
     @Override
     protected String getLocationString() {
-        return super.getName() + " " + super.getLocationString();
+        return super.getName();
     }
 }

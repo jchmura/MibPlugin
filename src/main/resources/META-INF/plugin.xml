@@ -69,10 +69,15 @@
   </extensions>
 
   <actions>
-    <action id="pl.jakubchmura.snmp.mib.actions.GotoOidAction" class="pl.jakubchmura.snmp.mib.actions.GotoOidAction"
+    <action id="pl.jakubchmura.snmp.mib.actions.GotoOidNameAction" class="pl.jakubchmura.snmp.mib.actions.GotoOidNameAction"
             text="OID..." description="Search OID in project">
       <add-to-group group-id="GoToTargetEx" anchor="last"/>
       <keyboard-shortcut keymap="$default" first-keystroke="alt shift O"/>
+    </action>
+    <action id="pl.jakubchmura.snmp.mib.actions.GotoOidInFileAction" class="pl.jakubchmura.snmp.mib.actions.GotoOidInFileAction"
+            text="OID" description="Search OID in the current file">
+      <add-to-group group-id="EditorPopupMenu.GoTo" anchor="last"/>
+      <keyboard-shortcut keymap="$default" first-keystroke="control alt shift O"/>
     </action>
   </actions>
 </idea-plugin>

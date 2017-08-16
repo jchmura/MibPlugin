@@ -9,14 +9,14 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiDocumentManager;
 
-public class GotoOidAction extends GotoActionBase {
+public class GotoOidNameAction extends GotoActionBase {
 
     @Override
     protected void gotoActionPerformed(AnActionEvent e) {
         Project project = e.getProject();
         if (project == null) return;
 
-        GotoOidModel model = new GotoOidModel(project);
+        GotoOidNameModel model = new GotoOidNameModel(project);
         PsiDocumentManager.getInstance(project).commitAllDocuments();
         showNavigationPopup(e, model, new GotoActionCallback<Language>() {
             @Override
