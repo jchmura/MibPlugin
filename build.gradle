@@ -23,6 +23,8 @@ apply plugin: 'org.jetbrains.intellij'
 intellij {
     version ideaVersion
     downloadSources Boolean.valueOf(downloadIdeaSource)
+    updateSinceUntilBuild false
+    sameSinceUntilBuild false
     plugins 'groovy', 'properties', 'PsiViewer:3.28.93'
     pluginName 'MIB support'
 }
@@ -42,4 +44,4 @@ idea {
 }
 
  group 'pl.jakubchmura'
- version '1.5'
+ version '1.5.1'
