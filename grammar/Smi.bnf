@@ -60,7 +60,7 @@
         PRODUCT_RELEASE="PRODUCT-RELEASE"
         CREATION_REQUIRES="CREATION-REQUIRES"
 
-        BINARY_LITERAL='regexp:[0-1]*(B|b)'
+        BINARY_LITERAL="regexp:'[0-1]*'(B|b)"
         HEXADECIMAL_LITERAL="regexp:'[0-9A-Fa-f]*'(H|h)"
         STRING_LITERAL='regexp:"([^"]|"")*"'
         IDENTIFIER_STRING='regexp:[a-zA-Z][a-zA-Z0-9_-]*'
@@ -102,7 +102,7 @@ private meta comma_separated_list ::= <<param>> ( COMMA <<param>> )*
 private meta bar_separated_list ::= <<param>> ( VERTICAL_BAR <<param>> )*
 
 private symbolList ::= <<comma_separated_list symbol>>
-symbol ::= symbolName | definedMacroName
+symbol ::= symbolName | definedMacroName | builtinType
 symbolName ::= IDENTIFIER_STRING {
   implements="pl.jakubchmura.snmp.mib.psi.SmiIdentifiableElement"
   methods=[getName setName getReference]

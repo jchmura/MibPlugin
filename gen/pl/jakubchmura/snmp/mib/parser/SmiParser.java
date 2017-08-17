@@ -2592,13 +2592,14 @@ public class SmiParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // symbolName | definedMacroName
+  // symbolName | definedMacroName | builtinType
   public static boolean symbol(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "symbol")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, SYMBOL, "<symbol>");
     r = symbolName(b, l + 1);
     if (!r) r = definedMacroName(b, l + 1);
+    if (!r) r = builtinType(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }

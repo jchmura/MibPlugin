@@ -25,7 +25,7 @@ import static pl.jakubchmura.snmp.mib.psi.SmiTypes.*;
 EOL=\R
 WHITE_SPACE=\s+
 
-BINARY_LITERAL=[0-1]*(B|b)
+BINARY_LITERAL='[0-1]*'(B|b)
 HEXADECIMAL_LITERAL='[0-9A-Fa-f]*'(H|h)
 STRING_LITERAL=\"([^\"]|\"\")*\"
 IDENTIFIER_STRING=[a-zA-Z][a-zA-Z0-9_-]*
