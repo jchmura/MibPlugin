@@ -24,7 +24,7 @@ intellij {
     version ideaVersion
     downloadSources Boolean.valueOf(downloadIdeaSource)
     plugins 'groovy', 'properties', 'PsiViewer:3.28.93'
-    pluginName 'MIB'
+    pluginName 'MIB support'
 }
 
 
@@ -42,4 +42,4 @@ idea {
 }
 
  group 'pl.jakubchmura'
- version '1.4'
+ version '1.5'
