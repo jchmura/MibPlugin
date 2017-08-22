@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public class StandardSnmpMibs extends IndexableSetContributor {
 
     private static final String DIRECTORY = "/pl/jakubchmura/snmp/mib/mibs/";
-    private static final List<String> FILE_NAMES = Arrays.asList("SNMPv2-SMI", "SNMPv2-TC", "SNMPv2-CONF", "RFC1155-SMI");
+    private static final List<String> FILE_NAMES = Arrays.asList("SNMPv2-SMI", "SNMPv2-TC", "SNMPv2-CONF", "RFC1155-SMI", "RFC1212-MIB", "RFC1213-MIB", "RFC1215-MIB");
 
     private static final Set<VirtualFile> MIBS = FILE_NAMES.stream()
             .map(s -> DIRECTORY + s)

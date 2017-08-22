@@ -4,6 +4,7 @@ package pl.jakubchmura.snmp.mib.psi;
 import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
+import pl.jakubchmura.snmp.mib.psi.impl.SmiMibNodeMixin;
 
 public interface SmiModuleDefinition extends PsiElement {
 
@@ -18,5 +19,9 @@ public interface SmiModuleDefinition extends PsiElement {
 
   @NotNull
   SmiModuleIdentifierDefinition getModuleIdentifierDefinition();
+
+  List<SmiMibNodeMixin> getMibNodes();
+
+  List<SmiTypeName> getTextualConventions();
 
 }

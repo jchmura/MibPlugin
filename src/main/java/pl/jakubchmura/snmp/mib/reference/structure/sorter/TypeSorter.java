@@ -5,7 +5,7 @@ import com.intellij.ide.util.treeView.smartTree.Sorter;
 import org.jetbrains.annotations.NotNull;
 import pl.jakubchmura.snmp.mib.psi.SmiMibNode;
 import pl.jakubchmura.snmp.mib.psi.SmiTypeName;
-import pl.jakubchmura.snmp.mib.reference.structure.MibStructureViewElement;
+import pl.jakubchmura.snmp.mib.reference.structure.MibNodeStructureViewElement;
 
 import java.util.Comparator;
 
@@ -16,11 +16,11 @@ public class TypeSorter implements Sorter {
     private static final Comparator COMPARATOR = new Comparator() {
         @Override
         public int compare(Object o1, Object o2) {
-            if (!(o1 instanceof MibStructureViewElement) || !(o2 instanceof MibStructureViewElement)) {
+            if (!(o1 instanceof MibNodeStructureViewElement) || !(o2 instanceof MibNodeStructureViewElement)) {
                 return 0;
             }
-            Object value1 = ((MibStructureViewElement) o1).getValue();
-            Object value2 = ((MibStructureViewElement) o2).getValue();
+            Object value1 = ((MibNodeStructureViewElement) o1).getValue();
+            Object value2 = ((MibNodeStructureViewElement) o2).getValue();
             return getWeight(value1) - getWeight(value2);
         }
 

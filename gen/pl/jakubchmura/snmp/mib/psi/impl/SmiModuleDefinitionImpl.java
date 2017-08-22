@@ -50,4 +50,12 @@ public class SmiModuleDefinitionImpl extends ASTWrapperPsiElement implements Smi
     return notNullChild(PsiTreeUtil.getChildOfType(this, SmiModuleIdentifierDefinition.class));
   }
 
+  public List<SmiMibNodeMixin> getMibNodes() {
+    return SmiPsiImplUtil.getMibNodes(this);
+  }
+
+  public List<SmiTypeName> getTextualConventions() {
+    return SmiPsiImplUtil.getTextualConventions(this);
+  }
+
 }

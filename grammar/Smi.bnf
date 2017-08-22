@@ -75,7 +75,9 @@
 
 mibFile ::= moduleDefinition+
 
-moduleDefinition ::= moduleIdentifierDefinition DEFINITIONS tagDefault? DEFINITION BEGIN moduleBody? END
+moduleDefinition ::= moduleIdentifierDefinition DEFINITIONS tagDefault? DEFINITION BEGIN moduleBody? END {
+    methods=[getMibNodes getTextualConventions]
+}
 
 moduleIdentifierDefinition ::= IDENTIFIER_STRING objectIdentifierValue? {
     implements="pl.jakubchmura.snmp.mib.psi.SmiReferenceableElement"

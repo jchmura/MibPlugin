@@ -8,18 +8,24 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import pl.jakubchmura.snmp.mib.MibFile;
 
 public class MibStructureViewFactory implements PsiStructureViewFactory {
     @Nullable
     @Override
-    public StructureViewBuilder getStructureViewBuilder(PsiFile psiFile) {
-        return new TreeBasedStructureViewBuilder() {
+    public StructureViewBuilder getStructureViewBuilder(@NotNull PsiFile psiFile) {
+        if (psiFile instanceof MibFile) {
+            MibFile mibFile = (MibFile) psiFile;
+            return new TreeBasedStructureViewBuilder() {
 
-            @NotNull
-            @Override
-            public StructureViewModel createStructureViewModel(@Nullable Editor editor) {
-                return new MibStructureViewModel(psiFile);
-            }
-        };
+                @NotNull
+                @Override
+                public StructureViewModel createStructureViewModel(@Nullable Editor editor) {
+                    return new MibStructureViewModel(mibFile);
+                }
+            };
+        } else {
+            return null;
+        }
     }
 }

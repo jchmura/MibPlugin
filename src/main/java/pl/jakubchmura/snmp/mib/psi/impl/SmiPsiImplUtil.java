@@ -12,6 +12,8 @@ import pl.jakubchmura.snmp.mib.psi.*;
 import pl.jakubchmura.snmp.mib.reference.*;
 
 import javax.swing.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class SmiPsiImplUtil {
 
@@ -127,6 +129,23 @@ public class SmiPsiImplUtil {
                 return MibIcons.FILE;
             }
         };
+    }
+
+    public static List<SmiMibNodeMixin> getMibNodes(SmiModuleDefinition moduleDefinition) {
+        return moduleDefinition.getAssignmentList().stream()
+                .filter(assignment -> assignment instanceof SmiValueAssignment)
+                .map(SmiValueAssignment.class::cast)
+                .map(SmiValueAssignment::getMibNode)
+                .map(SmiMibNodeMixin.class::cast)
+                .collect(Collectors.toList());
+    }
+
+    public static List<SmiTypeName> getTextualConventions(SmiModuleDefinition moduleDefinition) {
+        return moduleDefinition.getAssignmentList().stream()
+                .filter(assignment -> assignment instanceof SmiTypeAssignment)
+                .map(SmiTypeAssignment.class::cast)
+                .map(SmiTypeAssignment::getTypeName)
+                .collect(Collectors.toList());
     }
 
 }

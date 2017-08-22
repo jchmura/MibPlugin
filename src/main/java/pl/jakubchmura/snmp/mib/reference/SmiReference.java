@@ -14,8 +14,8 @@ import pl.jakubchmura.snmp.mib.StandardSnmpMibs;
 import pl.jakubchmura.snmp.mib.psi.SmiIdentifiableElement;
 import pl.jakubchmura.snmp.mib.psi.SmiStubIndex;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.stream.Stream;
 
 public abstract class SmiReference extends PsiReferenceBase<SmiIdentifiableElement> implements PsiPolyVariantReference {
@@ -93,8 +93,25 @@ public abstract class SmiReference extends PsiReferenceBase<SmiIdentifiableEleme
     }
 
     private ResolveResult[] mapToResult(Collection<? extends PsiElement> elements) {
-        List<? extends PsiElement> filtered = StandardSnmpMibs.filterOutStandardMibs(elements);
+        Collection<? extends PsiElement> filtered;
+        Collection<? extends PsiElement> sameFile = referencesInSameFile(elements);
+        if (!sameFile.isEmpty()) {
+            filtered = sameFile;
+        } else {
+            filtered = StandardSnmpMibs.filterOutStandardMibs(elements);
+        }
         return filtered.stream().map(PsiElementResolveResult::new).toArray(ResolveResult[]::new);
+    }
+
+    private Collection<? extends PsiElement> referencesInSameFile(Collection<? extends PsiElement> elements) {
+        Collection<PsiElement> collection = new ArrayList<>();
+        PsiFile containingFile = getElement().getContainingFile();
+        for (PsiElement element : elements) {
+            if (element.getContainingFile().equals(containingFile)) {
+                collection.add(element);
+            }
+        }
+        return collection;
     }
 
 }

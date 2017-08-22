@@ -17,7 +17,7 @@ public class TextualConventionNodeViewElement implements StructureViewTreeElemen
     private final List<SmiTypeName> textualConventions;
 
 
-    public TextualConventionNodeViewElement(List<SmiTypeName> textualConventions) {
+    TextualConventionNodeViewElement(List<SmiTypeName> textualConventions) {
         this.textualConventions = textualConventions;
     }
 
@@ -53,7 +53,7 @@ public class TextualConventionNodeViewElement implements StructureViewTreeElemen
     @Override
     public TreeElement[] getChildren() {
         return textualConventions.stream()
-                .map(MibStructureViewElement::new)
+                .map(TextualConventionStructureViewElement::new)
                 .toArray(TreeElement[]::new);
     }
 

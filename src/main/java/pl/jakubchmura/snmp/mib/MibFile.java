@@ -7,12 +7,12 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import pl.jakubchmura.snmp.mib.psi.*;
+import pl.jakubchmura.snmp.mib.psi.SmiModuleDefinition;
+import pl.jakubchmura.snmp.mib.psi.SmiSymbolsFromModule;
+import pl.jakubchmura.snmp.mib.psi.SmiTypeName;
 import pl.jakubchmura.snmp.mib.psi.impl.SmiMibNodeMixin;
-import pl.jakubchmura.snmp.mib.util.oid.SnmpOid;
 
 import javax.swing.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -32,7 +32,7 @@ public class MibFile extends PsiFileBase {
 
     @Override
     public String toString() {
-        return "MIB";
+        return "MIB:" + getName();
     }
 
     @Nullable
@@ -42,45 +42,16 @@ public class MibFile extends PsiFileBase {
     }
 
     @NotNull
-    public List<SmiMibNodeMixin> getTopLevelMibNodes() {
-        int minDepth = Integer.MAX_VALUE;
-        List<SmiMibNodeMixin> topLevelMibNodes = new ArrayList<>();
-        List<SmiMibNodeMixin> mibNodes = getMibNodes();
-        for (SmiMibNodeMixin mibNode : mibNodes) {
-            SnmpOid oid = mibNode.getOid();
-            if (oid == null) {
-                continue;
-            }
-            int depth = oid.getDepth();
-            if (depth < minDepth) {
-                topLevelMibNodes.clear();
-                topLevelMibNodes.add(mibNode);
-                minDepth = depth;
-            } else if (depth == minDepth) {
-                topLevelMibNodes.add(mibNode);
-            }
-        }
-        return topLevelMibNodes;
-    }
-
-    @NotNull
     public List<SmiMibNodeMixin> getMibNodes() {
         return getModuleDefinitions().stream()
-                .flatMap(definition -> definition.getAssignmentList().stream())
-                .filter(assignment -> assignment instanceof SmiValueAssignment)
-                .map(SmiValueAssignment.class::cast)
-                .map(SmiValueAssignment::getMibNode)
-                .map(SmiMibNodeMixin.class::cast)
+                .flatMap(definition -> definition.getMibNodes().stream())
                 .collect(Collectors.toList());
     }
 
     @NotNull
     public List<SmiTypeName> getTextualConventions() {
         return getModuleDefinitions().stream()
-                .flatMap(definition -> definition.getAssignmentList().stream())
-                .filter(assignment -> assignment instanceof SmiTypeAssignment)
-                .map(SmiTypeAssignment.class::cast)
-                .map(SmiTypeAssignment::getTypeName)
+                .flatMap(definition -> definition.getTextualConventions().stream())
                 .collect(Collectors.toList());
     }
 
