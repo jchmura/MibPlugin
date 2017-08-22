@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>pl.jakubchmura.snmp.mib</id>
   <name>MIB support</name>
-  <version>1.5.1</version>
+  <version>1.5.2</version>
   <vendor email="chmura.jakub@gmail.com">Jakub Chmura</vendor>
 
   <description><![CDATA[
