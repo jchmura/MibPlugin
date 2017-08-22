@@ -27,9 +27,6 @@ public class SmiMibNodeMixin extends StubBasedPsiElementBase<MibNodeStub> implem
 
     private static final long[] INDEX_NOT_FOUND = new long[]{-1L};
 
-    private SmiMibNodeMixin parent;
-    private long[] index = INDEX_NOT_FOUND;
-
     public SmiMibNodeMixin(@NotNull ASTNode node) {
         super(node);
     }
@@ -182,70 +179,65 @@ public class SmiMibNodeMixin extends StubBasedPsiElementBase<MibNodeStub> implem
 
     @Nullable
     public SmiMibNodeMixin getParentMibNode() {
-        if (parent == null) {
-            SmiValueAssignment valueAssignment = getParentAssignment();
-            if (valueAssignment == null) {
-                LOG.debug("Parent of MIB node " + this + " is null");
+        SmiValueAssignment valueAssignment = getParentAssignment();
+        if (valueAssignment == null) {
+            LOG.debug("Parent of MIB node " + this + " is null");
+            return null;
+        }
+
+        SmiValue value = valueAssignment.getValue();
+        if (value instanceof SmiBitOrObjectIdentifierValue) {
+            SmiBitOrObjectIdentifierValue oidValue = (SmiBitOrObjectIdentifierValue) value;
+
+            List<SmiNameAndNumber> nameAndNumberList = oidValue.getNameAndNumberList();
+            if (!nameAndNumberList.isEmpty()) {
+                SmiNameAndNumber last = nameAndNumberList.get(nameAndNumberList.size() - 1);
+                return new SmiV1MibNodeMixin(last);
+            }
+
+            List<SmiNameValueString> nameValueStringList = oidValue.getNameValueStringList();
+            if (nameValueStringList.isEmpty()) {
+                LOG.debug("No parent in OID assignment of MIB node " + this);
                 return null;
             }
-
-            SmiValue value = valueAssignment.getValue();
-            if (value instanceof SmiBitOrObjectIdentifierValue) {
-                SmiBitOrObjectIdentifierValue oidValue = (SmiBitOrObjectIdentifierValue) value;
-
-                List<SmiNameAndNumber> nameAndNumberList = oidValue.getNameAndNumberList();
-                if (!nameAndNumberList.isEmpty()) {
-                    SmiNameAndNumber last = nameAndNumberList.get(nameAndNumberList.size() - 1);
-                    parent = new SmiV1MibNodeMixin(last);
-                    return parent;
-                }
-
-                List<SmiNameValueString> nameValueStringList = oidValue.getNameValueStringList();
-                if (nameValueStringList.isEmpty()) {
-                    LOG.debug("No parent in OID assignment of MIB node " + this);
+            SmiNameValueString nameValueString = nameValueStringList.get(0);
+            SmiReference reference = nameValueString.getReference();
+            if (reference != null) {
+                PsiElement resolved = reference.resolve();
+                if (resolved == null) {
+                    LOG.debug("Parent of MIB node " + this + " resolved to null");
                     return null;
                 }
-                SmiNameValueString nameValueString = nameValueStringList.get(0);
-                SmiReference reference = nameValueString.getReference();
-                if (reference != null) {
-                    PsiElement resolved = reference.resolve();
-                    if (resolved == null) {
-                        LOG.debug("Parent of MIB node " + this + " resolved to null");
-                        return null;
-                    }
-                    parent = (SmiMibNodeMixin) resolved;
-                }
-                LOG.debug("Parent of MIB node " + this + " has a null reference");
+                return (SmiMibNodeMixin) resolved;
             }
-            LOG.debug("MIB node " + this + " is not in a OID assignment");
+            LOG.debug("Parent of MIB node " + this + " has a null reference");
         }
-        return parent;
+        LOG.debug("MIB node " + this + " is not in a OID assignment");
+        return null;
     }
 
     protected long[] getIndex() {
-        if (Arrays.equals(index, INDEX_NOT_FOUND)) {
-            SmiValueAssignment valueAssignment = getParentAssignment();
-            if (valueAssignment == null) {
-                LOG.debug("Parent of MIB node " + this + " is null");
+        SmiValueAssignment valueAssignment = getParentAssignment();
+        if (valueAssignment == null) {
+            LOG.debug("Parent of MIB node " + this + " is null");
+            return INDEX_NOT_FOUND;
+        }
+
+        SmiValue value = valueAssignment.getValue();
+        if (value instanceof SmiBitOrObjectIdentifierValue) {
+            SmiBitOrObjectIdentifierValue oidValue = (SmiBitOrObjectIdentifierValue) value;
+            List<SmiNameValueIndex> nameValueIndexList = oidValue.getNameValueIndexList();
+            if (nameValueIndexList.size() == 0) {
+                LOG.debug("No parent in OID assignment of MIB node " + this);
                 return INDEX_NOT_FOUND;
             }
-
-            SmiValue value = valueAssignment.getValue();
-            if (value instanceof SmiBitOrObjectIdentifierValue) {
-                SmiBitOrObjectIdentifierValue oidValue = (SmiBitOrObjectIdentifierValue) value;
-                List<SmiNameValueIndex> nameValueIndexList = oidValue.getNameValueIndexList();
-                if (nameValueIndexList.size() == 0) {
-                    LOG.debug("No parent in OID assignment of MIB node " + this);
-                    return INDEX_NOT_FOUND;
-                }
-                index = nameValueIndexList.stream()
-                        .map(smiNameValueIndex -> smiNameValueIndex.getNumberLiteral().getText())
-                        .mapToLong(Long::parseLong)
-                        .toArray();
-            }
-            LOG.debug("MIB node " + this + " is not in a OID assignment");
+            return nameValueIndexList.stream()
+                    .map(smiNameValueIndex -> smiNameValueIndex.getNumberLiteral().getText())
+                    .mapToLong(Long::parseLong)
+                    .toArray();
         }
-        return index;
+        LOG.debug("MIB node " + this + " is not in a OID assignment");
+        return INDEX_NOT_FOUND;
     }
 
     @Nullable
