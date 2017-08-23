@@ -64,7 +64,7 @@ public class SmiMibNodeMixin extends StubBasedPsiElementBase<MibNodeStub> implem
 
     public boolean isLeaf() {
         NodeType nodeType = getNodeType();
-        return nodeType == NodeType.LEAF || nodeType == NodeType.INDEX;
+        return nodeType == NodeType.LEAF || nodeType == NodeType.INDEX || nodeType == NodeType.NOTIFICATION;
     }
 
     public NodeType getNodeType() {

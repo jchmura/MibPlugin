@@ -33,11 +33,7 @@ public class MibStructureViewModel extends StructureViewModelBase implements Str
 
     @Override
     public boolean isAlwaysShowsPlus(StructureViewTreeElement element) {
-        if (element instanceof MibNodeStructureViewElement) {
-            MibNodeStructureViewElement mibNode = (MibNodeStructureViewElement) element;
-            return !mibNode.getValue().isLeaf();
-        }
-        return !(element instanceof TextualConventionStructureViewElement);
+        return !isAlwaysLeaf(element);
     }
 
     @Override

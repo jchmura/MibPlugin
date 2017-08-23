@@ -7,6 +7,9 @@ import com.intellij.ide.util.treeView.smartTree.TreeElement;
 import org.jetbrains.annotations.NotNull;
 import pl.jakubchmura.snmp.mib.psi.NodeType;
 import pl.jakubchmura.snmp.mib.psi.impl.SmiMibNodeMixin;
+import pl.jakubchmura.snmp.mib.reference.structure.MibFileStructureViewElement;
+import pl.jakubchmura.snmp.mib.reference.structure.MibNodeStructureViewElement;
+import pl.jakubchmura.snmp.mib.reference.structure.ModuleDefinitionStructureViewElement;
 
 import javax.swing.*;
 import java.util.Arrays;
@@ -30,17 +33,17 @@ public class MibNodeFilter implements Filter {
 
     @Override
     public boolean isVisible(TreeElement treeNode) {
-        if (treeNode instanceof StructureViewTreeElement) {
-            StructureViewTreeElement viewElement = (StructureViewTreeElement) treeNode;
-            Object value = viewElement.getValue();
-            if (value instanceof SmiMibNodeMixin) {
-                SmiMibNodeMixin mibNodeMixin = (SmiMibNodeMixin) value;
-                NodeType nodeType = mibNodeMixin.getNodeType();
-                if (NODE_TYPES.contains(nodeType)) {
-                    return Arrays.stream(viewElement.getChildren()).anyMatch(this::isVisible);
-                }
-                return nodeTypes.contains(nodeType);
+        if (treeNode instanceof MibFileStructureViewElement || treeNode instanceof ModuleDefinitionStructureViewElement) {
+            return Arrays.stream(treeNode.getChildren()).anyMatch(this::isVisible);
+        }
+        if (treeNode instanceof MibNodeStructureViewElement) {
+            MibNodeStructureViewElement viewElement = (MibNodeStructureViewElement) treeNode;
+            SmiMibNodeMixin mibNodeMixin = viewElement.getValue();
+            NodeType nodeType = mibNodeMixin.getNodeType();
+            if (NODE_TYPES.contains(nodeType)) {
+                return Arrays.stream(viewElement.getChildren()).anyMatch(this::isVisible);
             }
+            return nodeTypes.contains(nodeType);
         }
         return false;
     }
