@@ -5,8 +5,12 @@ import com.intellij.ide.structureView.StructureViewModelBase;
 import com.intellij.ide.structureView.StructureViewTreeElement;
 import com.intellij.ide.util.treeView.smartTree.Filter;
 import com.intellij.ide.util.treeView.smartTree.Sorter;
+import com.intellij.openapi.editor.Editor;
 import org.jetbrains.annotations.NotNull;
 import pl.jakubchmura.snmp.mib.MibFile;
+import pl.jakubchmura.snmp.mib.psi.SmiModuleDefinition;
+import pl.jakubchmura.snmp.mib.psi.SmiTypeName;
+import pl.jakubchmura.snmp.mib.psi.impl.SmiMibNodeMixin;
 import pl.jakubchmura.snmp.mib.reference.structure.filter.LeafFilter;
 import pl.jakubchmura.snmp.mib.reference.structure.filter.NotificationFilter;
 import pl.jakubchmura.snmp.mib.reference.structure.filter.TextualConventionFilter;
@@ -15,8 +19,9 @@ import pl.jakubchmura.snmp.mib.reference.structure.sorter.TypeSorter;
 
 public class MibStructureViewModel extends StructureViewModelBase implements StructureViewModel.ElementInfoProvider {
 
-    MibStructureViewModel(MibFile mibFile) {
-        super(mibFile, new MibFileStructureViewElement(mibFile));
+    MibStructureViewModel(MibFile mibFile, Editor editor) {
+        super(mibFile, editor, new MibFileStructureViewElement(mibFile));
+        withSuitableClasses(SmiMibNodeMixin.class, MibFile.class, SmiModuleDefinition.class, SmiTypeName.class);
     }
 
     @NotNull

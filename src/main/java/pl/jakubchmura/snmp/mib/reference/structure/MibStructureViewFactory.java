@@ -21,7 +21,7 @@ public class MibStructureViewFactory implements PsiStructureViewFactory {
                 @NotNull
                 @Override
                 public StructureViewModel createStructureViewModel(@Nullable Editor editor) {
-                    return new MibStructureViewModel(mibFile);
+                    return new MibStructureViewModel(mibFile, editor);
                 }
             };
         } else {
