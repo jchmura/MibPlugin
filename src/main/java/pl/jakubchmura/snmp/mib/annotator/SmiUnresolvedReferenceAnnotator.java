@@ -10,6 +10,7 @@ import com.intellij.psi.PsiReference;
 import com.intellij.psi.search.GlobalSearchScope;
 import org.jetbrains.annotations.NotNull;
 import pl.jakubchmura.snmp.mib.MibFile;
+import pl.jakubchmura.snmp.mib.StandardSnmpMibs;
 import pl.jakubchmura.snmp.mib.psi.*;
 import pl.jakubchmura.snmp.mib.psi.impl.IsoMibNode;
 import pl.jakubchmura.snmp.mib.psi.impl.SmiMibNodeMixin;
@@ -30,7 +31,12 @@ public class SmiUnresolvedReferenceAnnotator implements Annotator {
                 if (!isReferenceToReferenceableElement(reference, SmiReferenceableElement.class)) {
                     holder.createErrorAnnotation(element.getTextRange(), "Unresolved reference");
                 } else if (!hasReferenceInsideFile(element, reference) && shouldBeImported(element) && !isImported((PsiNamedElement) element)) {
-                    holder.createErrorAnnotation(element.getTextRange(), "Not imported reference");
+                    if (hasReferenceToStandardMib(element, reference)) {
+                        holder.createWarningAnnotation(element.getTextRange(), "Not imported reference to standard " +
+                                "MIB");
+                    } else {
+                        holder.createErrorAnnotation(element.getTextRange(), "Not imported reference");
+                    }
                 }
             }
         }
@@ -49,16 +55,27 @@ public class SmiUnresolvedReferenceAnnotator implements Annotator {
         Project project = element.getProject();
         GlobalSearchScope fileScope = GlobalSearchScope.fileScope(file);
         PsiElement resolved = reference.resolve();
+        return verifyReference(project, fileScope, resolved);
+    }
+
+    private boolean verifyReference(Project project, GlobalSearchScope scope, PsiElement resolved) {
         if (resolved instanceof SmiTypeName) {
             String name = ((SmiTypeName) resolved).getName();
-            Collection<SmiTypeName> typeNames = TextualConventionIndex.getInstance().get(name, project, fileScope);
+            Collection<SmiTypeName> typeNames = TextualConventionIndex.getInstance().get(name, project, scope);
             return !typeNames.isEmpty();
         } else if (resolved instanceof SmiMibNodeMixin) {
             String name = ((SmiMibNodeMixin) resolved).getName();
-            Collection<SmiMibNodeMixin> mibNodes = MibNodeNameIndex.getInstance().get(name, project, fileScope);
+            Collection<SmiMibNodeMixin> mibNodes = MibNodeNameIndex.getInstance().get(name, project, scope);
             return !mibNodes.isEmpty();
         }
         return true;
+    }
+
+    private boolean hasReferenceToStandardMib(PsiElement element, PsiReference reference) {
+        Project project = element.getProject();
+        GlobalSearchScope scope = StandardSnmpMibs.getScope(project);
+        PsiElement resolved = reference.resolve();
+        return verifyReference(project, scope, resolved);
     }
 
     private boolean shouldBeImported(PsiElement element) {
