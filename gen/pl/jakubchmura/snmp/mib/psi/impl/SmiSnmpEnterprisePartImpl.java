@@ -11,14 +11,14 @@ import static pl.jakubchmura.snmp.mib.psi.SmiTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import pl.jakubchmura.snmp.mib.psi.*;
 
-public class SmiSymbolImpl extends ASTWrapperPsiElement implements SmiSymbol {
+public class SmiSnmpEnterprisePartImpl extends ASTWrapperPsiElement implements SmiSnmpEnterprisePart {
 
-  public SmiSymbolImpl(ASTNode node) {
+  public SmiSnmpEnterprisePartImpl(ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull SmiVisitor visitor) {
-    visitor.visitSymbol(this);
+    visitor.visitSnmpEnterprisePart(this);
   }
 
   public void accept(@NotNull PsiElementVisitor visitor) {
@@ -27,15 +27,9 @@ public class SmiSymbolImpl extends ASTWrapperPsiElement implements SmiSymbol {
   }
 
   @Override
-  @Nullable
-  public SmiSymbolName getSymbolName() {
-    return PsiTreeUtil.getChildOfType(this, SmiSymbolName.class);
-  }
-
-  @Override
-  @Nullable
-  public SmiType getType() {
-    return PsiTreeUtil.getChildOfType(this, SmiType.class);
+  @NotNull
+  public SmiValue getValue() {
+    return notNullChild(PsiTreeUtil.getChildOfType(this, SmiValue.class));
   }
 
 }

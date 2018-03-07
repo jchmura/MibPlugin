@@ -107,6 +107,9 @@ public class SmiParser implements PsiParser, LightPsiParser {
     else if (t == SNMP_DEF_VAL_PART) {
       r = snmpDefValPart(b, 0);
     }
+    else if (t == SNMP_ENTERPRISE_PART) {
+      r = snmpEnterprisePart(b, 0);
+    }
     else if (t == SNMP_INDEX_PART) {
       r = snmpIndexPart(b, 0);
     }
@@ -1876,14 +1879,14 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // ENTERPRISE value
-  static boolean snmpEnterprisePart(PsiBuilder b, int l) {
+  public static boolean snmpEnterprisePart(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "snmpEnterprisePart")) return false;
     if (!nextTokenIs(b, ENTERPRISE)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, ENTERPRISE);
     r = r && value(b, l + 1);
-    exit_section_(b, m, null, r);
+    exit_section_(b, m, SNMP_ENTERPRISE_PART, r);
     return r;
   }
 

@@ -121,6 +121,10 @@ public class SmiVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitSnmpEnterprisePart(@NotNull SmiSnmpEnterprisePart o) {
+    visitPsiElement(o);
+  }
+
   public void visitSnmpIndexPart(@NotNull SmiSnmpIndexPart o) {
     visitPsiElement(o);
   }

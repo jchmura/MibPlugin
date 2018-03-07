@@ -36,6 +36,7 @@ public interface SmiTypes {
   IElementType SEQUENCE_TYPE = SmiElementTypeFactory.createType("SEQUENCE_TYPE");
   IElementType SNMP_AGENT_CAPABILITIES_MACRO_TYPE = SmiElementTypeFactory.createType("SNMP_AGENT_CAPABILITIES_MACRO_TYPE");
   IElementType SNMP_DEF_VAL_PART = SmiElementTypeFactory.createType("SNMP_DEF_VAL_PART");
+  IElementType SNMP_ENTERPRISE_PART = SmiElementTypeFactory.createType("SNMP_ENTERPRISE_PART");
   IElementType SNMP_INDEX_PART = SmiElementTypeFactory.createType("SNMP_INDEX_PART");
   IElementType SNMP_MODULE_COMPLIANCE_MACRO_TYPE = SmiElementTypeFactory.createType("SNMP_MODULE_COMPLIANCE_MACRO_TYPE");
   IElementType SNMP_MODULE_IDENTITY_MACRO_TYPE = SmiElementTypeFactory.createType("SNMP_MODULE_IDENTITY_MACRO_TYPE");
@@ -247,6 +248,9 @@ public interface SmiTypes {
       }
       else if (type == SNMP_DEF_VAL_PART) {
         return new SmiSnmpDefValPartImpl(node);
+      }
+      else if (type == SNMP_ENTERPRISE_PART) {
+        return new SmiSnmpEnterprisePartImpl(node);
       }
       else if (type == SNMP_INDEX_PART) {
         return new SmiSnmpIndexPartImpl(node);

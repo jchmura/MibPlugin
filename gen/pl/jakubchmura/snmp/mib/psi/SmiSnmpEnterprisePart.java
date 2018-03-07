@@ -5,12 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface SmiSnmpTrapTypeMacroType extends SmiDefinedMacroType {
+public interface SmiSnmpEnterprisePart extends PsiElement {
 
   @NotNull
-  SmiSnmpEnterprisePart getSnmpEnterprisePart();
-
-  @NotNull
-  List<SmiValue> getValueList();
+  SmiValue getValue();
 
 }

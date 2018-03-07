@@ -319,7 +319,7 @@ snmpDefValPart ::= DEFVAL LEFT_BRACE value RIGHT_BRACE
 private snmpObjectsPart ::= OBJECTS LEFT_BRACE valueList RIGHT_BRACE
 private valueList ::= <<comma_separated_list value>>
 
-private snmpEnterprisePart ::= ENTERPRISE value
+snmpEnterprisePart ::= ENTERPRISE value
 private snmpVarPart ::= VARIABLES LEFT_BRACE valueList RIGHT_BRACE
 private snmpDisplayPart ::= DISPLAY_HINT STRING_LITERAL
 private snmpNotificationsPart ::= NOTIFICATIONS LEFT_BRACE valueList RIGHT_BRACE

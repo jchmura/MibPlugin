@@ -8,9 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface SmiSymbol extends PsiElement {
 
   @Nullable
-  SmiBuiltinType getBuiltinType();
+  SmiSymbolName getSymbolName();
 
   @Nullable
-  SmiSymbolName getSymbolName();
+  SmiType getType();
 
 }
