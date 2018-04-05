@@ -57,4 +57,8 @@ public class SmiTypeNameImpl extends StubBasedPsiElementBase<TextualConventionSt
     return SmiPsiImplUtil.getPresentation(this);
   }
 
+  public SmiTypeAssignment getParentAssignment() {
+    return SmiPsiImplUtil.getParentAssignment(this);
+  }
+
 }

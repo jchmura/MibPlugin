@@ -14,9 +14,18 @@ public interface SmiSnmpAgentCapabilitiesMacroType extends SmiDefinedMacroType {
   List<SmiSnmpDefValPart> getSnmpDefValPartList();
 
   @NotNull
+  List<SmiSnmpDescrPart> getSnmpDescrPartList();
+
+  @NotNull
+  List<SmiSnmpSyntaxPart> getSnmpSyntaxPartList();
+
+  @NotNull
   List<SmiType> getTypeList();
 
   @NotNull
   List<SmiValue> getValueList();
+
+  @NotNull
+  List<SmiValueList> getValueListList();
 
 }

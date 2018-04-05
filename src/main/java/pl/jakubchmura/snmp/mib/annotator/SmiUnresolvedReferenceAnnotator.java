@@ -9,11 +9,11 @@ import com.intellij.psi.PsiNamedElement;
 import com.intellij.psi.PsiReference;
 import com.intellij.psi.search.GlobalSearchScope;
 import org.jetbrains.annotations.NotNull;
-import pl.jakubchmura.snmp.mib.MibFile;
 import pl.jakubchmura.snmp.mib.StandardSnmpMibs;
 import pl.jakubchmura.snmp.mib.psi.*;
 import pl.jakubchmura.snmp.mib.psi.impl.IsoMibNode;
 import pl.jakubchmura.snmp.mib.psi.impl.SmiMibNodeMixin;
+import pl.jakubchmura.snmp.mib.reference.ReferenceUtil;
 
 import java.util.Collection;
 import java.util.List;
@@ -83,16 +83,11 @@ public class SmiUnresolvedReferenceAnnotator implements Annotator {
     }
 
     private boolean isImported(PsiNamedElement element) {
-        PsiFile psiFile = element.getContainingFile();
-        if (psiFile instanceof MibFile) {
-            MibFile mibFile = (MibFile) psiFile;
-            List<SmiSymbolsFromModule> importedSymbols = mibFile.getImportedSymbols(element);
-            return importedSymbols.stream()
-                    .flatMap(smiSymbolsFromModule -> smiSymbolsFromModule.getSymbolList().stream())
-                    .filter(smiSymbol -> smiSymbol.getSymbolName() != null)
-                    .anyMatch(smiSymbol -> Objects.equals(smiSymbol.getSymbolName().getName(), element.getName()));
-        }
-        return false;
+        List<SmiSymbolsFromModule> importedSymbols = ReferenceUtil.getImportedSymbols(element);
+        return importedSymbols.stream()
+                .flatMap(smiSymbolsFromModule -> smiSymbolsFromModule.getSymbolList().stream())
+                .filter(smiSymbol -> smiSymbol.getSymbolName() != null)
+                .anyMatch(smiSymbol -> Objects.equals(smiSymbol.getSymbolName().getName(), element.getName()));
     }
 
     private boolean isResolverAgree(PsiElement element) {

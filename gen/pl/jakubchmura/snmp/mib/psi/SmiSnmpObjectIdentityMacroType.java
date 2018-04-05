@@ -8,6 +8,12 @@ import com.intellij.psi.PsiElement;
 public interface SmiSnmpObjectIdentityMacroType extends SmiDefinedMacroType {
 
   @NotNull
+  SmiSnmpDescrPart getSnmpDescrPart();
+
+  @NotNull
   PsiElement getIdentifierString();
+
+  @Nullable
+  PsiElement getStringLiteral();
 
 }

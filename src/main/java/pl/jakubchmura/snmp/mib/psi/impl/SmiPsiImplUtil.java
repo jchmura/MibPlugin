@@ -148,4 +148,45 @@ public class SmiPsiImplUtil {
                 .collect(Collectors.toList());
     }
 
+    public static SmiSnmpDescrPart getDescriptionPart(SmiDefinedMacroType definedMacroType) {
+        if (definedMacroType instanceof SmiSnmpModuleIdentityMacroType) {
+            return ((SmiSnmpModuleIdentityMacroType) definedMacroType).getSnmpDescrPart();
+        } else if (definedMacroType instanceof SmiSnmpObjectIdentityMacroType) {
+            return ((SmiSnmpObjectIdentityMacroType) definedMacroType).getSnmpDescrPart();
+        } else if (definedMacroType instanceof SmiSnmpObjectTypeMacroType) {
+            return ((SmiSnmpObjectTypeMacroType) definedMacroType).getSnmpDescrPart();
+        } else if (definedMacroType instanceof SmiSnmpNotificationTypeMacroType) {
+            return ((SmiSnmpNotificationTypeMacroType) definedMacroType).getSnmpDescrPart();
+        } else if (definedMacroType instanceof SmiSnmpTrapTypeMacroType) {
+            return ((SmiSnmpTrapTypeMacroType) definedMacroType).getSnmpDescrPart();
+        } else if (definedMacroType instanceof SmiSnmpTextualConventionMacroType) {
+            return ((SmiSnmpTextualConventionMacroType) definedMacroType).getSnmpDescrPart();
+        } else if (definedMacroType instanceof SmiSnmpObjectGroupMacroType) {
+            return ((SmiSnmpObjectGroupMacroType) definedMacroType).getSnmpDescrPart();
+        } else if (definedMacroType instanceof SmiSnmpNotificationGroupMacroType) {
+            return ((SmiSnmpNotificationGroupMacroType) definedMacroType).getSnmpDescrPart();
+        } else if (definedMacroType instanceof SmiSnmpModuleComplianceMacroType) {
+            return ((SmiSnmpModuleComplianceMacroType) definedMacroType).getSnmpDescrPartList().stream().findFirst()
+                    .orElse(null);
+        } else if (definedMacroType instanceof SmiSnmpAgentCapabilitiesMacroType) {
+            return ((SmiSnmpAgentCapabilitiesMacroType) definedMacroType).getSnmpDescrPartList().stream().findFirst()
+                    .orElse(null);
+        }
+        return null;
+    }
+
+    public static SmiSnmpSyntaxPart getSyntaxPart(SmiDefinedMacroType definedMacroType) {
+        if (definedMacroType instanceof SmiSnmpObjectTypeMacroType) {
+            return ((SmiSnmpObjectTypeMacroType) definedMacroType).getSnmpSyntaxPart();
+        } else if (definedMacroType instanceof SmiSnmpTextualConventionMacroType) {
+            return ((SmiSnmpTextualConventionMacroType) definedMacroType).getSnmpSyntaxPart();
+        }
+        return null;
+    }
+
+    public static SmiTypeAssignment getParentAssignment(SmiTypeName typeName) {
+        return (SmiTypeAssignment) PsiTreeUtil.findFirstParent(typeName, psiElement -> psiElement instanceof
+                SmiTypeAssignment);
+    }
+
 }

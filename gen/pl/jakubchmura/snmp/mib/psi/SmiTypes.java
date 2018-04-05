@@ -36,17 +36,21 @@ public interface SmiTypes {
   IElementType SEQUENCE_TYPE = SmiElementTypeFactory.createType("SEQUENCE_TYPE");
   IElementType SNMP_AGENT_CAPABILITIES_MACRO_TYPE = SmiElementTypeFactory.createType("SNMP_AGENT_CAPABILITIES_MACRO_TYPE");
   IElementType SNMP_DEF_VAL_PART = SmiElementTypeFactory.createType("SNMP_DEF_VAL_PART");
+  IElementType SNMP_DESCR_PART = SmiElementTypeFactory.createType("SNMP_DESCR_PART");
   IElementType SNMP_ENTERPRISE_PART = SmiElementTypeFactory.createType("SNMP_ENTERPRISE_PART");
   IElementType SNMP_INDEX_PART = SmiElementTypeFactory.createType("SNMP_INDEX_PART");
   IElementType SNMP_MODULE_COMPLIANCE_MACRO_TYPE = SmiElementTypeFactory.createType("SNMP_MODULE_COMPLIANCE_MACRO_TYPE");
   IElementType SNMP_MODULE_IDENTITY_MACRO_TYPE = SmiElementTypeFactory.createType("SNMP_MODULE_IDENTITY_MACRO_TYPE");
   IElementType SNMP_NOTIFICATION_GROUP_MACRO_TYPE = SmiElementTypeFactory.createType("SNMP_NOTIFICATION_GROUP_MACRO_TYPE");
   IElementType SNMP_NOTIFICATION_TYPE_MACRO_TYPE = SmiElementTypeFactory.createType("SNMP_NOTIFICATION_TYPE_MACRO_TYPE");
+  IElementType SNMP_OBJECTS_PART = SmiElementTypeFactory.createType("SNMP_OBJECTS_PART");
   IElementType SNMP_OBJECT_GROUP_MACRO_TYPE = SmiElementTypeFactory.createType("SNMP_OBJECT_GROUP_MACRO_TYPE");
   IElementType SNMP_OBJECT_IDENTITY_MACRO_TYPE = SmiElementTypeFactory.createType("SNMP_OBJECT_IDENTITY_MACRO_TYPE");
   IElementType SNMP_OBJECT_TYPE_MACRO_TYPE = SmiElementTypeFactory.createType("SNMP_OBJECT_TYPE_MACRO_TYPE");
+  IElementType SNMP_SYNTAX_PART = SmiElementTypeFactory.createType("SNMP_SYNTAX_PART");
   IElementType SNMP_TEXTUAL_CONVENTION_MACRO_TYPE = SmiElementTypeFactory.createType("SNMP_TEXTUAL_CONVENTION_MACRO_TYPE");
   IElementType SNMP_TRAP_TYPE_MACRO_TYPE = SmiElementTypeFactory.createType("SNMP_TRAP_TYPE_MACRO_TYPE");
+  IElementType SNMP_VAR_PART = SmiElementTypeFactory.createType("SNMP_VAR_PART");
   IElementType SYMBOL = SmiElementTypeFactory.createType("SYMBOL");
   IElementType SYMBOLS_FROM_MODULE = SmiElementTypeFactory.createType("SYMBOLS_FROM_MODULE");
   IElementType SYMBOL_NAME = SmiElementTypeFactory.createType("SYMBOL_NAME");
@@ -55,6 +59,7 @@ public interface SmiTypes {
   IElementType TYPE_NAME = SmiElementTypeFactory.createType("TYPE_NAME");
   IElementType VALUE = SmiElementTypeFactory.createType("VALUE");
   IElementType VALUE_ASSIGNMENT = SmiElementTypeFactory.createType("VALUE_ASSIGNMENT");
+  IElementType VALUE_LIST = SmiElementTypeFactory.createType("VALUE_LIST");
 
   IElementType ABSENT = new SmiTokenType("ABSENT");
   IElementType ACCESS = new SmiTokenType("ACCESS");
@@ -249,6 +254,9 @@ public interface SmiTypes {
       else if (type == SNMP_DEF_VAL_PART) {
         return new SmiSnmpDefValPartImpl(node);
       }
+      else if (type == SNMP_DESCR_PART) {
+        return new SmiSnmpDescrPartImpl(node);
+      }
       else if (type == SNMP_ENTERPRISE_PART) {
         return new SmiSnmpEnterprisePartImpl(node);
       }
@@ -267,6 +275,9 @@ public interface SmiTypes {
       else if (type == SNMP_NOTIFICATION_TYPE_MACRO_TYPE) {
         return new SmiSnmpNotificationTypeMacroTypeImpl(node);
       }
+      else if (type == SNMP_OBJECTS_PART) {
+        return new SmiSnmpObjectsPartImpl(node);
+      }
       else if (type == SNMP_OBJECT_GROUP_MACRO_TYPE) {
         return new SmiSnmpObjectGroupMacroTypeImpl(node);
       }
@@ -276,11 +287,17 @@ public interface SmiTypes {
       else if (type == SNMP_OBJECT_TYPE_MACRO_TYPE) {
         return new SmiSnmpObjectTypeMacroTypeImpl(node);
       }
+      else if (type == SNMP_SYNTAX_PART) {
+        return new SmiSnmpSyntaxPartImpl(node);
+      }
       else if (type == SNMP_TEXTUAL_CONVENTION_MACRO_TYPE) {
         return new SmiSnmpTextualConventionMacroTypeImpl(node);
       }
       else if (type == SNMP_TRAP_TYPE_MACRO_TYPE) {
         return new SmiSnmpTrapTypeMacroTypeImpl(node);
+      }
+      else if (type == SNMP_VAR_PART) {
+        return new SmiSnmpVarPartImpl(node);
       }
       else if (type == SYMBOL) {
         return new SmiSymbolImpl(node);
@@ -305,6 +322,9 @@ public interface SmiTypes {
       }
       else if (type == VALUE_ASSIGNMENT) {
         return new SmiValueAssignmentImpl(node);
+      }
+      else if (type == VALUE_LIST) {
+        return new SmiValueListImpl(node);
       }
       throw new AssertionError("Unknown element type: " + type);
     }

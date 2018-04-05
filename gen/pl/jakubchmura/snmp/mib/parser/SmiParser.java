@@ -107,6 +107,9 @@ public class SmiParser implements PsiParser, LightPsiParser {
     else if (t == SNMP_DEF_VAL_PART) {
       r = snmpDefValPart(b, 0);
     }
+    else if (t == SNMP_DESCR_PART) {
+      r = snmpDescrPart(b, 0);
+    }
     else if (t == SNMP_ENTERPRISE_PART) {
       r = snmpEnterprisePart(b, 0);
     }
@@ -134,11 +137,20 @@ public class SmiParser implements PsiParser, LightPsiParser {
     else if (t == SNMP_OBJECT_TYPE_MACRO_TYPE) {
       r = snmpObjectTypeMacroType(b, 0);
     }
+    else if (t == SNMP_OBJECTS_PART) {
+      r = snmpObjectsPart(b, 0);
+    }
+    else if (t == SNMP_SYNTAX_PART) {
+      r = snmpSyntaxPart(b, 0);
+    }
     else if (t == SNMP_TEXTUAL_CONVENTION_MACRO_TYPE) {
       r = snmpTextualConventionMacroType(b, 0);
     }
     else if (t == SNMP_TRAP_TYPE_MACRO_TYPE) {
       r = snmpTrapTypeMacroType(b, 0);
+    }
+    else if (t == SNMP_VAR_PART) {
+      r = snmpVarPart(b, 0);
     }
     else if (t == SYMBOL) {
       r = symbol(b, 0);
@@ -163,6 +175,9 @@ public class SmiParser implements PsiParser, LightPsiParser {
     }
     else if (t == VALUE_ASSIGNMENT) {
       r = valueAssignment(b, 0);
+    }
+    else if (t == VALUE_LIST) {
+      r = valueList(b, 0);
     }
     else {
       r = parse_root_(t, b, 0);
@@ -1855,13 +1870,13 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // DESCRIPTION STRING_LITERAL
-  static boolean snmpDescrPart(PsiBuilder b, int l) {
+  public static boolean snmpDescrPart(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "snmpDescrPart")) return false;
     if (!nextTokenIs(b, DESCRIPTION)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeTokens(b, 0, DESCRIPTION, STRING_LITERAL);
-    exit_section_(b, m, null, r);
+    exit_section_(b, m, SNMP_DESCR_PART, r);
     return r;
   }
 
@@ -2286,7 +2301,7 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // OBJECTS LEFT_BRACE valueList RIGHT_BRACE
-  static boolean snmpObjectsPart(PsiBuilder b, int l) {
+  public static boolean snmpObjectsPart(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "snmpObjectsPart")) return false;
     if (!nextTokenIs(b, OBJECTS)) return false;
     boolean r;
@@ -2294,7 +2309,7 @@ public class SmiParser implements PsiParser, LightPsiParser {
     r = consumeTokens(b, 0, OBJECTS, LEFT_BRACE);
     r = r && valueList(b, l + 1);
     r = r && consumeToken(b, RIGHT_BRACE);
-    exit_section_(b, m, null, r);
+    exit_section_(b, m, SNMP_OBJECTS_PART, r);
     return r;
   }
 
@@ -2362,14 +2377,14 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // SYNTAX type
-  static boolean snmpSyntaxPart(PsiBuilder b, int l) {
+  public static boolean snmpSyntaxPart(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "snmpSyntaxPart")) return false;
     if (!nextTokenIs(b, SYNTAX)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, SYNTAX);
     r = r && type(b, l + 1);
-    exit_section_(b, m, null, r);
+    exit_section_(b, m, SNMP_SYNTAX_PART, r);
     return r;
   }
 
@@ -2476,7 +2491,7 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // VARIABLES LEFT_BRACE valueList RIGHT_BRACE
-  static boolean snmpVarPart(PsiBuilder b, int l) {
+  public static boolean snmpVarPart(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "snmpVarPart")) return false;
     if (!nextTokenIs(b, VARIABLES)) return false;
     boolean r;
@@ -2484,7 +2499,7 @@ public class SmiParser implements PsiParser, LightPsiParser {
     r = consumeTokens(b, 0, VARIABLES, LEFT_BRACE);
     r = r && valueList(b, l + 1);
     r = r && consumeToken(b, RIGHT_BRACE);
-    exit_section_(b, m, null, r);
+    exit_section_(b, m, SNMP_VAR_PART, r);
     return r;
   }
 
@@ -2818,8 +2833,13 @@ public class SmiParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // <<comma_separated_list value>>
-  static boolean valueList(PsiBuilder b, int l) {
-    return comma_separated_list(b, l + 1, value_parser_);
+  public static boolean valueList(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "valueList")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, VALUE_LIST, "<value list>");
+    r = comma_separated_list(b, l + 1, value_parser_);
+    exit_section_(b, l, m, r, false, null);
+    return r;
   }
 
   /* ********************************************************** */

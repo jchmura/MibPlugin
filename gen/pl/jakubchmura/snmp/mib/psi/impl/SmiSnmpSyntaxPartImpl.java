@@ -8,16 +8,17 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static pl.jakubchmura.snmp.mib.psi.SmiTypes.*;
+import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import pl.jakubchmura.snmp.mib.psi.*;
 
-public abstract class SmiDefinedMacroTypeImpl extends SmiTypeImpl implements SmiDefinedMacroType {
+public class SmiSnmpSyntaxPartImpl extends ASTWrapperPsiElement implements SmiSnmpSyntaxPart {
 
-  public SmiDefinedMacroTypeImpl(ASTNode node) {
+  public SmiSnmpSyntaxPartImpl(ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull SmiVisitor visitor) {
-    visitor.visitDefinedMacroType(this);
+    visitor.visitSnmpSyntaxPart(this);
   }
 
   public void accept(@NotNull PsiElementVisitor visitor) {
@@ -25,12 +26,10 @@ public abstract class SmiDefinedMacroTypeImpl extends SmiTypeImpl implements Smi
     else super.accept(visitor);
   }
 
-  public SmiSnmpDescrPart getDescriptionPart() {
-    return SmiPsiImplUtil.getDescriptionPart(this);
-  }
-
-  public SmiSnmpSyntaxPart getSyntaxPart() {
-    return SmiPsiImplUtil.getSyntaxPart(this);
+  @Override
+  @NotNull
+  public SmiType getType() {
+    return notNullChild(PsiTreeUtil.getChildOfType(this, SmiType.class));
   }
 
 }

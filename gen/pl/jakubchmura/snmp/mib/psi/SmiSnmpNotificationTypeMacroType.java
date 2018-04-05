@@ -8,9 +8,15 @@ import com.intellij.psi.PsiElement;
 public interface SmiSnmpNotificationTypeMacroType extends SmiDefinedMacroType {
 
   @NotNull
-  List<SmiValue> getValueList();
+  SmiSnmpDescrPart getSnmpDescrPart();
+
+  @Nullable
+  SmiSnmpObjectsPart getSnmpObjectsPart();
 
   @NotNull
   PsiElement getIdentifierString();
+
+  @Nullable
+  PsiElement getStringLiteral();
 
 }

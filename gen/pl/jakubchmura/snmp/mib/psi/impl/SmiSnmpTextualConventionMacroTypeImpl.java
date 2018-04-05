@@ -27,8 +27,14 @@ public class SmiSnmpTextualConventionMacroTypeImpl extends SmiDefinedMacroTypeIm
 
   @Override
   @NotNull
-  public SmiType getType() {
-    return notNullChild(PsiTreeUtil.getChildOfType(this, SmiType.class));
+  public SmiSnmpDescrPart getSnmpDescrPart() {
+    return notNullChild(PsiTreeUtil.getChildOfType(this, SmiSnmpDescrPart.class));
+  }
+
+  @Override
+  @NotNull
+  public SmiSnmpSyntaxPart getSnmpSyntaxPart() {
+    return notNullChild(PsiTreeUtil.getChildOfType(this, SmiSnmpSyntaxPart.class));
   }
 
   @Override

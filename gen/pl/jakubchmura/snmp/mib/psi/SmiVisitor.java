@@ -121,6 +121,10 @@ public class SmiVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitSnmpDescrPart(@NotNull SmiSnmpDescrPart o) {
+    visitPsiElement(o);
+  }
+
   public void visitSnmpEnterprisePart(@NotNull SmiSnmpEnterprisePart o) {
     visitPsiElement(o);
   }
@@ -157,12 +161,24 @@ public class SmiVisitor extends PsiElementVisitor {
     visitDefinedMacroType(o);
   }
 
+  public void visitSnmpObjectsPart(@NotNull SmiSnmpObjectsPart o) {
+    visitPsiElement(o);
+  }
+
+  public void visitSnmpSyntaxPart(@NotNull SmiSnmpSyntaxPart o) {
+    visitPsiElement(o);
+  }
+
   public void visitSnmpTextualConventionMacroType(@NotNull SmiSnmpTextualConventionMacroType o) {
     visitDefinedMacroType(o);
   }
 
   public void visitSnmpTrapTypeMacroType(@NotNull SmiSnmpTrapTypeMacroType o) {
     visitDefinedMacroType(o);
+  }
+
+  public void visitSnmpVarPart(@NotNull SmiSnmpVarPart o) {
+    visitPsiElement(o);
   }
 
   public void visitSymbol(@NotNull SmiSymbol o) {
@@ -195,6 +211,10 @@ public class SmiVisitor extends PsiElementVisitor {
 
   public void visitValueAssignment(@NotNull SmiValueAssignment o) {
     visitAssignment(o);
+  }
+
+  public void visitValueList(@NotNull SmiValueList o) {
+    visitPsiElement(o);
   }
 
   public void visitIdentifiableElement(@NotNull SmiIdentifiableElement o) {

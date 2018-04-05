@@ -1,20 +1,15 @@
 package pl.jakubchmura.snmp.mib.reference;
 
-import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.roots.ProjectFileIndex;
-import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.*;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.util.CommonProcessors;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import pl.jakubchmura.snmp.mib.MibFile;
-import pl.jakubchmura.snmp.mib.StandardSnmpMibs;
 import pl.jakubchmura.snmp.mib.psi.SmiIdentifiableElement;
 import pl.jakubchmura.snmp.mib.psi.SmiStubIndex;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Stream;
 
@@ -44,7 +39,7 @@ public abstract class SmiReference extends PsiReferenceBase<SmiIdentifiableEleme
         if (name != null) {
             Project project = getElement().getProject();
             Collection<? extends SmiIdentifiableElement> definitions = index.get(name, project, getScope());
-            return mapToResult(definitions);
+            return ReferenceUtil.mapToResult(definitions, getElement());
         }
 
         return new ResolveResult[0];
@@ -71,47 +66,7 @@ public abstract class SmiReference extends PsiReferenceBase<SmiIdentifiableEleme
             return GlobalSearchScope.fileScope(psiFile);
         }
 
-        Project project = getElement().getProject();
-        GlobalSearchScope standardMibs = StandardSnmpMibs.getScope(project);
-
-        PsiFile containingFile = getElement().getContainingFile();
-        if (containingFile == null) {
-            return standardMibs;
-        }
-        VirtualFile virtualFile = containingFile.getVirtualFile();
-        if (virtualFile == null) {
-            return standardMibs;
-        }
-
-        Module module = ProjectFileIndex.getInstance(project).getModuleForFile(virtualFile);
-        if (module != null) {
-            GlobalSearchScope moduleScope = module.getModuleWithDependenciesAndLibrariesScope(false);
-            return moduleScope.uniteWith(standardMibs);
-        } else {
-            return standardMibs;
-        }
-    }
-
-    private ResolveResult[] mapToResult(Collection<? extends PsiElement> elements) {
-        Collection<? extends PsiElement> filtered;
-        Collection<? extends PsiElement> sameFile = referencesInSameFile(elements);
-        if (!sameFile.isEmpty()) {
-            filtered = sameFile;
-        } else {
-            filtered = StandardSnmpMibs.filterOutStandardMibs(elements);
-        }
-        return filtered.stream().map(PsiElementResolveResult::new).toArray(ResolveResult[]::new);
-    }
-
-    private Collection<? extends PsiElement> referencesInSameFile(Collection<? extends PsiElement> elements) {
-        Collection<PsiElement> collection = new ArrayList<>();
-        PsiFile containingFile = getElement().getContainingFile();
-        for (PsiElement element : elements) {
-            if (element.getContainingFile().equals(containingFile)) {
-                collection.add(element);
-            }
-        }
-        return collection;
+        return ReferenceUtil.getScope(getElement());
     }
 
 }

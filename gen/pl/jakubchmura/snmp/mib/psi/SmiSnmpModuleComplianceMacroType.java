@@ -11,9 +11,21 @@ public interface SmiSnmpModuleComplianceMacroType extends SmiDefinedMacroType {
   List<SmiModuleIdentifier> getModuleIdentifierList();
 
   @NotNull
+  List<SmiSnmpDescrPart> getSnmpDescrPartList();
+
+  @NotNull
+  List<SmiSnmpSyntaxPart> getSnmpSyntaxPartList();
+
+  @NotNull
   List<SmiType> getTypeList();
 
   @NotNull
   List<SmiValue> getValueList();
+
+  @NotNull
+  List<SmiValueList> getValueListList();
+
+  @Nullable
+  PsiElement getStringLiteral();
 
 }

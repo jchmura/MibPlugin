@@ -7,7 +7,7 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.tree.TokenSet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import pl.jakubchmura.snmp.mib.SmiLexerAdapter;
+import pl.jakubchmura.snmp.mib.parser.SmiLexer;
 import pl.jakubchmura.snmp.mib.psi.SmiIdentifiableElement;
 import pl.jakubchmura.snmp.mib.psi.SmiMibNode;
 import pl.jakubchmura.snmp.mib.psi.SmiTypeName;
@@ -17,7 +17,7 @@ public class SmiFindUsagesProvider implements FindUsagesProvider {
     @Nullable
     @Override
     public WordsScanner getWordsScanner() {
-        return new DefaultWordsScanner(new SmiLexerAdapter(),
+        return new DefaultWordsScanner(new SmiLexer(),
                 TokenSet.create(SmiTypes.IDENTIFIER_STRING),
                 TokenSet.create(SmiTypes.COMMENT),
                 TokenSet.create(SmiTypes.STRING_LITERAL, SmiTypes.NUMBER_LITERAL, SmiTypes.HEXADECIMAL_LITERAL, SmiTypes.BINARY_LITERAL));

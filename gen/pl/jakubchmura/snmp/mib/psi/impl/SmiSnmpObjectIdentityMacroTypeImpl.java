@@ -27,8 +27,20 @@ public class SmiSnmpObjectIdentityMacroTypeImpl extends SmiDefinedMacroTypeImpl 
 
   @Override
   @NotNull
+  public SmiSnmpDescrPart getSnmpDescrPart() {
+    return notNullChild(PsiTreeUtil.getChildOfType(this, SmiSnmpDescrPart.class));
+  }
+
+  @Override
+  @NotNull
   public PsiElement getIdentifierString() {
     return notNullChild(findChildByType(IDENTIFIER_STRING));
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getStringLiteral() {
+    return findChildByType(STRING_LITERAL);
   }
 
 }

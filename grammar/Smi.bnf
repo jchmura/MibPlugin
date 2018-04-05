@@ -124,7 +124,7 @@ private macroBodyElement ::= (LEFT_PAREN|RIGHT_PAREN|VERTICAL_BAR|DEFINITION|INT
 typeAssignment ::= typeName DEFINITION type {extends=assignment}
 typeName ::= IDENTIFIER_STRING {
   implements="pl.jakubchmura.snmp.mib.psi.SmiReferenceableElement"
-  methods=[getName setName getPresentation]
+  methods=[getName setName getPresentation getParentAssignment]
   stubClass="pl.jakubchmura.snmp.mib.psi.TextualConventionStub"
 }
 type ::= builtinType | definedType | definedMacroType | macroDefinition
@@ -239,7 +239,10 @@ nameAndNumber ::= (IDENTIFIER_STRING LEFT_PAREN NUMBER_LITERAL RIGHT_PAREN) | (I
 definedMacroType ::= snmpModuleIdentityMacroType | snmpObjectIdentityMacroType | snmpObjectTypeMacroType |
                      snmpNotificationTypeMacroType | snmpTrapTypeMacroType | snmpTextualConventionMacroType |
                      snmpObjectGroupMacroType | snmpNotificationGroupMacroType | snmpModuleComplianceMacroType |
-                     snmpAgentCapabilitiesMacroType {extends=type}
+                     snmpAgentCapabilitiesMacroType {
+    extends=type
+    methods=[getDescriptionPart getSyntaxPart]
+}
 private definedMacroName ::= MODULE_IDENTITY | OBJECT_IDENTITY | OBJECT_TYPE | NOTIFICATION_TYPE | TRAP_TYPE | TEXTUAL_CONVENTION | OBJECT_GROUP | NOTIFICATION_GROUP | MODULE_COMPLIANCE | AGENT_CAPABILITIES
 
 snmpModuleIdentityMacroType ::= MODULE_IDENTITY
@@ -302,11 +305,11 @@ snmpAgentCapabilitiesMacroType ::= AGENT_CAPABILITIES
 private snmpUpdatePart ::= LAST_UPDATED STRING_LITERAL
 private snmpOrganizationPart ::= ORGANIZATION STRING_LITERAL
 private snmpContactPart ::= CONTACT_INFO STRING_LITERAL
-private snmpDescrPart ::= DESCRIPTION STRING_LITERAL
+snmpDescrPart ::= DESCRIPTION STRING_LITERAL
 private snmpRevisionPart ::= REVISION value DESCRIPTION STRING_LITERAL
 private snmpStatusPart ::= STATUS IDENTIFIER_STRING
 private snmpReferPart ::= REFERENCE STRING_LITERAL
-private snmpSyntaxPart ::= SYNTAX type
+snmpSyntaxPart ::= SYNTAX type
 private snmpUnitsPart ::= UNITS STRING_LITERAL
 private snmpAccessPart ::= (ACCESS IDENTIFIER_STRING) | (MAX_ACCESS IDENTIFIER_STRING) | (MIN_ACCESS IDENTIFIER_STRING)
 snmpIndexPart ::= (INDEX LEFT_BRACE indexValueList RIGHT_BRACE) | (AUGMENTS LEFT_BRACE value RIGHT_BRACE)
@@ -316,11 +319,11 @@ indexValue ::= value | (IMPLIED value) | indexType
 indexType ::= integerType | stringType | objectIdentifierType
 
 snmpDefValPart ::= DEFVAL LEFT_BRACE value RIGHT_BRACE
-private snmpObjectsPart ::= OBJECTS LEFT_BRACE valueList RIGHT_BRACE
-private valueList ::= <<comma_separated_list value>>
+snmpObjectsPart ::= OBJECTS LEFT_BRACE valueList RIGHT_BRACE
+valueList ::= <<comma_separated_list value>>
 
 snmpEnterprisePart ::= ENTERPRISE value
-private snmpVarPart ::= VARIABLES LEFT_BRACE valueList RIGHT_BRACE
+snmpVarPart ::= VARIABLES LEFT_BRACE valueList RIGHT_BRACE
 private snmpDisplayPart ::= DISPLAY_HINT STRING_LITERAL
 private snmpNotificationsPart ::= NOTIFICATIONS LEFT_BRACE valueList RIGHT_BRACE
 private snmpModulePart ::= MODULE snmpModuleImport? snmpMandatoryPart? snmpCompliancePart*

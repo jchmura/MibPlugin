@@ -19,4 +19,6 @@ public interface SmiTypeName extends SmiReferenceableElement, StubBasedPsiElemen
 
   ItemPresentation getPresentation();
 
+  SmiTypeAssignment getParentAssignment();
+
 }

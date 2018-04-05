@@ -80,7 +80,8 @@ public class SmiMibNodeMixin extends StubBasedPsiElementBase<MibNodeStub> implem
 
         if (assignment instanceof SmiSnmpObjectTypeMacroType) {
             SmiSnmpObjectTypeMacroType macro = (SmiSnmpObjectTypeMacroType) assignment;
-            SmiType innerType = macro.getType();
+            SmiSnmpSyntaxPart syntaxPart = macro.getSnmpSyntaxPart();
+            SmiType innerType = syntaxPart.getType();
             if (innerType instanceof SmiSequenceOfType) {
                 return NodeType.TABLE;
             } else if (isSequence(innerType)) {
@@ -263,7 +264,7 @@ public class SmiMibNodeMixin extends StubBasedPsiElementBase<MibNodeStub> implem
         return parentOid.createChild(indices);
     }
 
-    private SmiValueAssignment getParentAssignment() {
+    public SmiValueAssignment getParentAssignment() {
         return (SmiValueAssignment) PsiTreeUtil.findFirstParent(this, psiElement -> psiElement instanceof SmiValueAssignment);
     }
 

@@ -11,9 +11,12 @@ public interface SmiSnmpObjectTypeMacroType extends SmiDefinedMacroType {
   SmiSnmpDefValPart getSnmpDefValPart();
 
   @Nullable
+  SmiSnmpDescrPart getSnmpDescrPart();
+
+  @Nullable
   SmiSnmpIndexPart getSnmpIndexPart();
 
   @NotNull
-  SmiType getType();
+  SmiSnmpSyntaxPart getSnmpSyntaxPart();
 
 }

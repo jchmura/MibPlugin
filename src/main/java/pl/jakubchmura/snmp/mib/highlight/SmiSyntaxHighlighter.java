@@ -6,7 +6,7 @@ import com.intellij.openapi.fileTypes.SyntaxHighlighterBase;
 import com.intellij.psi.TokenType;
 import com.intellij.psi.tree.IElementType;
 import org.jetbrains.annotations.NotNull;
-import pl.jakubchmura.snmp.mib.SmiLexerAdapter;
+import pl.jakubchmura.snmp.mib.parser.SmiLexer;
 import pl.jakubchmura.snmp.mib.psi.SmiTokenSet;
 import pl.jakubchmura.snmp.mib.psi.SmiTypes;
 
@@ -38,7 +38,7 @@ public class SmiSyntaxHighlighter extends SyntaxHighlighterBase {
     @NotNull
     @Override
     public Lexer getHighlightingLexer() {
-        return new SmiLexerAdapter();
+        return new SmiLexer();
     }
 
     @NotNull

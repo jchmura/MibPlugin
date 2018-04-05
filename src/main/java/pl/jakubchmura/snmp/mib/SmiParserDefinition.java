@@ -13,6 +13,7 @@ import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.IStubFileElementType;
 import com.intellij.psi.tree.TokenSet;
 import org.jetbrains.annotations.NotNull;
+import pl.jakubchmura.snmp.mib.parser.SmiLexer;
 import pl.jakubchmura.snmp.mib.parser.SmiParser;
 import pl.jakubchmura.snmp.mib.psi.SmiTypes;
 
@@ -26,7 +27,7 @@ public class SmiParserDefinition implements ParserDefinition {
     @NotNull
     @Override
     public Lexer createLexer(Project project) {
-        return new SmiLexerAdapter();
+        return new SmiLexer();
     }
 
     @Override
