@@ -9,6 +9,7 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiManager;
 import com.intellij.psi.ResolveResult;
 import com.intellij.psi.search.GlobalSearchScope;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import pl.jakubchmura.snmp.mib.psi.*;
 import pl.jakubchmura.snmp.mib.psi.impl.SmiMibNodeMixin;
@@ -25,7 +26,115 @@ public class SmiDocumentationProvider extends AbstractDocumentationProvider {
 
     private static final Logger LOG = Logger.getInstance(SmiDocumentationProvider.class);
 
-    private static String generateDocumentation(String type, String name, SnmpOid oid, String description, SmiType syntax, List<SmiValue> objects) {
+    @Override
+    public String generateDoc(PsiElement element, @Nullable PsiElement originalElement) {
+        if (element instanceof SmiMibNodeMixin) {
+            return generateDocMibNode((SmiMibNodeMixin) element);
+        } else if (element instanceof SmiTypeName) {
+            return generateDocTypeName((SmiTypeName) element);
+        }
+        return null;
+    }
+
+    @NotNull
+    private String generateDocTypeName(SmiTypeName element) {
+        SmiType smiType = element.getParentAssignment().getType();
+
+        String type = smiType.getFirstChild().getText();
+        String description = null;
+        SmiType syntax = null;
+
+        if (smiType instanceof SmiSnmpTextualConventionMacroType) {
+            SmiSnmpTextualConventionMacroType textualConvention = (SmiSnmpTextualConventionMacroType) smiType;
+            SmiSnmpDescrPart descrPart = textualConvention.getSnmpDescrPart();
+            SmiSnmpSyntaxPart syntaxPart = textualConvention.getSnmpSyntaxPart();
+
+            description = descrPart.getStringLiteral().getText();
+            syntax = syntaxPart.getType();
+        } else if (smiType instanceof SmiBuiltinType) {
+            SmiBuiltinType builtinType = (SmiBuiltinType) smiType;
+            type = "Builtin type";
+            syntax = builtinType.getTypeList().stream().findFirst()
+                    .orElse(builtinType);
+        }
+
+        return generateDocumentation(type, element.getName(), null, description, syntax, Collections.emptyList());
+    }
+
+    @NotNull
+    private String generateDocMibNode(SmiMibNodeMixin element) {
+        SmiType smiType = element.getParentAssignment().getType();
+
+        SnmpOid oid = element.getOid();
+
+        String description = null;
+        SmiType syntax = null;
+        List<SmiValue> objects = Collections.emptyList();
+        String type = smiType.getFirstChild().getText();
+
+        if (smiType instanceof SmiDefinedMacroType) {
+            SmiDefinedMacroType definedMacroType = (SmiDefinedMacroType) smiType;
+            SmiSnmpDescrPart descrPart = definedMacroType.getDescriptionPart();
+            SmiSnmpSyntaxPart syntaxPart = definedMacroType.getSyntaxPart();
+            if (descrPart != null) {
+                description = descrPart.getStringLiteral().getText();
+            }
+            if (syntaxPart != null) {
+                syntax = syntaxPart.getType();
+            }
+            objects = getObjects(smiType);
+        }
+
+        return generateDocumentation(type, element.getName(), oid, description, syntax, objects);
+    }
+
+    private List<SmiValue> getObjects(SmiType smiType) {
+        if (smiType instanceof SmiSnmpNotificationTypeMacroType) {
+            SmiSnmpNotificationTypeMacroType notification = (SmiSnmpNotificationTypeMacroType) smiType;
+            SmiSnmpObjectsPart objectsPart = notification.getSnmpObjectsPart();
+            if (objectsPart != null) {
+                return objectsPart.getValueList().getValueList();
+            }
+        } else if (smiType instanceof SmiSnmpTrapTypeMacroType) {
+            SmiSnmpTrapTypeMacroType trap = (SmiSnmpTrapTypeMacroType) smiType;
+            SmiSnmpVarPart varPart = trap.getSnmpVarPart();
+            if (varPart != null) {
+                return varPart.getValueList().getValueList();
+            }
+        } else if (smiType instanceof SmiSnmpObjectGroupMacroType) {
+            SmiSnmpObjectGroupMacroType objectGroup = (SmiSnmpObjectGroupMacroType) smiType;
+            SmiSnmpObjectsPart objectsPart = objectGroup.getSnmpObjectsPart();
+            return objectsPart.getValueList().getValueList();
+        }
+        return Collections.emptyList();
+    }
+
+    @Override
+    public PsiElement getDocumentationElementForLink(PsiManager psiManager, String link, PsiElement context) {
+        if (!(context instanceof SmiIdentifiableElement)) {
+            return null;
+        }
+        String[] split = link.split("#", 2);
+        LinkType linkType = LinkType.valueOf(split[0]);
+        String ref = split[1];
+        Project project = context.getProject();
+        GlobalSearchScope scope = ReferenceUtil.getScope(context);
+        switch (linkType) {
+            case SYNTAX:
+                Collection<SmiTypeName> typeNames = TextualConventionIndex.getInstance().get(ref, project, scope);
+                return Arrays.stream(ReferenceUtil.mapToResult(typeNames, context))
+                        .map(ResolveResult::getElement)
+                        .findFirst().orElse(null);
+            case OBJECT:
+                Collection<SmiMibNodeMixin> smiMibNodeMixins = MibNodeNameIndex.getInstance().get(ref, project, scope);
+                return Arrays.stream(ReferenceUtil.mapToResult(smiMibNodeMixins, context))
+                        .map(ResolveResult::getElement)
+                        .findFirst().orElse(null);
+        }
+        return null;
+    }
+
+    private String generateDocumentation(String type, String name, SnmpOid oid, String description, SmiType syntax, List<SmiValue> objects) {
         StringBuilder builder = new StringBuilder();
 
         builder.append(DocumentationMarkup.DEFINITION_START);
@@ -84,7 +193,7 @@ public class SmiDocumentationProvider extends AbstractDocumentationProvider {
         return builder.toString();
     }
 
-    private static String trimComments(String syntax) {
+    private String trimComments(String syntax) {
         String[] split = syntax.split("\n");
         return Arrays.stream(split).map(line -> {
             int index = line.indexOf("--");
@@ -95,109 +204,12 @@ public class SmiDocumentationProvider extends AbstractDocumentationProvider {
         }).collect(Collectors.joining("\n"));
     }
 
-    private static String buildHyperlink(String definedTypeName, String text, LinkType linkType) {
+    private String buildHyperlink(String definedTypeName, String text, LinkType linkType) {
         StringBuilder builder = new StringBuilder();
         DocumentationManager.createHyperlink(builder, linkType + "#" + definedTypeName, definedTypeName, false);
         String link = builder.toString();
 
         return text.replace(definedTypeName, link);
-    }
-
-    @Override
-    public String generateDoc(PsiElement element, @Nullable PsiElement originalElement) {
-        if (element instanceof SmiMibNodeMixin) {
-            try {
-                SmiMibNodeMixin mibNode = (SmiMibNodeMixin) element;
-                SmiType smiType = mibNode.getParentAssignment().getType();
-
-                SnmpOid oid = mibNode.getOid();
-
-                String description = null;
-                SmiType syntax = null;
-                List<SmiValue> objects = Collections.emptyList();
-                String type = smiType.getFirstChild().getText();
-
-
-                if (smiType instanceof SmiDefinedMacroType) {
-                    SmiDefinedMacroType definedMacroType = (SmiDefinedMacroType) smiType;
-                    SmiSnmpDescrPart descrPart = definedMacroType.getDescriptionPart();
-                    SmiSnmpSyntaxPart syntaxPart = definedMacroType.getSyntaxPart();
-                    if (descrPart != null) {
-                        description = descrPart.getStringLiteral().getText();
-                    }
-                    if (syntaxPart != null) {
-                        syntax = syntaxPart.getType();
-                    }
-
-                    if (smiType instanceof SmiSnmpNotificationTypeMacroType) {
-                        SmiSnmpNotificationTypeMacroType notification = (SmiSnmpNotificationTypeMacroType) smiType;
-                        SmiSnmpObjectsPart objectsPart = notification.getSnmpObjectsPart();
-                        if (objectsPart != null) {
-                            objects = objectsPart.getValueList().getValueList();
-                        }
-                    } else if (smiType instanceof SmiSnmpTrapTypeMacroType) {
-                        SmiSnmpTrapTypeMacroType trap = (SmiSnmpTrapTypeMacroType) smiType;
-                        SmiSnmpVarPart varPart = trap.getSnmpVarPart();
-                        if (varPart != null) {
-                            objects = varPart.getValueList().getValueList();
-                        }
-                    }
-
-                }
-                return generateDocumentation(type, mibNode.getName(), oid, description, syntax, objects);
-            } catch (RuntimeException e) {
-                LOG.warn(e);
-            }
-        } else if (element instanceof SmiTypeName) {
-            SmiTypeName typeName = (SmiTypeName) element;
-            SmiType smiType = typeName.getParentAssignment().getType();
-
-            String type = smiType.getFirstChild().getText();
-            String description = null;
-            SmiType syntax = null;
-
-            if (smiType instanceof SmiSnmpTextualConventionMacroType) {
-                SmiSnmpTextualConventionMacroType textualConvention = (SmiSnmpTextualConventionMacroType) smiType;
-                SmiSnmpDescrPart descrPart = textualConvention.getSnmpDescrPart();
-                SmiSnmpSyntaxPart syntaxPart = textualConvention.getSnmpSyntaxPart();
-
-                description = descrPart.getStringLiteral().getText();
-                syntax = syntaxPart.getType();
-            } else if (smiType instanceof SmiBuiltinType) {
-                SmiBuiltinType builtinType = (SmiBuiltinType) smiType;
-                type = "Builtin type";
-                syntax = builtinType.getTypeList().stream().findFirst()
-                        .orElse(builtinType);
-            }
-
-            return generateDocumentation(type, typeName.getName(), null, description, syntax, Collections.emptyList());
-        }
-        return null;
-    }
-
-    @Override
-    public PsiElement getDocumentationElementForLink(PsiManager psiManager, String link, PsiElement context) {
-        if (!(context instanceof SmiIdentifiableElement)) {
-            return null;
-        }
-        String[] split = link.split("#", 2);
-        LinkType linkType = LinkType.valueOf(split[0]);
-        String ref = split[1];
-        Project project = context.getProject();
-        GlobalSearchScope scope = ReferenceUtil.getScope(context);
-        switch (linkType) {
-            case SYNTAX:
-                Collection<SmiTypeName> typeNames = TextualConventionIndex.getInstance().get(ref, project, scope);
-                return Arrays.stream(ReferenceUtil.mapToResult(typeNames, context))
-                        .map(ResolveResult::getElement)
-                        .findFirst().orElse(null);
-            case OBJECT:
-                Collection<SmiMibNodeMixin> smiMibNodeMixins = MibNodeNameIndex.getInstance().get(ref, project, scope);
-                return Arrays.stream(ReferenceUtil.mapToResult(smiMibNodeMixins, context))
-                        .map(ResolveResult::getElement)
-                        .findFirst().orElse(null);
-        }
-        return null;
     }
 
     private enum LinkType {
