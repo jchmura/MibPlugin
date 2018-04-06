@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>pl.jakubchmura.snmp.mib</id>
   <name>MIB support</name>
-    <version>1.6.0</version>
+    <version>1.7.0</version>
   <vendor email="chmura.jakub@gmail.com">Jakub Chmura</vendor>
 
   <description><![CDATA[
@@ -10,6 +10,11 @@
     ]]></description>
 
   <change-notes><![CDATA[
+      <b>1.7</b><br/>
+      <ul>
+          <li>Quick documentation improvements: description, syntax, objects, hyperlinks</li>
+          <li>Code folding for module definition, mib node and textual convention</li>
+      </ul>
       <b>1.6</b><br/>
       <ul>
           <li>Calculate Trap OID for SMIv1 TRAP-TYPE according to RFC 3584</li>
