@@ -39,9 +39,11 @@ public final class ReferenceUtil {
             return standardMibs;
         }
 
-        Module module = ProjectFileIndex.getInstance(project).getModuleForFile(virtualFile);
+        ProjectFileIndex fileIndex = ProjectFileIndex.getInstance(project);
+        Module module = fileIndex.getModuleForFile(virtualFile);
         if (module != null) {
-            GlobalSearchScope moduleScope = module.getModuleWithDependenciesAndLibrariesScope(false);
+            boolean isInTests = fileIndex.isInTestSourceContent(virtualFile);
+            GlobalSearchScope moduleScope = module.getModuleWithDependenciesAndLibrariesScope(isInTests);
             return moduleScope.uniteWith(standardMibs);
         } else {
             return standardMibs;
