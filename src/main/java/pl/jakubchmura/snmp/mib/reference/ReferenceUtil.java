@@ -1,14 +1,13 @@
 package pl.jakubchmura.snmp.mib.reference;
 
-import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.roots.ProjectFileIndex;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementResolveResult;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.ResolveResult;
 import com.intellij.psi.search.GlobalSearchScope;
+import com.intellij.psi.search.GlobalSearchScopesCore;
 import com.intellij.psi.util.PsiTreeUtil;
 import org.jetbrains.annotations.NotNull;
 import pl.jakubchmura.snmp.mib.StandardSnmpMibs;
@@ -39,12 +38,10 @@ public final class ReferenceUtil {
             return standardMibs;
         }
 
-        ProjectFileIndex fileIndex = ProjectFileIndex.getInstance(project);
-        Module module = fileIndex.getModuleForFile(virtualFile);
-        if (module != null) {
-            boolean isInTests = fileIndex.isInTestSourceContent(virtualFile);
-            GlobalSearchScope moduleScope = module.getModuleWithDependenciesAndLibrariesScope(isInTests);
-            return moduleScope.uniteWith(standardMibs);
+        VirtualFile directory = virtualFile.getParent();
+        if (directory != null) {
+            GlobalSearchScope directoryScope = GlobalSearchScopesCore.directoryScope(project, directory, false);
+            return directoryScope.uniteWith(standardMibs);
         } else {
             return standardMibs;
         }
