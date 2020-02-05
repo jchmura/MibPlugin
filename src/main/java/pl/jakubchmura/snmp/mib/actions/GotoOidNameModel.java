@@ -7,7 +7,6 @@ import com.intellij.navigation.ChooseByNameContributor;
 import com.intellij.navigation.GotoClassContributor;
 import com.intellij.navigation.NavigationItem;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.SystemInfo;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import pl.jakubchmura.snmp.mib.reference.contributor.MibNodeChooseByNameContributor;
@@ -36,12 +35,7 @@ public class GotoOidNameModel extends ContributorsBasedGotoByModel {
     @Nullable
     @Override
     public String getCheckBoxName() {
-        return IdeBundle.message("checkbox.include.non.project.files");
-    }
-
-    @Override
-    public char getCheckBoxMnemonic() {
-        return SystemInfo.isMac?'P':'n';
+        return IdeBundle.message("checkbox.include.non.project.files", "project");
     }
 
     @Override
@@ -78,7 +72,6 @@ public class GotoOidNameModel extends ContributorsBasedGotoByModel {
         }
 
         String elementName = getElementName(element);
-        if (elementName == null) return null;
 
         return elementName;
     }

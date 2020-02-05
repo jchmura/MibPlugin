@@ -68,9 +68,4 @@ public class SmiParserDefinition implements ParserDefinition {
     public PsiFile createFile(FileViewProvider viewProvider) {
         return new MibFile(viewProvider);
     }
-
-    @Override
-    public SpaceRequirements spaceExistanceTypeBetweenTokens(ASTNode left, ASTNode right) {
-        return SpaceRequirements.MAY;
-    }
 }

@@ -52,7 +52,7 @@
   </change-notes>
 
   <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
-  <idea-version since-build="145.0"/>
+  <idea-version since-build="193"/>
 
   <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
        on how to target different products -->
@@ -61,8 +61,8 @@
   <depends optional="true" config-file="properties-features.xml">com.intellij.properties</depends>
 
   <extensions defaultExtensionNs="com.intellij">
-    <fileTypeFactory implementation="pl.jakubchmura.snmp.mib.MibFileTypeFactory"/>
-
+    <fileType name="MIB file" language="SMI" implementationClass="pl.jakubchmura.snmp.mib.MibFileType"
+              extensions="mib;my" patterns="*-MIB;*-TC;*-SMI;*-CONF"/>
     <lang.parserDefinition language="SMI" implementationClass="pl.jakubchmura.snmp.mib.SmiParserDefinition"/>
     <lang.syntaxHighlighterFactory language="SMI" implementationClass="pl.jakubchmura.snmp.mib.highlight.SmiSyntaxHighlighterFactory"/>
     <lang.elementManipulator forClass="pl.jakubchmura.snmp.mib.psi.SmiIdentifiableElement" implementationClass="pl.jakubchmura.snmp.mib.reference.manipulator.SmiIdentifiableElementManipulator"/>

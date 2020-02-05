@@ -1,6 +1,5 @@
 package pl.jakubchmura.snmp.mib.reference.marker;
 
-import com.intellij.codeHighlighting.Pass;
 import com.intellij.codeInsight.daemon.LineMarkerInfo;
 import com.intellij.codeInsight.daemon.LineMarkerProviderDescriptor;
 import com.intellij.openapi.editor.markup.GutterIconRenderer;
@@ -25,7 +24,7 @@ public class MibNodeMarkerProvider extends LineMarkerProviderDescriptor {
 
     @Nullable
     @Override
-    public LineMarkerInfo getLineMarkerInfo(@NotNull PsiElement element) {
+    public LineMarkerInfo<?> getLineMarkerInfo(@NotNull PsiElement element) {
         return null;
     }
 
@@ -34,13 +33,15 @@ public class MibNodeMarkerProvider extends LineMarkerProviderDescriptor {
         for (PsiElement element : elements) {
             if (element instanceof SmiMibNodeMixin) {
                 SmiMibNodeMixin mibNode = (SmiMibNodeMixin) element;
+                PsiElement markedElement = mibNode.getIdentifierString();
                 Icon icon = mibNode.getPresentation().getIcon(false);
-                result.add(new LineMarkerInfo<>(mibNode, mibNode.getTextRange(), icon, Pass.LINE_MARKERS,
+                result.add(new LineMarkerInfo<>(markedElement, markedElement.getTextRange(), icon,
                         o -> getOid(mibNode), null, GutterIconRenderer.Alignment.CENTER));
             } else if (element instanceof SmiTypeName) {
                 SmiTypeName typeName = (SmiTypeName) element;
+                PsiElement markedElement = typeName.getIdentifierString();
                 Icon icon = typeName.getPresentation().getIcon(false);
-                result.add(new LineMarkerInfo<>(typeName, typeName.getTextRange(), icon, Pass.LINE_MARKERS,
+                result.add(new LineMarkerInfo<>(markedElement, markedElement.getTextRange(), icon,
                         null, null, GutterIconRenderer.Alignment.CENTER));
             }
         }

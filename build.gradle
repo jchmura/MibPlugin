@@ -5,7 +5,7 @@ buildscript {
 }
 
 plugins {
-    id "org.jetbrains.intellij" version "0.3.11"
+    id "org.jetbrains.intellij" version "0.4.16"
 }
 
 apply plugin: 'java'
@@ -25,11 +25,13 @@ intellij {
     downloadSources Boolean.valueOf(downloadIdeaSource)
     updateSinceUntilBuild false
     sameSinceUntilBuild false
-    plugins 'groovy', 'properties', 'PsiViewer:183.2153'
+    plugins 'java', 'Groovy', 'properties', 'PsiViewer:193-SNAPSHOT'
     pluginName 'MIB support'
 }
 
-
+publishPlugin {
+    token intellijPublishToken
+}
 
 
 apply plugin: 'idea'

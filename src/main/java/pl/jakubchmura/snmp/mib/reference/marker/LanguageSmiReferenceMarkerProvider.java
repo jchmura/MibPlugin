@@ -34,6 +34,7 @@ abstract class LanguageSmiReferenceMarkerProvider extends RelatedItemLineMarkerP
 
             NavigationGutterIconBuilder<PsiElement> builder = NavigationGutterIconBuilder
                     .create(icon)
+                    .setTooltipText(name)
                     .setTargets(mibNodes);
 
             return builder.createLineMarkerInfo(element);

@@ -40,11 +40,6 @@ public class GotoOidInFileModel extends ContributorsBasedGotoByModel {
     }
 
     @Override
-    public char getCheckBoxMnemonic() {
-        return 0;
-    }
-
-    @Override
     public boolean loadInitialCheckBoxState() {
         return false;
     }
@@ -73,7 +68,6 @@ public class GotoOidInFileModel extends ContributorsBasedGotoByModel {
         }
 
         String elementName = getElementName(element);
-        if (elementName == null) return null;
 
         return elementName;
     }

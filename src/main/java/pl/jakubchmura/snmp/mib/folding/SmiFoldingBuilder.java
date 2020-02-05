@@ -3,7 +3,6 @@ package pl.jakubchmura.snmp.mib.folding;
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.folding.FoldingBuilder;
 import com.intellij.lang.folding.FoldingDescriptor;
-import com.intellij.lang.folding.NamedFoldingDescriptor;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.util.TextRange;
 import org.jetbrains.annotations.NotNull;
@@ -38,7 +37,7 @@ public class SmiFoldingBuilder implements FoldingBuilder {
     private List<FoldingDescriptor> getModules(List<SmiModuleDefinition> moduleDefinitions) {
         List<FoldingDescriptor> foldingDescriptors = new LinkedList<>();
         for (SmiModuleDefinition moduleDefinition : moduleDefinitions) {
-            foldingDescriptors.add(new NamedFoldingDescriptor(moduleDefinition.getNode(), moduleDefinition.getTextRange(),
+            foldingDescriptors.add(new FoldingDescriptor(moduleDefinition.getNode(), moduleDefinition.getTextRange(),
                     null, moduleDefinition.getModuleIdentifierDefinition().getName()));
         }
         return foldingDescriptors;
@@ -71,7 +70,7 @@ public class SmiFoldingBuilder implements FoldingBuilder {
         ASTNode lastChild = node.getLastChildNode();
         TextRange textRange = new TextRange(firstChild.getTextRange().getStartOffset(), lastChild.getTextRange()
                 .getEndOffset());
-        return new NamedFoldingDescriptor(node, textRange, null, firstChild.getText());
+        return new FoldingDescriptor(node, textRange, null, firstChild.getText());
     }
 
     @Nullable
