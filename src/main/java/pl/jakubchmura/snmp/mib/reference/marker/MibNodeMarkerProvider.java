@@ -29,7 +29,7 @@ public class MibNodeMarkerProvider extends LineMarkerProviderDescriptor {
     }
 
     @Override
-    public void collectSlowLineMarkers(@NotNull List<PsiElement> elements, @NotNull Collection<LineMarkerInfo> result) {
+    public void collectSlowLineMarkers(@NotNull List<? extends PsiElement> elements, @NotNull Collection<? super LineMarkerInfo<?>> result) {
         for (PsiElement element : elements) {
             if (element instanceof SmiMibNodeMixin) {
                 SmiMibNodeMixin mibNode = (SmiMibNodeMixin) element;

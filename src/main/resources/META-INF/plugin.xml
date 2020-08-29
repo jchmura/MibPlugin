@@ -1,27 +1,27 @@
 <idea-plugin>
   <id>pl.jakubchmura.snmp.mib</id>
-  <name>MIB support</name>
-    <version>1.7.3</version>
+  <name>MIB Support</name>
+  <version>1.7.3</version>
   <vendor email="chmura.jakub@gmail.com">Jakub Chmura</vendor>
 
   <description><![CDATA[
-      MIB file support for the IntelliJ platform.<br/>
-      Supports syntax highlighting, rename refactoring, code completion, structure view, go to actions.
+    MIB file support for the IntelliJ platform.<br/>
+    Supports syntax highlighting, rename refactoring, code completion, structure view, go to actions.
     ]]></description>
 
   <change-notes><![CDATA[
-      <b>1.7</b><br/>
-      <ul>
-          <li>Quick documentation improvements: description, syntax, objects, hyperlinks</li>
-          <li>Code folding for module definition, mib node and textual convention</li>
-      </ul>
-      <b>1.6</b><br/>
-      <ul>
-          <li>Calculate Trap OID for SMIv1 TRAP-TYPE according to RFC 3584</li>
-          <li>Not imported references to standard MIBs are just warnings</li>
-      </ul>
-      <b>1.5</b><br/>
-      <ul>
+    <b>1.7</b><br/>
+    <ul>
+      <li>Quick documentation improvements: description, syntax, objects, hyperlinks</li>
+      <li>Code folding for module definition, mib node and textual convention</li>
+    </ul>
+    <b>1.6</b><br/>
+    <ul>
+      <li>Calculate Trap OID for SMIv1 TRAP-TYPE according to RFC 3584</li>
+      <li>Not imported references to standard MIBs are just warnings</li>
+    </ul>
+    <b>1.5</b><br/>
+    <ul>
         <li>Performance improvements</li>
         <li>Go to OID actions (by name in whole project, by name or number in file)</li>
         <li>Line markers (gutter icons) in groovy and properties files</li>
@@ -52,10 +52,11 @@
   </change-notes>
 
   <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
-  <idea-version since-build="193"/>
+  <idea-version since-build="202"/>
 
   <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
        on how to target different products -->
+  <depends>com.intellij.modules.platform</depends>
   <depends>com.intellij.modules.lang</depends>
   <depends optional="true" config-file="groovy-features.xml">org.intellij.groovy</depends>
   <depends optional="true" config-file="properties-features.xml">com.intellij.properties</depends>

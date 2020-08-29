@@ -2,6 +2,7 @@ package pl.jakubchmura.snmp.mib.annotator;
 
 import com.intellij.lang.annotation.AnnotationHolder;
 import com.intellij.lang.annotation.Annotator;
+import com.intellij.lang.annotation.HighlightSeverity;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
@@ -29,13 +30,12 @@ public class SmiUnresolvedReferenceAnnotator implements Annotator {
             PsiReference reference = element.getReference();
             if (reference != null) {
                 if (!isReferenceToReferenceableElement(reference, SmiReferenceableElement.class)) {
-                    holder.createErrorAnnotation(element.getTextRange(), "Unresolved reference");
+                    holder.newAnnotation(HighlightSeverity.ERROR, "Unresolved reference").range(element).create();
                 } else if (!hasReferenceInsideFile(element, reference) && shouldBeImported(element) && !isImported((PsiNamedElement) element)) {
                     if (hasReferenceToStandardMib(element, reference)) {
-                        holder.createWarningAnnotation(element.getTextRange(), "Not imported reference to standard " +
-                                "MIB");
+                        holder.newAnnotation(HighlightSeverity.WARNING, "Not imported reference to standard MIB").range(element).create();
                     } else {
-                        holder.createErrorAnnotation(element.getTextRange(), "Not imported reference");
+                        holder.newAnnotation(HighlightSeverity.ERROR, "Not imported reference").range(element).create();
                     }
                 }
             }

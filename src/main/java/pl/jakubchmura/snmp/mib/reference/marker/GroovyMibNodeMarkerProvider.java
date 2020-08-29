@@ -11,10 +11,10 @@ import java.util.regex.Matcher;
 public class GroovyMibNodeMarkerProvider extends LanguageSmiReferenceMarkerProvider {
 
     @Override
-    protected void collectNavigationMarkers(@NotNull PsiElement element, Collection<? super RelatedItemLineMarkerInfo> result) {
+    protected void collectNavigationMarkers(@NotNull PsiElement element, @NotNull Collection<? super RelatedItemLineMarkerInfo<?>> result) {
         if (element instanceof GrLiteral) {
             GrLiteral literal = (GrLiteral) element;
-            String value = literal.getValue() instanceof String? (String) literal.getValue(): null;
+            String value = literal.getValue() instanceof String ? (String) literal.getValue() : null;
             if (value != null) {
                 Matcher matcher = getMatcher(value);
                 if (matcher.matches()) {

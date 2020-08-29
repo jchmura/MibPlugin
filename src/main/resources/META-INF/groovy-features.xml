@@ -1,5 +1,6 @@
 <idea-plugin>
     <depends>com.intellij.modules.java</depends>
+    <depends>com.intellij.java</depends>
     <extensions defaultExtensionNs="com.intellij">
         <codeInsight.lineMarkerProvider language="Groovy" implementationClass="pl.jakubchmura.snmp.mib.reference.marker.GroovyMibNodeMarkerProvider"/>
     </extensions>

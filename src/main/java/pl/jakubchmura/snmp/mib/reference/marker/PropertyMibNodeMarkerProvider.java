@@ -11,7 +11,7 @@ import java.util.regex.Matcher;
 public class PropertyMibNodeMarkerProvider extends LanguageSmiReferenceMarkerProvider {
 
     @Override
-    protected void collectNavigationMarkers(@NotNull PsiElement element, Collection<? super RelatedItemLineMarkerInfo> result) {
+    protected void collectNavigationMarkers(@NotNull PsiElement element, @NotNull Collection<? super RelatedItemLineMarkerInfo<?>> result) {
         if (element instanceof PropertyValueImpl) {
             PropertyValueImpl value = (PropertyValueImpl) element;
             String text = value.getText();

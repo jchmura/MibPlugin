@@ -25,7 +25,7 @@ intellij {
     downloadSources Boolean.valueOf(downloadIdeaSource)
     updateSinceUntilBuild false
     sameSinceUntilBuild false
-    plugins 'java', 'Groovy', 'properties', 'PsiViewer:193-SNAPSHOT'
+    plugins 'java', 'Groovy', 'properties', 'PsiViewer:202-SNAPSHOT.3'
     pluginName 'MIB support'
 }
 

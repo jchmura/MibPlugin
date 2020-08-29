@@ -1,8 +1,8 @@
 package pl.jakubchmura.snmp.mib.annotator;
 
-import com.intellij.lang.annotation.Annotation;
 import com.intellij.lang.annotation.AnnotationHolder;
 import com.intellij.lang.annotation.Annotator;
+import com.intellij.lang.annotation.HighlightSeverity;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiReference;
@@ -46,7 +46,6 @@ public class SmiColorAnnotator implements Annotator {
     }
 
     private static void annotateWithColor(@NotNull PsiElement element, @NotNull AnnotationHolder holder, TextAttributesKey textAttributesKey) {
-        Annotation annotation = holder.createInfoAnnotation(element.getTextRange(), null);
-        annotation.setTextAttributes(textAttributesKey);
+        holder.newSilentAnnotation(HighlightSeverity.INFORMATION).textAttributes(textAttributesKey).range(element).create();
     }
 }
