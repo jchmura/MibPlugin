@@ -47,6 +47,10 @@ public class SmiMibNodeMixin extends StubBasedPsiElementBase<MibNodeStub> implem
         if (stub != null) {
             return stub.getName();
         }
+        return getSimpleName();
+    }
+
+    private String getSimpleName() {
         return getIdentifierString().getText();
     }
 
@@ -182,7 +186,7 @@ public class SmiMibNodeMixin extends StubBasedPsiElementBase<MibNodeStub> implem
     public SmiMibNodeMixin getParentMibNode() {
         SmiValueAssignment valueAssignment = getParentAssignment();
         if (valueAssignment == null) {
-            LOG.debug("Parent of MIB node " + this + " is null");
+            LOG.debug("Parent of MIB node " + getSimpleName() + " is null");
             return null;
         }
 
@@ -199,7 +203,7 @@ public class SmiMibNodeMixin extends StubBasedPsiElementBase<MibNodeStub> implem
 
             List<SmiNameValueString> nameValueStringList = oidValue.getNameValueStringList();
             if (nameValueStringList.isEmpty()) {
-                LOG.debug("No parent in OID assignment of MIB node " + this);
+                LOG.debug("No parent in OID assignment of MIB node " + getSimpleName());
                 return null;
             }
             SmiNameValueString nameValueString = nameValueStringList.get(0);
@@ -211,14 +215,14 @@ public class SmiMibNodeMixin extends StubBasedPsiElementBase<MibNodeStub> implem
             PsiReference reference = enterpriseValue.getReference();
             return resolveReference(reference);
         }
-        LOG.debug("MIB node " + this + " is not in a OID assignment");
+        LOG.debug("MIB node " + getSimpleName() + " is not in a OID assignment");
         return null;
     }
 
     protected long[] getIndex() {
         SmiValueAssignment valueAssignment = getParentAssignment();
         if (valueAssignment == null) {
-            LOG.debug("Parent of MIB node " + this + " is null");
+            LOG.debug("Parent of MIB node " + getSimpleName() + " is null");
             return INDEX_NOT_FOUND;
         }
 
@@ -227,7 +231,7 @@ public class SmiMibNodeMixin extends StubBasedPsiElementBase<MibNodeStub> implem
             SmiBitOrObjectIdentifierValue oidValue = (SmiBitOrObjectIdentifierValue) value;
             List<SmiNameValueIndex> nameValueIndexList = oidValue.getNameValueIndexList();
             if (nameValueIndexList.size() == 0) {
-                LOG.debug("No parent in OID assignment of MIB node " + this);
+                LOG.debug("No parent in OID assignment of MIB node " + getSimpleName());
                 return INDEX_NOT_FOUND;
             }
             return nameValueIndexList.stream()
@@ -243,7 +247,7 @@ public class SmiMibNodeMixin extends StubBasedPsiElementBase<MibNodeStub> implem
             long index = Long.parseLong(numberLiteral.getText());
             return new long[]{0, index};
         }
-        LOG.debug("MIB node " + this + " is not in a OID assignment");
+        LOG.debug("MIB node " + getSimpleName() + " is not in a OID assignment");
         return INDEX_NOT_FOUND;
     }
 
@@ -276,12 +280,12 @@ public class SmiMibNodeMixin extends StubBasedPsiElementBase<MibNodeStub> implem
         if (reference != null) {
             PsiElement resolved = reference.resolve();
             if (resolved == null) {
-                LOG.debug("Parent of MIB node " + this + " resolved to null");
+                LOG.debug("Parent of MIB node " + getSimpleName() + " resolved to null");
                 return null;
             }
             return (SmiMibNodeMixin) resolved;
         }
-        LOG.debug("Parent of MIB node " + this + " has a null reference");
+        LOG.debug("Parent of MIB node " + getSimpleName() + " has a null reference");
         return null;
     }
 }

@@ -1,6 +1,5 @@
 package pl.jakubchmura.snmp.mib.actions;
 
-import com.intellij.ide.IdeBundle;
 import com.intellij.ide.util.PropertiesComponent;
 import com.intellij.ide.util.gotoByName.ContributorsBasedGotoByModel;
 import com.intellij.navigation.ChooseByNameContributor;
@@ -35,7 +34,7 @@ public class GotoOidNameModel extends ContributorsBasedGotoByModel {
     @Nullable
     @Override
     public String getCheckBoxName() {
-        return IdeBundle.message("checkbox.include.non.project.files", "project");
+        return "Include non-project files";
     }
 
     @Override
@@ -61,8 +60,8 @@ public class GotoOidNameModel extends ContributorsBasedGotoByModel {
 
     @Nullable
     @Override
-    public String getFullName(Object element) {
-        for(ChooseByNameContributor c: getContributors()) {
+    public String getFullName(@NotNull Object element) {
+        for (ChooseByNameContributor c : getContributors()) {
             if (c instanceof GotoClassContributor) {
                 String result = ((GotoClassContributor) c).getQualifiedName((NavigationItem) element);
                 if (result != null) {
@@ -71,9 +70,7 @@ public class GotoOidNameModel extends ContributorsBasedGotoByModel {
             }
         }
 
-        String elementName = getElementName(element);
-
-        return elementName;
+        return getElementName(element);
     }
 
     @Override

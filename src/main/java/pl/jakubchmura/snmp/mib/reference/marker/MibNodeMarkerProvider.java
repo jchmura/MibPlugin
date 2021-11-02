@@ -36,13 +36,13 @@ public class MibNodeMarkerProvider extends LineMarkerProviderDescriptor {
                 PsiElement markedElement = mibNode.getIdentifierString();
                 Icon icon = mibNode.getPresentation().getIcon(false);
                 result.add(new LineMarkerInfo<>(markedElement, markedElement.getTextRange(), icon,
-                        o -> getOid(mibNode), null, GutterIconRenderer.Alignment.CENTER));
+                        o -> getOid(mibNode), null, GutterIconRenderer.Alignment.CENTER, markedElement::getText));
             } else if (element instanceof SmiTypeName) {
                 SmiTypeName typeName = (SmiTypeName) element;
                 PsiElement markedElement = typeName.getIdentifierString();
                 Icon icon = typeName.getPresentation().getIcon(false);
                 result.add(new LineMarkerInfo<>(markedElement, markedElement.getTextRange(), icon,
-                        null, null, GutterIconRenderer.Alignment.CENTER));
+                        null, null, GutterIconRenderer.Alignment.CENTER, markedElement::getText));
             }
         }
     }
