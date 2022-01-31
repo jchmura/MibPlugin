@@ -1,4 +1,4 @@
-<idea-plugin>
+<idea-plugin require-restart="true">
   <id>pl.jakubchmura.snmp.mib</id>
   <name>MIB Support</name>
   <vendor email="chmura.jakub@gmail.com">Jakub Chmura</vendor>
