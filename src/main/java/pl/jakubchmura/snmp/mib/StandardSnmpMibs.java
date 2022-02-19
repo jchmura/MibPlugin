@@ -12,7 +12,6 @@ import pl.jakubchmura.snmp.mib.settings.AdditionalMibPath;
 import pl.jakubchmura.snmp.mib.settings.ProjectSettingsState;
 
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -66,10 +65,10 @@ public class StandardSnmpMibs extends IndexableSetContributor {
     }
 
     private static boolean rootsContain(Set<VirtualFile> roots, VirtualFile virtualFile) {
-        Path child = Paths.get(virtualFile.getUrl()).normalize();
+        Path child = virtualFile.toNioPath().normalize();
         for (VirtualFile root : roots) {
             if (root.isDirectory()) {
-                Path rootPath = Paths.get(root.getUrl()).normalize();
+                Path rootPath = root.toNioPath().normalize();
                 if (child.startsWith(rootPath)) {
                     return true;
                 }
