@@ -4,6 +4,13 @@
 
 ## [Unreleased]
 
+## [1.8.0]
+
+### Added
+
+- Project settings for specifying additional directories with MIBs that are included in indexing and in resolving
+  references
+
 ## [1.7.0]
 
 ### Added
