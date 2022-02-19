@@ -76,7 +76,13 @@
     <annotator language="SMI" implementationClass="pl.jakubchmura.snmp.mib.annotator.SmiColorAnnotator"/>
     <annotator language="SMI" implementationClass="pl.jakubchmura.snmp.mib.annotator.SmiUnresolvedReferenceAnnotator"/>
 
-    <codeInsight.lineMarkerProvider language="SMI" implementationClass="pl.jakubchmura.snmp.mib.reference.marker.MibNodeMarkerProvider"/>
+    <codeInsight.lineMarkerProvider language="SMI"
+                                    implementationClass="pl.jakubchmura.snmp.mib.reference.marker.MibNodeMarkerProvider"/>
+
+    <projectConfigurable parentId="tools" instance="pl.jakubchmura.snmp.mib.settings.ProjectSettingsConfigurable"
+                         id="pl.jakubchmura.snmp.mib.settings.ProjectSettingsConfigurable" displayName="MIB Support"
+                         nonDefaultProject="true"/>
+    <projectService serviceImplementation="pl.jakubchmura.snmp.mib.settings.ProjectSettingsState"/>
   </extensions>
 
   <actions>
